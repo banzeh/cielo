@@ -20,9 +20,9 @@ var paramsCielo = {
 var cielo = require('cielo')(paramsCielo);
 ```
 
-### Transação Simples
+### Criando uma transação simples
 ```js
-var dados = {  
+var dadosSale = {  
    "MerchantOrderId":"2014111703",
    "Customer":{  
       "Name":"Comprador crédito simples"
@@ -42,7 +42,77 @@ var dados = {
    }
 }
 
-cielo.creditCard.simpleTransaction(dados, function(err, data){
+cielo.creditCard.simpleTransaction(dadosSale, function(err, data){
+    if (err){
+        return console.error('ERRO', err);
+    }
+    return console.log(data);
+})
+```
+
+### Criando uma transação completa
+```js
+cielo.creditCard.completeTransaction(dadosSale, function(err, data){
+    if (err){
+        return console.error('ERRO', err);
+    }
+    return console.log(data);
+})
+```
+
+### Criando uma venda com Autenticação
+```js
+cielo.creditCard.authenticationTransaction(dadosSale, function(err, data){
+    if (err){
+        return console.error('ERRO', err);
+    }
+    return console.log(data);
+})
+```
+
+### Criando uma venda com Análise de Fraude
+```js
+cielo.creditCard.fraudAnalysisTransaction(dadosSale, function(err, data){
+    if (err){
+        return console.error('ERRO', err);
+    }
+    return console.log(data);
+})
+```
+
+### Criando uma venda com CardToken
+```js
+cielo.creditCard.cardTokenTransaction(dadosSale, function(err, data){
+    if (err){
+        return console.error('ERRO', err);
+    }
+    return console.log(data);
+})
+```
+
+### Capturando uma venda
+```js
+var dadosSale = {
+    paymentId: '01df6e28-6ddd-45db-a095-903c1adb170a',
+    amount: '15700'
+}
+
+cielo.creditCard.captureSaleTransaction(dadosSale, function(err, data){
+    if (err){
+        return console.error('ERRO', err);
+    }
+    return console.log(data);
+})
+```
+
+### Cancelando uma venda
+```js
+var dadosSale = {
+    paymentId: '01df6e28-6ddd-45db-a095-903c1adb170a',
+    amount: '15700'
+}
+
+cielo.creditCard.cancelSale(dadosSale, function(err, data){
     if (err){
         return console.error('ERRO', err);
     }
