@@ -1,0 +1,32 @@
+{
+  "name": "cielo",
+  "version": "0.0.1",
+  "description": "Client para a API 3.0 da Cielo em node.js",
+  "main": "cielo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/banzeh/cielo.git"
+  },
+  "keywords": [
+    "cielo",
+    "cartao",
+    "credito",
+    "debito",
+    "mastercard",
+    "visa",
+    "pagamento",
+    "pay"
+  ],
+  "author": "Flavio Takeuchi <flavio@banzeh.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/banzeh/cielo/issues"
+  },
+  "homepage": "https://github.com/banzeh/cielo#readme",
+  "dependencies": {
+    "iconv-lite": "^0.4.17"
+  }
+}
