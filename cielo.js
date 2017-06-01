@@ -5,7 +5,7 @@ var https = require('https'),
 module.exports = function (params) {
 
 	var options = {
-		hostname: 'apisandbox.cieloecommerce.cielo.com.br',
+		hostname: 'api.cieloecommerce.cielo.com.br',
 		port: 443,
 		secureProtocol: 'TLSv1_method',
 		encoding: 'utf-8',
@@ -16,6 +16,9 @@ module.exports = function (params) {
 			'RequestId': params.RequestId
 		},
 	};
+
+	if ( params.sandbox )
+		options.hostname = 'apisandbox.cieloecommerce.cielo.com.br';
 
 	var postSalesCielo = function (data, callback) {
 		var data = JSON.stringify(data);
