@@ -14,7 +14,8 @@ npm install --save cielo
 var paramsCielo = {
     'MerchantId': 'xxxxxxxxxxxxxxxxxxxxxxx',
     'MerchantKey': 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
-    'RequestId': 'xxxxxxx' // Opcional
+    'RequestId': 'xxxxxxx', // Opcional - Identificação do Servidor na Cielo
+    'sandbox': true // Opcional - Ambiente de Testes
 }
 
 var cielo = require('cielo')(paramsCielo);
@@ -122,8 +123,11 @@ cielo.creditCard.cancelSale(dadosSale, function(err, data){
 
 ## API Reference
 
-PT-Br: http://developercielo.github.io/Webservice-3.0/?shell#integração-api-3.0
-En: http://developercielo.github.io/Webservice-3.0/english.html#api-integration-3.0
+Consulte os campos necessários na documentação da Cielo
+
+[PT-Br](http://developercielo.github.io/Webservice-3.0/?shell#integração-api-3.0)
+
+[En](http://developercielo.github.io/Webservice-3.0/english.html#api-integration-3.0)
 
 <!--## Tests
 
@@ -132,6 +136,14 @@ Describe and show how to run the tests with code examples.-->
 <!--## Contributors
 
 Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.-->
+
+## Autor
+
+Flavio Takeuchi <[flavio@banzeh.com](mailto:flavio@banzeh.com)>
+
+[Github](https://github.com/banzeh)
+
+[Twitter](http://twitter.com/banzeh)
 
 ## License
 
