@@ -13,7 +13,7 @@ module.exports = function (params) {
 			'Content-Type': 'application/json',
 			'MerchantId': params.MerchantId,
 			'MerchantKey': params.MerchantKey,
-			'RequestId': params.RequestId
+			'RequestId': params.RequestId || ''
 		},
 	};
 
