@@ -146,7 +146,7 @@ var dadosSale = {
    }
 }
 
-cielo.creditCard.simpleTransaction(dadosSale, function(err, data){
+cielo.debitCard.simpleTransaction(dadosSale, function(err, data){
     if (err){
         return console.error('ERRO', err);
     }
