@@ -21,6 +21,8 @@ var paramsCielo = {
 var cielo = require('cielo')(paramsCielo);
 ```
 
+## Cartão de Crédito
+
 ### Criando uma transação simples
 ```js
 var dadosSale = {  
@@ -114,6 +116,37 @@ var dadosSale = {
 }
 
 cielo.creditCard.cancelSale(dadosSale, function(err, data){
+    if (err){
+        return console.error('ERRO', err);
+    }
+    return console.log(data);
+})
+```
+
+## Cartão de Débito
+
+### Criando uma venda simplificada
+```js
+var dadosSale = {  
+   "MerchantOrderId":"2014121201",
+   "Customer":{  
+      "Name":"Comprador Cartão de débito"
+   },
+   "Payment":{  
+     "Type":"DebitCard",
+     "Amount":15700,
+     "ReturnUrl":"http://www.cielo.com.br",
+     "DebitCard":{  
+         "CardNumber":"4551870000000183",
+         "Holder":"Teste Holder",
+         "ExpirationDate":"12/2030",
+         "SecurityCode":"123",
+         "Brand":"Visa"
+     }
+   }
+}
+
+cielo.creditCard.simpleTransaction(dadosSale, function(err, data){
     if (err){
         return console.error('ERRO', err);
     }
