@@ -93,6 +93,9 @@ module.exports = function (params) {
 			cardTokenTransaction: postSalesCielo,
 			captureSaleTransaction: captureSale,
 			cancelSale: cancelSale
+		},
+		debitCard: {
+			simpleTransaction: postSalesCielo
 		}
 	}
 }
