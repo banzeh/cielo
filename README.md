@@ -172,7 +172,7 @@ Let people know how they can dive into the project, include important links to t
 
 ## Autor
 
-Flavio Takeuchi <[flavio@banzeh.com](mailto:flavio@banzeh.com)>
+Flavio Takeuchi <[flavio@banzeh.com.br](mailto:flavio@banzeh.com.br)>
 
 [Github](https://github.com/banzeh)
 
