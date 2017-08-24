@@ -1,6 +1,6 @@
 {
   "name": "cielo",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Client para a API 3.0 da Cielo em node.js",
   "main": "cielo.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "pagamento",
     "pay"
   ],
-  "author": "Flavio Takeuchi <flavio@banzeh.com>",
+  "author": "Flavio Takeuchi <flavio@banzeh.com.br>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/banzeh/cielo/issues"
