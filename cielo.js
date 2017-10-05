@@ -53,6 +53,7 @@ module.exports = function (params) {
 				callback(null, data)
 			});
 		});
+		req.write(data);
 		req.on('error', function (err) {
 			callback(err);
 		});
@@ -78,6 +79,7 @@ module.exports = function (params) {
 				callback(null, data)
 			});
 		});
+		req.write(data);
 		req.on('error', function (err) {
 			callback(err);
 		});
