@@ -4,6 +4,8 @@ var https = require('https'),
 
 module.exports = function (params) {
 
+	var debug = params.debug || false;
+
 	var options = {
 		hostname: 'api.cieloecommerce.cielo.com.br',
 		port: 443,
@@ -26,6 +28,10 @@ module.exports = function (params) {
 		options.path = '/1/sales';
 		options.method = 'POST';
 
+		if (debug){
+			console.log(options);
+		}
+
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
 				var data = iconv.decode(chunk, 'utf-8');
@@ -46,6 +52,10 @@ module.exports = function (params) {
 			options.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount);
 
 		options.method = 'PUT';
+
+		if (debug){
+			console.log(options);
+		}
 
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
@@ -73,6 +83,10 @@ module.exports = function (params) {
 		
 		options.method = 'PUT';
 
+		if (debug){
+			console.log(options);
+		}
+		
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
 				var data = iconv.decode(chunk, 'utf-8');

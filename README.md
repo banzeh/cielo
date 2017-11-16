@@ -15,11 +15,22 @@ var paramsCielo = {
     'MerchantId': 'xxxxxxxxxxxxxxxxxxxxxxx',
     'MerchantKey': 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
     'RequestId': 'xxxxxxx', // Opcional - Identificação do Servidor na Cielo
-    'sandbox': true // Opcional - Ambiente de Testes
+    'sandbox': true, // Opcional - Ambiente de Testes
+    'debug': true // Opcional - Exibe os dados enviados na requisição para a Cielo
 }
 
 var cielo = require('cielo')(paramsCielo);
 ```
+
+### Paramêtros de criação
+
+| Campo | Descrição | Obrigatório? | Default |
+| ------------- |:-------------:| -----:| -----:|
+| MerchantId | Identificador da loja na Cielo. | Sim | null |
+| MerchantKey | Chave Publica para Autenticação Dupla na Cielo. | Sim | null |
+| RequestId | Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT. | Não | null |
+| sandbox | Ambiente de testes da Cielo | Não | false |
+| debug | Exibe requisição da transação no console | Não | false |
 
 ## Cartão de Crédito
 
