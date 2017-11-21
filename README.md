@@ -2,12 +2,35 @@
 
 Client para a API 3.0 da Cielo em Node.Js
 
-## Installation
+## Índice
+
+#### [Início](#instalacao)
++ [Instalação](#instalacao)
++ [Como Utilizar](#howuse)
++ [Paramêtros de criação](#params)
+
+#### [Cartão de Crédito](#creditCard)
++ [Criando uma transação simples](#creditSimpleTransaction)
++ [Criando uma transação completa](#creditCompleteTransaction)
++ [Criando uma venda com Autenticação](#creditAuthenticationTransaction)
++ [Criando uma venda com Análise de Fraude](#creditFraudTransaction)
++ [Criando uma venda com Card Token](#creditCardTokenTransaction)
++ [Capturando uma venda](#creditSaleCapture)
++ [Cancelando uma venda](#creditCancelSale)
+
+#### [Cartão de Débito](#debitCard)
++ [Criando uma venda simplificada](#debitSimpleTransaction)
+
+#### [API Reference](#apiReference)
+#### [Autor](#autor)
+#### [License](#license)
+
+## <a name="instalacao"></a> Installation
 ```js
 npm install --save cielo
 ```
 
-## Como utilizar?
+## <a name="howuse"></a> Como utilizar?
 
 ### Iniciando
 ```js
@@ -22,7 +45,7 @@ var paramsCielo = {
 var cielo = require('cielo')(paramsCielo);
 ```
 
-### Paramêtros de criação
+### <a name="params"></a> Paramêtros de criação
 
 | Campo | Descrição | Obrigatório? | Default |
 | ------------- |:-------------:| -----:| -----:|
@@ -32,9 +55,9 @@ var cielo = require('cielo')(paramsCielo);
 | sandbox | Ambiente de testes da Cielo | Não | false |
 | debug | Exibe requisição da transação no console | Não | false |
 
-## Cartão de Crédito
+## <a name="creditCard"></a> Cartão de Crédito
 
-### Criando uma transação simples
+### <a name="creditSimpleTransaction"></a>  Criando uma transação simples
 ```js
 var dadosSale = {  
    "MerchantOrderId":"2014111703",
@@ -64,7 +87,7 @@ cielo.creditCard.simpleTransaction(dadosSale, function(err, data){
 })
 ```
 
-### Criando uma transação completa
+### <a name="creditCompleteTransaction"></a> Criando uma transação completa
 ```js
 cielo.creditCard.completeTransaction(dadosSale, function(err, data){
     if (err){
@@ -74,7 +97,7 @@ cielo.creditCard.completeTransaction(dadosSale, function(err, data){
 })
 ```
 
-### Criando uma venda com Autenticação
+### <a name="creditAuthenticationTransaction"></a> Criando uma venda com Autenticação
 ```js
 cielo.creditCard.authenticationTransaction(dadosSale, function(err, data){
     if (err){
@@ -84,7 +107,7 @@ cielo.creditCard.authenticationTransaction(dadosSale, function(err, data){
 })
 ```
 
-### Criando uma venda com Análise de Fraude
+### <a name="creditFraudTransaction"></a> Criando uma venda com Análise de Fraude
 ```js
 cielo.creditCard.fraudAnalysisTransaction(dadosSale, function(err, data){
     if (err){
@@ -94,7 +117,7 @@ cielo.creditCard.fraudAnalysisTransaction(dadosSale, function(err, data){
 })
 ```
 
-### Criando uma venda com CardToken
+### <a name="creditCardTokenTransaction"></a> Criando uma venda com Card Token
 ```js
 cielo.creditCard.cardTokenTransaction(dadosSale, function(err, data){
     if (err){
@@ -104,7 +127,7 @@ cielo.creditCard.cardTokenTransaction(dadosSale, function(err, data){
 })
 ```
 
-### Capturando uma venda
+### <a name="creditSaleCapture"></a> Capturando uma venda
 ```js
 var dadosSale = {
     paymentId: '01df6e28-6ddd-45db-a095-903c1adb170a',
@@ -119,7 +142,7 @@ cielo.creditCard.captureSaleTransaction(dadosSale, function(err, data){
 })
 ```
 
-### Cancelando uma venda
+### <a name="creditCancelSale"></a> Cancelando uma venda
 ```js
 var dadosSale = {
     paymentId: '01df6e28-6ddd-45db-a095-903c1adb170a',
@@ -134,9 +157,9 @@ cielo.creditCard.cancelSale(dadosSale, function(err, data){
 })
 ```
 
-## Cartão de Débito
+## <a name="debitCard"></a> Cartão de Débito
 
-### Criando uma venda simplificada
+### <a name="debitSimpleTransaction"></a> Criando uma venda simplificada
 ```js
 var dadosSale = {  
    "MerchantOrderId":"2014121201",
@@ -165,7 +188,7 @@ cielo.debitCard.simpleTransaction(dadosSale, function(err, data){
 })
 ```
 
-## API Reference
+## <a name="apiReference"></a> API Reference
 
 Consulte os campos necessários na documentação da Cielo
 
@@ -181,7 +204,7 @@ Describe and show how to run the tests with code examples.-->
 
 Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.-->
 
-## Autor
+## <a name="autor"></a> Autor
 
 Flavio Takeuchi <[flavio@banzeh.com.br](mailto:flavio@banzeh.com.br)>
 
@@ -189,7 +212,7 @@ Flavio Takeuchi <[flavio@banzeh.com.br](mailto:flavio@banzeh.com.br)>
 
 [Twitter](http://twitter.com/banzeh)
 
-## License
+## <a name="license"></a> License
 
 MIT License
 
