@@ -112,6 +112,12 @@ module.exports = function (params) {
 		},
 		debitCard: {
 			simpleTransaction: postSalesCielo
+		},
+		bankSlip: {
+			simpleTransaction: postSalesCielo
+		},
+		boleto: {
+			sale: postSalesCielo
 		}
 	}
 }
