@@ -21,6 +21,12 @@ Client para a API 3.0 da Cielo em Node.Js
 #### [Cartão de Débito](#debitCard)
 + [Criando uma venda simplificada](#debitSimpleTransaction)
 
+#### [Transferência Eletrônica](#bankSlip)
++ [Criando uma venda simplificada](#bankSlipSimpleTransaction)
+
+#### [Boleto](#boleto)
++ [Criando uma venda de Boleto](#boletoSale)
+
 #### [API Reference](#apiReference)
 #### [Autor](#autor)
 #### [License](#license)
@@ -187,6 +193,79 @@ cielo.debitCard.simpleTransaction(dadosSale, function(err, data){
     return console.log(data);
 })
 ```
+
+## <a name="bankSlip"></a> Pagamentos com Transferência Eletronica
+
+### <a name="bankSlipSimpleTransaction"></a> Criando uma venda simplificada
+```js
+var dadosSale = {  
+    "MerchantOrderId":"2014111706",
+    "Customer":
+    {  
+        "Name":"Comprador Transferência Eletronica"
+    },
+    "Payment":
+    {  
+        "Type":"EletronicTransfer",
+        "Amount":15700,
+        "Provider":"Bradesco",
+        "ReturnUrl":"http://www.banzeh.com.br"
+    }
+}
+
+cielo.bankSlip.simpleTransaction(dadosSale, function(err, data){
+    if (err){
+        return console.error('ERRO', err);
+    }
+    return console.log(data);
+})
+```
+
+## <a name="boleto"></a> Boleto
+
+### <a name="boletoSale"></a>  Criando uma venda de Boleto
+```js
+var dadosSale = {  
+    "MerchantOrderId":"2014111706",
+    "Customer":
+    {  
+        "Name":"Comprador Teste Boleto",
+        "Identity": "1234567890",
+        "Address":
+        {
+          "Street": "Avenida Marechal Câmara",
+          "Number": "160",  
+          "Complement": "Sala 934",
+          "ZipCode" : "22750012",
+          "District": "Centro",
+          "City": "Rio de Janeiro",
+          "State" : "RJ",
+          "Country": "BRA"
+        }
+    },
+    "Payment":
+    {  
+        "Type":"Boleto",
+        "Amount":15700,
+        "Provider":"INCLUIR PROVIDER",
+        "Address": "Rua Teste",
+        "BoletoNumber": "123",
+        "Assignor": "Empresa Teste",
+        "Demonstrative": "Desmonstrative Teste",
+        "ExpirationDate": "5/1/2015",
+        "Identification": "11884926754",
+        "Instructions": "Aceitar somente até a data de vencimento, após essa data juros de 1% dia."
+    }
+}
+
+cielo.boleto.sale(dadosSale, function(err, data){
+    if (err){
+        return console.error('ERRO', err);
+    }
+    return console.log(data);
+})
+```
+
 
 ## <a name="apiReference"></a> API Reference
 
