@@ -3,6 +3,13 @@ var https = require('https'),
 	util = require('util');
 
 module.exports = function (params) {
+	/**
+	 * Caso o flag debug for true, retorna o log no console
+	 */
+	var log = function(){
+		if (debug)
+			console.log('------------ DEBUG ------------\n', new Date, '\n\n', arguments, '\n\n------------ END DEBUG ------------\n');
+	}
 
 	var debug = params.debug || false;
 
@@ -28,9 +35,7 @@ module.exports = function (params) {
 		options.path = '/1/sales';
 		options.method = 'POST';
 
-		if (debug){
-			console.log(options);
-		}
+		log(options);
 
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
@@ -53,9 +58,7 @@ module.exports = function (params) {
 
 		options.method = 'PUT';
 
-		if (debug){
-			console.log(options);
-		}
+		log(options);
 
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
@@ -83,9 +86,7 @@ module.exports = function (params) {
 		
 		options.method = 'PUT';
 
-		if (debug){
-			console.log(options);
-		}
+		log(options);
 		
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
@@ -94,6 +95,25 @@ module.exports = function (params) {
 			});
 		});
 		req.write(data);
+		req.on('error', function (err) {
+			callback(err);
+		});
+		req.end();
+	}
+
+	var modifyingRecurrence = function(data, callback){
+		options.path = util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, data.type);
+		options.method = 'PUT';
+
+		log(options);
+
+		var req = https.request(options, function (res) {
+			res.on('data', function (chunk) {
+				var data = iconv.decode(chunk, 'utf-8');
+				callback(null, data)
+			});
+		});
+		req.write(data.params.toString());
 		req.on('error', function (err) {
 			callback(err);
 		});
@@ -118,6 +138,12 @@ module.exports = function (params) {
 		},
 		boleto: {
 			sale: postSalesCielo
+		},
+		recurrentPayments: {
+			firstScheduledRecurrence: postSalesCielo,
+			creditScheduledRecurrence: postSalesCielo,
+			authorizing: postSalesCielo,
+			modifyBuyerData: modifyingRecurrence
 		}
 	}
 }
