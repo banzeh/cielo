@@ -57,7 +57,6 @@ module.exports = function (params) {
 	}
 
 	var captureSale = function (data) {
-		log('captureSale', data)
 		return new Promise((resolve, reject) => {
 			options.path = util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount);
 
