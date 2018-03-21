@@ -31,12 +31,11 @@ module.exports = function (params) {
 
 	function postSalesCielo(data) {
 		return new Promise((resolve, reject) => {
-			data = JSON.stringify(data);
-			options.headers['Content-Length'] = Buffer.byteLength(data);
 			options.path = '/1/sales';
 			options.method = 'POST';
-
-			log(options);
+			data = JSON.stringify(data);
+			options.headers['Content-Length'] = Buffer.byteLength(data);
+			log(options, data);
 
 			var req = https.request(options, function (res) {
 				res.on('data', function (chunk) {
@@ -44,6 +43,7 @@ module.exports = function (params) {
 					try {
 						data = JSON.parse(data);
 					} finally {
+						log(data);
 						resolve(data);
 					}
 				});
@@ -56,7 +56,8 @@ module.exports = function (params) {
 		})
 	}
 
-	var captureSale = function (data, callback) {
+	var captureSale = function (data) {
+		log('captureSale', data)
 		return new Promise((resolve, reject) => {
 			options.path = util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount);
 
@@ -64,8 +65,9 @@ module.exports = function (params) {
 				options.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount);
 
 			options.method = 'PUT';
-
-			log(options);
+			data = JSON.stringify(data);
+			options.headers['Content-Length'] = Buffer.byteLength(data);
+			log(options, data);
 
 			var req = https.request(options, function (res) {
 				res.on('data', function (chunk) {
@@ -73,7 +75,8 @@ module.exports = function (params) {
 					try {
 						data = JSON.parse(data);
 					} finally {
-						resolve(data)
+						log(data);
+						resolve(data);
 					}
 				});
 			});
@@ -90,7 +93,7 @@ module.exports = function (params) {
 	 * @param {object} data 
 	 * @param {callback} callback 
 	 */
-	var cancelSale = function (data, callback) {
+	var cancelSale = function (data) {
 		return new Promise((resolve, reject) => {
 			if (data.paymentId)
 				options.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount)
@@ -98,8 +101,9 @@ module.exports = function (params) {
 				options.path = util.format('/1/sales/OrderId/%s/void?amount=%s', data.merchantOrderId, data.amount);
 
 			options.method = 'PUT';
-
-			log(options);
+			data = JSON.stringify(data);
+			options.headers['Content-Length'] = Buffer.byteLength(data);
+			log(options, data);
 
 			var req = https.request(options, function (res) {
 				res.on('data', function (chunk) {
@@ -107,6 +111,7 @@ module.exports = function (params) {
 					try {
 						data = JSON.parse(data);
 					} finally {
+						log(data);
 						resolve(data)
 					}
 				});
@@ -119,12 +124,13 @@ module.exports = function (params) {
 		});
 	}
 
-	var modifyingRecurrence = function (data, callback) {
+	var modifyingRecurrence = function (data) {
 		return new Promise((resolve, reject) => {
 			options.path = util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, data.type);
 			options.method = 'PUT';
-
-			log(options);
+			data = JSON.stringify(data);
+			options.headers['Content-Length'] = Buffer.byteLength(data);
+			log(options, data);
 
 			var req = https.request(options, function (res) {
 				res.on('data', function (chunk) {
@@ -132,6 +138,7 @@ module.exports = function (params) {
 					try {
 						data = JSON.parse(data);
 					} finally {
+						log(data);
 						resolve(data)
 					}
 				});
@@ -144,21 +151,22 @@ module.exports = function (params) {
 		});
 	}
 
-	var createTokenizedCard = function (data, callback) {
+	var createTokenizedCard = function (data) {
 		return new Promise((resolve, reject) => {
 			data = JSON.stringify(data);
 			options.headers['Content-Length'] = Buffer.byteLength(data);
 			options.path = '/1/card';
 			options.method = 'POST';
-
-			log(options);
-
+			
+			log(options, data);
+			
 			var req = https.request(options, function (res) {
 				res.on('data', function (chunk) {
 					var data = iconv.decode(chunk, 'utf-8');
 					try {
 						data = JSON.parse(data);
 					} finally {
+						log(data);
 						resolve(data)
 					}
 				});
