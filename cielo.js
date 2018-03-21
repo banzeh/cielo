@@ -40,7 +40,11 @@ module.exports = function (params) {
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
 				var data = iconv.decode(chunk, 'utf-8');
-				callback(null, data)
+				try {
+					data = JSON.parse(data);
+				} finally {
+					callback(null, data)
+				}
 			});
 		});
 		req.write(data);
@@ -63,7 +67,11 @@ module.exports = function (params) {
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
 				var data = iconv.decode(chunk, 'utf-8');
-				callback(null, data)
+				try {
+					data = JSON.parse(data);
+				} finally {
+					callback(null, data)
+				}
 			});
 		});
 		req.write(data);
@@ -91,7 +99,11 @@ module.exports = function (params) {
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
 				var data = iconv.decode(chunk, 'utf-8');
-				callback(null, data)
+				try {
+					data = JSON.parse(data);
+				} finally {
+					callback(null, data)
+				}
 			});
 		});
 		req.write(data);
@@ -110,7 +122,11 @@ module.exports = function (params) {
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
 				var data = iconv.decode(chunk, 'utf-8');
-				callback(null, data)
+				try {
+					data = JSON.parse(data);
+				} finally {
+					callback(null, data)
+				}
 			});
 		});
 		req.write(data.params.toString());
@@ -131,7 +147,11 @@ module.exports = function (params) {
 		var req = https.request(options, function (res) {
 			res.on('data', function (chunk) {
 				var data = iconv.decode(chunk, 'utf-8');
-				callback(null, data)
+				try {
+					data = JSON.parse(data);
+				} finally {
+					callback(null, data)
+				}
 			});
 		});
 		req.write(data);
