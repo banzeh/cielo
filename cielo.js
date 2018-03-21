@@ -6,7 +6,7 @@ module.exports = function (params) {
 	/**
 	 * Caso o flag debug for true, retorna o log no console
 	 */
-	var log = function(){
+	var log = function () {
 		if (debug)
 			console.log('------------ DEBUG ------------\n', new Date, '\n\n', arguments, '\n\n------------ END DEBUG ------------\n');
 	}
@@ -26,59 +26,63 @@ module.exports = function (params) {
 		},
 	};
 
-	if ( params.sandbox )
+	if (params.sandbox)
 		options.hostname = 'apisandbox.cieloecommerce.cielo.com.br';
 
-	var postSalesCielo = function (data, callback) {
-		var data = JSON.stringify(data);
-		options.headers['Content-Length'] = Buffer.byteLength(data);
-		options.path = '/1/sales';
-		options.method = 'POST';
+	function postSalesCielo(data) {
+		return new Promise((resolve, reject) => {
+			data = JSON.stringify(data);
+			options.headers['Content-Length'] = Buffer.byteLength(data);
+			options.path = '/1/sales';
+			options.method = 'POST';
 
-		log(options);
+			log(options);
 
-		var req = https.request(options, function (res) {
-			res.on('data', function (chunk) {
-				var data = iconv.decode(chunk, 'utf-8');
-				try {
-					data = JSON.parse(data);
-				} finally {
-					callback(null, data)
-				}
+			var req = https.request(options, function (res) {
+				res.on('data', function (chunk) {
+					var data = iconv.decode(chunk, 'utf-8');
+					try {
+						data = JSON.parse(data);
+					} finally {
+						resolve(data);
+					}
+				});
 			});
-		});
-		req.write(data);
-		req.on('error', function (err) {
-			callback(err);
-		});
-		req.end();
+			req.write(data);
+			req.on('error', function (err) {
+				reject(err);
+			});
+			req.end();
+		})
 	}
-	
-	var captureSale = function(data, callback){
-		options.path = util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount);
-		
-		if ( data.serviceTaxAmount )
-			options.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount);
 
-		options.method = 'PUT';
+	var captureSale = function (data, callback) {
+		return new Promise((resolve, reject) => {
+			options.path = util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount);
 
-		log(options);
+			if (data.serviceTaxAmount)
+				options.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount);
 
-		var req = https.request(options, function (res) {
-			res.on('data', function (chunk) {
-				var data = iconv.decode(chunk, 'utf-8');
-				try {
-					data = JSON.parse(data);
-				} finally {
-					callback(null, data)
-				}
+			options.method = 'PUT';
+
+			log(options);
+
+			var req = https.request(options, function (res) {
+				res.on('data', function (chunk) {
+					var data = iconv.decode(chunk, 'utf-8');
+					try {
+						data = JSON.parse(data);
+					} finally {
+						resolve(data)
+					}
+				});
 			});
-		});
-		req.write(data);
-		req.on('error', function (err) {
-			callback(err);
-		});
-		req.end();
+			req.write(data);
+			req.on('error', function (err) {
+				reject(err);
+			});
+			req.end();
+		})
 	}
 
 	/**
@@ -86,79 +90,85 @@ module.exports = function (params) {
 	 * @param {object} data 
 	 * @param {callback} callback 
 	 */
-	var cancelSale = function(data, callback){
-		if (data.paymentId)
-			options.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount)
-		else
-			options.path = util.format('/1/sales/OrderId/%s/void?amount=%s', data.merchantOrderId, data.amount);
-		
-		options.method = 'PUT';
+	var cancelSale = function (data, callback) {
+		return new Promise((resolve, reject) => {
+			if (data.paymentId)
+				options.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount)
+			else
+				options.path = util.format('/1/sales/OrderId/%s/void?amount=%s', data.merchantOrderId, data.amount);
 
-		log(options);
-		
-		var req = https.request(options, function (res) {
-			res.on('data', function (chunk) {
-				var data = iconv.decode(chunk, 'utf-8');
-				try {
-					data = JSON.parse(data);
-				} finally {
-					callback(null, data)
-				}
+			options.method = 'PUT';
+
+			log(options);
+
+			var req = https.request(options, function (res) {
+				res.on('data', function (chunk) {
+					var data = iconv.decode(chunk, 'utf-8');
+					try {
+						data = JSON.parse(data);
+					} finally {
+						resolve(data)
+					}
+				});
 			});
+			req.write(data);
+			req.on('error', function (err) {
+				reject(err);
+			});
+			req.end();
 		});
-		req.write(data);
-		req.on('error', function (err) {
-			callback(err);
-		});
-		req.end();
 	}
 
-	var modifyingRecurrence = function(data, callback){
-		options.path = util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, data.type);
-		options.method = 'PUT';
+	var modifyingRecurrence = function (data, callback) {
+		return new Promise((resolve, reject) => {
+			options.path = util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, data.type);
+			options.method = 'PUT';
 
-		log(options);
+			log(options);
 
-		var req = https.request(options, function (res) {
-			res.on('data', function (chunk) {
-				var data = iconv.decode(chunk, 'utf-8');
-				try {
-					data = JSON.parse(data);
-				} finally {
-					callback(null, data)
-				}
+			var req = https.request(options, function (res) {
+				res.on('data', function (chunk) {
+					var data = iconv.decode(chunk, 'utf-8');
+					try {
+						data = JSON.parse(data);
+					} finally {
+						resolve(data)
+					}
+				});
 			});
+			req.write(data.params.toString());
+			req.on('error', function (err) {
+				reject(err);
+			});
+			req.end();
 		});
-		req.write(data.params.toString());
-		req.on('error', function (err) {
-			callback(err);
-		});
-		req.end();
 	}
 
 	var createTokenizedCard = function (data, callback) {
-		var data = JSON.stringify(data);
-		options.headers['Content-Length'] = Buffer.byteLength(data);
-		options.path = '/1/card';
-		options.method = 'POST';
+		return new Promise((resolve, reject) => {
+			data = JSON.stringify(data);
+			options.headers['Content-Length'] = Buffer.byteLength(data);
+			options.path = '/1/card';
+			options.method = 'POST';
 
-		log(options);
+			log(options);
 
-		var req = https.request(options, function (res) {
-			res.on('data', function (chunk) {
-				var data = iconv.decode(chunk, 'utf-8');
-				try {
-					data = JSON.parse(data);
-				} finally {
-					callback(null, data)
-				}
+			var req = https.request(options, function (res) {
+				res.on('data', function (chunk) {
+					var data = iconv.decode(chunk, 'utf-8');
+					try {
+						data = JSON.parse(data);
+					} finally {
+						resolve(data)
+					}
+				});
 			});
-		});
-		req.write(data);
-		req.on('error', function (err) {
-			callback(err);
-		});
-		req.end();
+			req.write(data);
+			req.on('error', function (err) {
+				reject(err);
+			});
+			req.end();
+		})
 	}
 
 	return {
