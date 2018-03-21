@@ -120,6 +120,27 @@ module.exports = function (params) {
 		req.end();
 	}
 
+	var createTokenizedCard = function (data, callback) {
+		var data = JSON.stringify(data);
+		options.headers['Content-Length'] = Buffer.byteLength(data);
+		options.path = '/1/card';
+		options.method = 'POST';
+
+		log(options);
+
+		var req = https.request(options, function (res) {
+			res.on('data', function (chunk) {
+				var data = iconv.decode(chunk, 'utf-8');
+				callback(null, data)
+			});
+		});
+		req.write(data);
+		req.on('error', function (err) {
+			callback(err);
+		});
+		req.end();
+	}
+
 	return {
 		creditCard: {
 			simpleTransaction: postSalesCielo,
@@ -144,6 +165,9 @@ module.exports = function (params) {
 			creditScheduledRecurrence: postSalesCielo,
 			authorizing: postSalesCielo,
 			modifyBuyerData: modifyingRecurrence
+		},
+		cards: {
+			createTokenizedCard: createTokenizedCard,
 		}
 	}
 }
