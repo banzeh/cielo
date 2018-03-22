@@ -1,10 +1,10 @@
 {
   "name": "cielo",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "Client para a API 3.0 da Cielo em node.js",
   "main": "cielo.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node cielo.test.js | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,10 @@
   "homepage": "https://banzeh.github.io/cielo/",
   "dependencies": {
     "iconv-lite": "^0.4.17"
+  },
+  "devDependencies": {
+    "tap-spec": "^4.1.1",
+    "tape": "^4.9.0",
+    "tape-promise": "^3.0.0"
   }
 }
