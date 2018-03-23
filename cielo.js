@@ -178,6 +178,34 @@ module.exports = function (params) {
 		})
 	}
 
+	var consultaCielo = (data) => {
+		return new Promise((resolve, reject) => {
+			data = JSON.stringify(data);
+			options.headers['Content-Length'] = Buffer.byteLength(data);
+			options.path = (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId);
+			options.method = 'GET';
+			
+			log(options, data);
+			
+			var req = https.request(options, function (res) {
+				res.on('data', function (chunk) {
+					var data = iconv.decode(chunk, 'utf-8');
+					try {
+						data = JSON.parse(data);
+					} finally {
+						log(data);
+						resolve(data)
+					}
+				});
+			});
+			req.write(data);
+			req.on('error', function (err) {
+				reject(err);
+			});
+			req.end();
+		});
+	}
+
 	return {
 		creditCard: {
 			simpleTransaction: postSalesCielo,
@@ -205,6 +233,11 @@ module.exports = function (params) {
 		},
 		cards: {
 			createTokenizedCard: createTokenizedCard,
+		},
+		consulting: {
+			sale: consultaCielo,
+			storeIndetifier: consultaCielo,
+			fraudAnalysis: consultaCielo
 		}
 	}
 }
