@@ -6,12 +6,12 @@ const
         'MerchantId': 'e60c1e21cf8743d1bc1fbd760fe0aba4',
         'MerchantKey': 'LVYLUTLJYYIXXRUQMXLIMYEDLRVCRWHNGYQFIVIG',
         'sandbox': true,
-        'debug': false
+        'debug': true
 	},
 	cielo = require('./cielo')(paramsCielo),
-	regexCardToken = RegExp('\w{8}\D{1}\w{4}\D\w{4}\D\w{4}\D\w{12}$');
+	regexToken = new RegExp(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/);
 
-test('cielo', async (t) => {
+test('Cielo', async (t) => {
 	const tokenParams = {
 		"CustomerName": "Comprador Teste Cielo",
 		"CardNumber": "4532117080573700",
@@ -38,18 +38,25 @@ test('cielo', async (t) => {
 		  }
 		}
 	}
-	const venda = await cielo.creditCard.simpleTransaction(vendaParams).catch((err) => {console.log('ERRO', err)});
+	const venda = await cielo.creditCard.simpleTransaction(vendaParams);
 	
 	const capturaParams = {
 		paymentId: venda.Payment.PaymentId,
 		amount: 70
 	}
-	const captura = await cielo.creditCard.captureSaleTransaction(capturaParams).catch((err) => {console.log('ERRO', err)});
-	
+	const captura = await cielo.creditCard.captureSaleTransaction(capturaParams);
+
+	const consultaParams = {
+		paymentId: venda.Payment.PaymentId
+	}
+	const consultaPaymentId = await cielo.consulting.sale(consultaParams);	
+
 	t.assert('CardToken' in token, 'retorno cardToken correto');
-	t.assert(regexCardToken.test(token.CardToken), 'CardToken válido'); // TODO verificar
-	t.assert(venda.Payment.Status === 1, 'Status correto');
-	t.assert(venda.Payment.Status === 1, 'Status correto');
+	t.assert(regexToken.test(token.CardToken), 'CardToken válido');
+	t.assert(venda.Payment.Status === 1, 'Status da Venda Correto');
+	t.assert(regexToken.test(venda.Payment.PaymentId), 'venda.Payment.PaymentId válido');
+	t.assert(consultaPaymentId.PaymentId == venda.Payment.PaymentId, 'consulta de venda via PaymentID')
+
 
 
 	t.end();
