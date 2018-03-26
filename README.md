@@ -27,6 +27,9 @@ Client para a API 3.0 da Cielo em Node.Js
 #### [Boleto](#boleto)
 + [Criando uma venda de Boleto](#boletoSale)
 
+#### [Cartões](#cartoes)
++ [Gerando o token de um cartão](#cartoesToken)
+
 #### [API Reference](#apiReference)
 #### [Autor](#autor)
 #### [License](#license)
@@ -64,6 +67,9 @@ var cielo = require('cielo')(paramsCielo);
 ## <a name="creditCard"></a> Cartão de Crédito
 
 ### <a name="creditSimpleTransaction"></a>  Criando uma transação simples
+
+Usando Promise
+
 ```js
 var dadosSale = {  
    "MerchantOrderId":"2014111703",
@@ -85,52 +91,97 @@ var dadosSale = {
    }
 }
 
-cielo.creditCard.simpleTransaction(dadosSale, function(err, data){
-    if (err){
+cielo.creditCard.simpleTransaction(dadosSale)
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err) => {
         return console.error('ERRO', err);
-    }
-    return console.log(data);
+    })
 })
+```
+
+Ou usando Async / Await
+
+```js
+const transaction = await cielo.creditCard.simpleTransaction(dadosSale);
+console.log(transaction);
 ```
 
 ### <a name="creditCompleteTransaction"></a> Criando uma transação completa
 ```js
-cielo.creditCard.completeTransaction(dadosSale, function(err, data){
-    if (err){
+cielo.creditCard.completeTransaction(dadosSale)
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err) => {
         return console.error('ERRO', err);
-    }
-    return console.log(data);
+    })
 })
+```
+
+Ou usando Async / Await
+
+```js
+const transaction = await cielo.creditCard.completeTransaction(dadosSale);
+console.log(transaction);
 ```
 
 ### <a name="creditAuthenticationTransaction"></a> Criando uma venda com Autenticação
 ```js
-cielo.creditCard.authenticationTransaction(dadosSale, function(err, data){
-    if (err){
+cielo.creditCard.authenticationTransaction(dadosSale)
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err) => {
         return console.error('ERRO', err);
-    }
-    return console.log(data);
+    })
 })
+```
+
+Ou usando Async / Await
+
+```js
+const transaction = await cielo.creditCard.authenticationTransaction(dadosSale);
+console.log(transaction);
 ```
 
 ### <a name="creditFraudTransaction"></a> Criando uma venda com Análise de Fraude
 ```js
-cielo.creditCard.fraudAnalysisTransaction(dadosSale, function(err, data){
-    if (err){
+cielo.creditCard.fraudAnalysisTransaction(dadosSale)
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err) => {
         return console.error('ERRO', err);
-    }
-    return console.log(data);
+    })
 })
+```
+
+Ou usando Async / Await
+
+```js
+const transaction = await cielo.creditCard.fraudAnalysisTransaction(dadosSale);
+console.log(transaction);
 ```
 
 ### <a name="creditCardTokenTransaction"></a> Criando uma venda com Card Token
 ```js
-cielo.creditCard.cardTokenTransaction(dadosSale, function(err, data){
-    if (err){
+cielo.creditCard.cardTokenTransaction(dadosSale)
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err) => {
         return console.error('ERRO', err);
-    }
-    return console.log(data);
+    })
 })
+```
+
+Ou usando Async / Await
+
+```js
+const transaction = await cielo.creditCard.cardTokenTransaction(dadosSale);
+console.log(transaction);
 ```
 
 ### <a name="creditSaleCapture"></a> Capturando uma venda
@@ -140,12 +191,21 @@ var dadosSale = {
     amount: '15700'
 }
 
-cielo.creditCard.captureSaleTransaction(dadosSale, function(err, data){
-    if (err){
+cielo.creditCard.captureSaleTransaction(dadosSale)
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err) => {
         return console.error('ERRO', err);
-    }
-    return console.log(data);
+    })
 })
+```
+
+Ou usando Async / Await
+
+```js
+const transaction = await cielo.creditCard.captureSaleTransaction(dadosSale);
+console.log(transaction);
 ```
 
 ### <a name="creditCancelSale"></a> Cancelando uma venda
@@ -155,12 +215,21 @@ var dadosSale = {
     amount: '15700'
 }
 
-cielo.creditCard.cancelSale(dadosSale, function(err, data){
-    if (err){
+cielo.creditCard.cancelSale(dadosSale)
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err) => {
         return console.error('ERRO', err);
-    }
-    return console.log(data);
+    })
 })
+```
+
+Ou usando Async / Await
+
+```js
+const cancel = await cielo.creditCard.cancelSale(dadosSale);
+console.log(cancel);
 ```
 
 ## <a name="debitCard"></a> Cartão de Débito
@@ -186,12 +255,21 @@ var dadosSale = {
    }
 }
 
-cielo.debitCard.simpleTransaction(dadosSale, function(err, data){
-    if (err){
+cielo.debitCard.simpleTransaction(dadosSale)
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err) => {
         return console.error('ERRO', err);
-    }
-    return console.log(data);
+    })
 })
+```
+
+Ou usando Async / Await
+
+```js
+const transaction = await cielo.debitCard.simpleTransaction(dadosSale);
+console.log(transaction);
 ```
 
 ## <a name="bankSlip"></a> Pagamentos com Transferência Eletronica
@@ -213,12 +291,21 @@ var dadosSale = {
     }
 }
 
-cielo.bankSlip.simpleTransaction(dadosSale, function(err, data){
-    if (err){
+cielo.bankSlip.simpleTransaction(dadosSale)
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err) => {
         return console.error('ERRO', err);
-    }
-    return console.log(data);
+    })
 })
+```
+
+Ou usando Async / Await
+
+```js
+const transaction = await cielo.bankSlip.simpleTransaction(dadosSale);
+console.log(transaction);
 ```
 
 ## <a name="boleto"></a> Boleto
@@ -258,14 +345,51 @@ var dadosSale = {
     }
 }
 
-cielo.boleto.sale(dadosSale, function(err, data){
-    if (err){
+cielo.boleto.sale(dadosSale)
+    .then((data) => {
+        return console.log(data);
+    })
+    .catch((err) => {
         return console.error('ERRO', err);
-    }
-    return console.log(data);
+    })
 })
 ```
 
+Ou usando Async / Await
+
+```js
+const transaction = await cielo.boleto.sale(dadosSale);
+console.log(transaction);
+```
+
+## <a name="cartoes"></a> Cartões
+
+### <a name="cartoesToken"></a> Gerando o token de cartão
+
+```js
+const dados = {
+        "CustomerName": "Comprador Teste Cielo",
+        "CardNumber": "4532117080573700",
+        "Holder": "Comprador T Cielo",
+        "ExpirationDate": "12/2021",
+        "Brand": "Visa"
+    };
+
+cielo.cards.createTokenizedCard(dados)
+    .then((data) => {
+        console.log(data)
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+```
+
+Ou usando Async / Await
+
+```js
+    const token = await cielo.cards.createTokenizedCard(dados)
+    console.log('token', token);
+```
 
 ## <a name="apiReference"></a> API Reference
 
@@ -286,7 +410,7 @@ Let people know how they can dive into the project, include important links to t
 ## <a name="autor"></a> Autor
 
 Flavio Takeuchi <[flavio@banzeh.com.br](mailto:flavio@banzeh.com.br)>
-
+  l
 [Github](https://github.com/banzeh)
 
 [Twitter](http://twitter.com/banzeh)
