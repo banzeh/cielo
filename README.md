@@ -387,8 +387,8 @@ cielo.cards.createTokenizedCard(dados)
 Ou usando Async / Await
 
 ```js
-    const token = await cielo.cards.createTokenizedCard(dados)
-    console.log('token', token);
+const token = await cielo.cards.createTokenizedCard(dados)
+console.log('token', token);
 ```
 
 ## <a name="apiReference"></a> API Reference
