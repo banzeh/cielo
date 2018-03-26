@@ -410,7 +410,7 @@ Let people know how they can dive into the project, include important links to t
 ## <a name="autor"></a> Autor
 
 Flavio Takeuchi <[flavio@banzeh.com.br](mailto:flavio@banzeh.com.br)>
-  l
+
 [Github](https://github.com/banzeh)
 
 [Twitter](http://twitter.com/banzeh)
