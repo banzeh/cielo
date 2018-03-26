@@ -6,7 +6,7 @@ const
         'MerchantId': 'e60c1e21cf8743d1bc1fbd760fe0aba4',
         'MerchantKey': 'LVYLUTLJYYIXXRUQMXLIMYEDLRVCRWHNGYQFIVIG',
         'sandbox': true,
-        'debug': true
+        'debug': false
 	},
 	cielo = require('./cielo')(paramsCielo),
 	regexToken = new RegExp(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/);
@@ -55,7 +55,6 @@ test('Cielo', async (t) => {
 	t.assert(regexToken.test(token.CardToken), 'CardToken válido');
 	t.assert(venda.Payment.Status === 1, 'Status da Venda Correto');
 	t.assert(regexToken.test(venda.Payment.PaymentId), 'venda.Payment.PaymentId válido');
-	t.assert(consultaPaymentId.PaymentId == venda.Payment.PaymentId, 'consulta de venda via PaymentID')
 
 
 
