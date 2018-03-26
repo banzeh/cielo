@@ -2,6 +2,8 @@
 
 Client para a API 3.0 da Cielo em Node.Js
 
+[![Build Status](https://travis-ci.org/banzeh/cielo.svg?branch=master)](https://travis-ci.org/banzeh/cielo)
+
 ## Índice
 
 #### [Início](#instalacao)
