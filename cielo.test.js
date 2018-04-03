@@ -53,8 +53,6 @@ test('Cielo', async (t) => {
 	}
 	const consultaPaymentId = await cielo.consulting.sale(consultaParams);
 
-	console.log('consultaPaymentId', consultaPaymentId, 'venda', venda);
-
 	t.assert('CardToken' in token, 'retorno cardToken correto');
 	t.assert(regexToken.test(token.CardToken), 'CardToken válido');
 	t.assert(venda.Payment.Status === 1, 'Status da Venda Correto');
