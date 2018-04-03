@@ -11,7 +11,9 @@ const
 	cielo = require('./cielo')(paramsCielo),
 	regexToken = new RegExp(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/);
 
+
 test('Cielo', async (t) => {
+
 	const tokenParams = {
 		"CustomerName": "Comprador Teste Cielo",
 		"CardNumber": "4532117080573700",
@@ -20,18 +22,18 @@ test('Cielo', async (t) => {
 		"Brand": "Visa"
 	};
 	const token = await cielo.cards.createTokenizedCard(tokenParams);
-	
-	const vendaParams = {  
+
+	const vendaParams = {
 		"MerchantOrderId":"2014111706",
-		"Customer":{  
+		"Customer":{
 		   "Name":"Comprador Teste"
 		},
-		"Payment":{  
+		"Payment":{
 		  "Type":"CreditCard",
 		  "Amount":100,
 		  "Installments":1,
 		  "SoftDescriptor":"123456789ABCD",
-		  "CreditCard":{  
+		  "CreditCard":{
 			  "CardToken": token.CardToken,
 			  "SecurityCode":"262",
 			  "Brand":"Visa"
@@ -39,7 +41,7 @@ test('Cielo', async (t) => {
 		}
 	}
 	const venda = await cielo.creditCard.simpleTransaction(vendaParams);
-	
+
 	const capturaParams = {
 		paymentId: venda.Payment.PaymentId,
 		amount: 70
@@ -49,13 +51,13 @@ test('Cielo', async (t) => {
 	const consultaParams = {
 		paymentId: venda.Payment.PaymentId
 	}
-	const consultaPaymentId = await cielo.consulting.sale(consultaParams);	
+	const consultaPaymentId = await cielo.consulting.sale(consultaParams);
 
 	t.assert('CardToken' in token, 'retorno cardToken correto');
 	t.assert(regexToken.test(token.CardToken), 'CardToken válido');
 	t.assert(venda.Payment.Status === 1, 'Status da Venda Correto');
 	t.assert(regexToken.test(venda.Payment.PaymentId), 'venda.Payment.PaymentId válido');
-
+	t.assert(consultaPaymentId.Payment.Status == 2 || consultaPaymentId.Payment.Status == 1, 'consulta de venda correta');
 
 
 	t.end();
