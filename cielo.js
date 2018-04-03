@@ -186,8 +186,9 @@ module.exports = (params) => {
 			} else {
 				optionsCopy.hostname = 'apiquery.cieloecommerce.cielo.com.br';
 			}
-			optionsCopy.headers['Content-Length'] = Buffer.byteLength(JSON.stringify(data));
 			optionsCopy.path = (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId);
+			data = JSON.stringify(data)
+			optionsCopy.headers['Content-Length'] = Buffer.byteLength(data);
 			optionsCopy.method = 'GET';
 			log(optionsCopy, data);
 			let req = https.request(optionsCopy, (res) => {
@@ -201,7 +202,7 @@ module.exports = (params) => {
 					}
 				});
 			});
-			req.write(JSON.stringify(data));
+			req.write(data);
 			req.on('error', (err) => {
 				reject(err);
 			});
