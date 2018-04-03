@@ -89,8 +89,8 @@ module.exports = function (params) {
 
 	/**
 	 * Cancela a venda - Dá preferencia para cancelar pelo paymentId, se não existir, utiliza o OrderId
-	 * @param {object} data 
-	 * @param {callback} callback 
+	 * @param {object} data
+	 * @param {callback} callback
 	 */
 	var cancelSale = function (data) {
 		return new Promise((resolve, reject) => {
@@ -156,9 +156,9 @@ module.exports = function (params) {
 			options.headers['Content-Length'] = Buffer.byteLength(data);
 			options.path = '/1/card';
 			options.method = 'POST';
-			
+
 			log(options, data);
-			
+
 			var req = https.request(options, function (res) {
 				res.on('data', function (chunk) {
 					var data = iconv.decode(chunk, 'utf-8');
@@ -180,14 +180,17 @@ module.exports = function (params) {
 
 	var consultaCielo = (data) => {
 		return new Promise((resolve, reject) => {
-			data = JSON.stringify(data);
-			options.headers['Content-Length'] = Buffer.byteLength(data);
-			options.path = (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId);
-			options.method = 'GET';
-			
-			log(options, data);
-			
-			var req = https.request(options, function (res) {
+			let optionsCopy = {...options};
+			if (params.sandbox){
+				optionsCopy.hostname = 'apiquerysandbox.cieloecommerce.cielo.com.br';
+			} else {
+				optionsCopy.hostname = 'apiquery.cieloecommerce.cielo.com.br';
+			}
+			optionsCopy.headers['Content-Length'] = Buffer.byteLength(JSON.stringify(data));
+			optionsCopy.path = (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId);
+			optionsCopy.method = 'GET';
+			log(optionsCopy, data);
+			let req = https.request(optionsCopy, function (res) {
 				res.on('data', function (chunk) {
 					var data = iconv.decode(chunk, 'utf-8');
 					try {
@@ -198,7 +201,7 @@ module.exports = function (params) {
 					}
 				});
 			});
-			req.write(data);
+			req.write(JSON.stringify(data));
 			req.on('error', function (err) {
 				reject(err);
 			});
