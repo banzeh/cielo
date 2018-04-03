@@ -53,12 +53,17 @@ test('Cielo', async (t) => {
 	}
 	const consultaPaymentId = await cielo.consulting.sale(consultaParams);
 
+	console.log('consultaPaymentId', consultaPaymentId, 'venda', venda);
+
 	t.assert('CardToken' in token, 'retorno cardToken correto');
 	t.assert(regexToken.test(token.CardToken), 'CardToken válido');
 	t.assert(venda.Payment.Status === 1, 'Status da Venda Correto');
 	t.assert(regexToken.test(venda.Payment.PaymentId), 'venda.Payment.PaymentId válido');
-	t.assert(consultaPaymentId.Payment.Status == 2 || consultaPaymentId.Payment.Status == 1, 'consulta de venda correta');
-
+	t.assert(consultaPaymentId.Payment.Status == 2 || consultaPaymentId.Payment.Status == 1, 'Consulta de venda correta');
+	t.assert(venda.Payment.Tid === consultaPaymentId.Payment.Tid, 'Tid da Venda Correto');
+	t.assert(venda.Payment.Amount === vendaParams.Payment.Amount, 'Valor da Transação de Venda correto');
+	t.assert(captura.Status === 2, 'Status da Caputra correto');
+	t.assert(consultaPaymentId.Payment.CapturedAmount == capturaParams.amount, 'Valor da captura parcial correto');
 
 	t.end();
 })
