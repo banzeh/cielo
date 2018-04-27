@@ -14,7 +14,6 @@ module.exports = (params) => {
 	var debug = params.debug || false;
 
 	var options = {
-		hostname: 'api.cieloecommerce.cielo.com.br',
 		port: 443,
 		secureProtocol: 'TLSv1_method',
 		encoding: 'utf-8',
@@ -26,11 +25,28 @@ module.exports = (params) => {
 		},
 	};
 
-	if (params.sandbox)
-		options.hostname = 'apisandbox.cieloecommerce.cielo.com.br';
+	function getHostname(type){
+		switch(type){
+			case 'requisicao':
+				if (params.sandbox)
+					return 'apisandbox.cieloecommerce.cielo.com.br'
+				else
+					return 'api.cieloecommerce.cielo.com.br';
+				break;
+			case 'consulta':
+				if (params.sandbox)
+					return 'apiquerysandbox.cieloecommerce.cielo.com.br'
+				else
+					return 'apiquery.cieloecommerce.cielo.com.br';
+				break;
+			default:
+				return 'ERROR - HOSTNAME OPTIONS INVÁLIDO';
+		}
+	}
 
 	var postSalesCielo = (data) => {
 		return new Promise((resolve, reject) => {
+			options.hostname = getHostname('requisicao');
 			options.path = '/1/sales';
 			options.method = 'POST';
 			data = JSON.stringify(data);
@@ -58,6 +74,7 @@ module.exports = (params) => {
 
 	var captureSale = (data) => {
 		return new Promise((resolve, reject) => {
+			options.hostname = getHostname('requisicao');
 			options.path = util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount);
 
 			if (data.serviceTaxAmount)
@@ -94,6 +111,7 @@ module.exports = (params) => {
 	 */
 	var cancelSale = (data) => {
 		return new Promise((resolve, reject) => {
+			options.hostname = getHostname('requisicao');
 			if (data.paymentId)
 				options.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount)
 			else
@@ -125,6 +143,7 @@ module.exports = (params) => {
 
 	var modifyingRecurrence = (data) => {
 		return new Promise((resolve, reject) => {
+			options.hostname = getHostname('requisicao');
 			options.path = util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, data.type);
 			options.method = 'PUT';
 			data = JSON.stringify(data);
@@ -153,6 +172,7 @@ module.exports = (params) => {
 	var createTokenizedCard = (data) => {
 		return new Promise((resolve, reject) => {
 			data = JSON.stringify(data);
+			options.hostname = getHostname('requisicao');
 			options.headers['Content-Length'] = Buffer.byteLength(data);
 			options.path = '/1/card';
 			options.method = 'POST';
@@ -180,18 +200,13 @@ module.exports = (params) => {
 
 	var consultaCielo = (data) => {
 		return new Promise((resolve, reject) => {
-			let optionsCopy = {...options};
-			if (params.sandbox){
-				optionsCopy.hostname = 'apiquerysandbox.cieloecommerce.cielo.com.br';
-			} else {
-				optionsCopy.hostname = 'apiquery.cieloecommerce.cielo.com.br';
-			}
-			optionsCopy.path = (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId);
+			options.hostname = getHostname('consulta');
+			options.path = (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId);
 			data = JSON.stringify(data)
-			optionsCopy.headers['Content-Length'] = Buffer.byteLength(data);
-			optionsCopy.method = 'GET';
-			log(optionsCopy, data);
-			let req = https.request(optionsCopy, (res) => {
+			options.headers['Content-Length'] = Buffer.byteLength(data);
+			options.method = 'GET';
+			log(options, data);
+			let req = https.request(options, (res) => {
 				res.on('data', (chunk) => {
 					var data = iconv.decode(chunk, 'utf-8');
 					try {
