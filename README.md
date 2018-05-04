@@ -32,6 +32,11 @@ Client para a API 3.0 da Cielo em Node.Js
 #### [Cartões](#cartoes)
 + [Gerando o token de um cartão](#cartoesToken)
 
+#### [Consultas](#consulta)
++ [Consultando as transações usando PaymentID](#consultaPaymentId)
++ [Consultando as transações usando MerchandOrderID](#consultaMerchandOrderID)
+
+
 #### [API Reference](#apiReference)
 #### [Autor](#autor)
 #### [License](#license)
@@ -390,6 +395,62 @@ Ou usando Async / Await
 
 ```js
 const token = await cielo.cards.createTokenizedCard(dados)
+console.log('token', token);
+```
+
+## <a name="consulta"></a> Consultas
+
+### <a name="consultaPaymentId"></a> Consulta Transação usando PaymentId
+
+```js
+const dadosConsulta = {
+    "paymentId": "24bc8366-fc31-4d6c-8555-17049a836a07"
+};
+
+cielo.consulting.sale(dadosConsulta)
+    .then((data) => {
+        console.log(data)
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+```
+
+Ou usando Async / Await
+
+```js
+const dadosConsulta = {
+    "paymentId": "24bc8366-fc31-4d6c-8555-17049a836a07"
+};
+
+const token = await cielo.consulting.sale(dados)
+console.log('token', token);
+```
+
+### <a name="consultaMerchandOrderID"></a> Consultando as transações usando MerchandOrderID
+
+```js
+const dadosConsulta = {
+    "merchantOrderId": "2014111706"
+};
+
+cielo.consulting.sale(dadosConsulta)
+    .then((data) => {
+        console.log(data)
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+```
+
+Ou usando Async / Await
+
+```js
+const dadosConsulta = {
+    "merchantOrderId": "2014111706"
+};
+
+const token = await cielo.consulting.sale(dados)
 console.log('token', token);
 ```
 
