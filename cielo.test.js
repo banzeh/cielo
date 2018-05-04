@@ -25,7 +25,7 @@ brands.forEach(brand => {
 		const token = await cielo.cards.createTokenizedCard(tokenParams);
 	
 		const vendaParams = {
-			"MerchantOrderId":"2014111706",
+			"MerchantOrderId":"CieloNodeJS000001",
 			"Customer":{
 			   "Name":"Comprador Teste"
 			},
@@ -53,12 +53,20 @@ brands.forEach(brand => {
 			paymentId: venda.Payment.PaymentId
 		}
 		const consultaPaymentId = await cielo.consulting.sale(consultaParams);
+
+		const consultaParamsMerchantOrderId = {
+			merchantOrderId: "CieloNodeJS000001"
+		}
+
+		const consultaMerchantOrderId = await cielo.consulting.sale(consultaParamsMerchantOrderId);
+
 	
 		t.assert('CardToken' in token, 'retorno cardToken correto');
 		t.assert(regexToken.test(token.CardToken), 'CardToken válido');
 		t.assert(venda.Payment.Status === 1, 'Status da Venda Correto');
 		t.assert(regexToken.test(venda.Payment.PaymentId), 'venda.Payment.PaymentId válido');
 		t.assert(consultaPaymentId.Payment.Status == 2 || consultaPaymentId.Payment.Status == 1, 'Consulta de venda correta');
+		t.assert(consultaMerchantOrderId.Payments.filter(x => x.PaymentId == venda.Payment.PaymentId).length > 0, 'Consulta de MerchantOrderId correta')
 		t.assert(venda.Payment.Tid === consultaPaymentId.Payment.Tid, 'Tid da Venda Correto');
 		t.assert(venda.Payment.Amount === vendaParams.Payment.Amount, 'Valor da Transação de Venda correto');
 		t.assert(captura.Status === 2, 'Status da Caputra correto');
