@@ -3,6 +3,7 @@
 Client para a API 3.0 da Cielo em Node.Js
 
 [![Build Status](https://travis-ci.org/banzeh/cielo.svg?branch=master)](https://travis-ci.org/banzeh/cielo)
+[![codebeat badge](https://codebeat.co/badges/2dc50ca6-f248-4f32-a2c9-4a71785fd8f8)](https://codebeat.co/projects/github-com-banzeh-cielo-master)
 
 ## Índice
 
