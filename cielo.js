@@ -44,63 +44,60 @@ module.exports = (params) => {
 		}
 	}
 
+	const r = function(requestOptions, data, resolve, reject) {
+		var opt = Object.assign(options, requestOptions);
+		const d = JSON.stringify(data);
+		opt.headers['Content-Length'] = Buffer.byteLength(d);
+		var req = https.request(opt, (res) => {
+			var r = '';
+			res.on('data', (chunk) => {
+				try {
+					r += iconv.decode(chunk, 'utf-8');
+				} finally {
+					log(r);
+				}
+			});
+
+			res.on('end', () => {
+				try {
+					r = JSON.parse(r);
+				} catch (err) {
+					return reject(err);
+				}
+				log('res.on(end)', r);
+				return resolve(r);		
+			})
+		});
+		req.on('error', (err) => {
+			reject(err);
+		});
+		req.write(d);
+		req.end();
+	}
+
 	var postSalesCielo = (data) => {
 		return new Promise((resolve, reject) => {
-			options.hostname = getHostname('requisicao');
-			options.path = '/1/sales';
-			options.method = 'POST';
-			data = JSON.stringify(data);
-			options.headers['Content-Length'] = Buffer.byteLength(data);
-			log(options, data);
-
-			var req = https.request(options, (res) => {
-				res.on('data', (chunk) => {
-					var data = iconv.decode(chunk, 'utf-8');
-					try {
-						data = JSON.parse(data);
-					} finally {
-						log(data);
-						resolve(data);
-					}
-				});
-			});
-			req.write(data);
-			req.on('error', (err) => {
-				reject(err);
-			});
-			req.end();
+			const o = {
+				hostname: getHostname('requisicao'),
+				path: '/1/sales',
+				method: 'POST'
+			}
+			r(o, data, resolve, reject);
 		})
 	}
 
 	var captureSale = (data) => {
 		return new Promise((resolve, reject) => {
-			options.hostname = getHostname('requisicao');
-			options.path = util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount);
+			var o = {
+				hostname: getHostname('requisicao'),
+				path: util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount)
+			}
 
 			if (data.serviceTaxAmount)
-				options.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount);
+				o.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount);
 
 			options.method = 'PUT';
-			data = JSON.stringify(data);
-			options.headers['Content-Length'] = Buffer.byteLength(data);
-			log(options, data);
-
-			var req = https.request(options, (res) => {
-				res.on('data', (chunk) => {
-					var data = iconv.decode(chunk, 'utf-8');
-					try {
-						data = JSON.parse(data);
-					} finally {
-						log(data);
-						resolve(data);
-					}
-				});
-			});
-			req.write(data);
-			req.on('error', (err) => {
-				reject(err);
-			});
-			req.end();
+			r(o, data, resolve, reject);
 		})
 	}
 
@@ -111,117 +108,54 @@ module.exports = (params) => {
 	 */
 	var cancelSale = (data) => {
 		return new Promise((resolve, reject) => {
-			options.hostname = getHostname('requisicao');
+			var o = { 
+				hostname: getHostname('requisicao'),
+				method: 'PUT'
+			};
+
 			if (data.paymentId)
-				options.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount)
+				o.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount)
 			else
-				options.path = util.format('/1/sales/OrderId/%s/void?amount=%s', data.merchantOrderId, data.amount);
+				o.path = util.format('/1/sales/OrderId/%s/void?amount=%s', data.merchantOrderId, data.amount);
 
-			options.method = 'PUT';
-			data = JSON.stringify(data);
-			options.headers['Content-Length'] = Buffer.byteLength(data);
-			log(options, data);
-
-			var req = https.request(options, (res) => {
-				res.on('data', (chunk) => {
-					var data = iconv.decode(chunk, 'utf-8');
-					try {
-						data = JSON.parse(data);
-					} finally {
-						log(data);
-						resolve(data)
-					}
-				});
-			});
-			req.write(data);
-			req.on('error', (err) => {
-				reject(err);
-			});
-			req.end();
+			r(o, data, resolve, reject);
 		});
 	}
 
 	var modifyingRecurrence = (data) => {
 		return new Promise((resolve, reject) => {
-			options.hostname = getHostname('requisicao');
-			options.path = util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, data.type);
-			options.method = 'PUT';
-			data = JSON.stringify(data);
-			options.headers['Content-Length'] = Buffer.byteLength(data);
-			log(options, data);
+			
+			const o = {
+				hostname: getHostname('requisicao'),
+				path: util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, data.type),
+				method: 'PUT'
+			}
 
-			var req = https.request(options, (res) => {
-				res.on('data', (chunk) => {
-					var data = iconv.decode(chunk, 'utf-8');
-					try {
-						data = JSON.parse(data);
-					} finally {
-						log(data);
-						resolve(data)
-					}
-				});
-			});
-			req.write(data.params.toString());
-			req.on('error', (err) => {
-				reject(err);
-			});
-			req.end();
+			r(o, data, resolve, reject);
 		});
 	}
 
 	var createTokenizedCard = (data) => {
 		return new Promise((resolve, reject) => {
-			data = JSON.stringify(data);
-			options.hostname = getHostname('requisicao');
-			options.headers['Content-Length'] = Buffer.byteLength(data);
-			options.path = '/1/card';
-			options.method = 'POST';
+			const o = {
+				hostname: getHostname('requisicao'),
+				path: '/1/card',
+				method: 'POST'
+			}
 
-			log(options, data);
-
-			var req = https.request(options, (res) => {
-				res.on('data', (chunk) => {
-					var data = iconv.decode(chunk, 'utf-8');
-					try {
-						data = JSON.parse(data);
-					} finally {
-						log(data);
-						resolve(data)
-					}
-				});
-			});
-			req.write(data);
-			req.on('error', (err) => {
-				reject(err);
-			});
-			req.end();
+			r(o, data, resolve, reject);
 		})
 	}
 
 	var consultaCielo = (data) => {
 		return new Promise((resolve, reject) => {
-			options.hostname = getHostname('consulta');
-			options.path = (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId);
-			data = JSON.stringify(data)
-			options.headers['Content-Length'] = Buffer.byteLength(data);
-			options.method = 'GET';
-			log(options, data);
-			let req = https.request(options, (res) => {
-				res.on('data', (chunk) => {
-					var data = iconv.decode(chunk, 'utf-8');
-					try {
-						data = JSON.parse(data);
-					} finally {
-						log(data);
-						resolve(data)
-					}
-				});
-			});
-			req.write(data);
-			req.on('error', (err) => {
-				reject(err);
-			});
-			req.end();
+			const o = {
+				hostname: getHostname('consulta'),
+				path: (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId),
+				method: 'GET'
+			}
+			
+			r(o, data, resolve, reject);
 		});
 	}
 
