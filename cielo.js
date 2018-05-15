@@ -6,7 +6,7 @@ module.exports = (params) => {
 	/**
 	 * Caso o flag debug for true, retorna o log no console
 	 */
-	var log = () => {
+	var log = function () {
 		if (debug)
 			console.log('------------ DEBUG ------------\n', new Date, '\n\n', arguments, '\n\n------------ END DEBUG ------------\n');
 	}
