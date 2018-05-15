@@ -3,6 +3,8 @@ var https = require('https'),
 	util = require('util');
 
 module.exports = (params) => {
+	var debug = params.debug || false;
+
 	/**
 	 * Caso o flag debug for true, retorna o log no console
 	 */
@@ -10,8 +12,6 @@ module.exports = (params) => {
 		if (debug)
 			console.log('------------ DEBUG ------------\n', new Date, '\n\n', arguments, '\n\n------------ END DEBUG ------------\n');
 	}
-
-	var debug = params.debug || false;
 
 	var options = {
 		port: 443,
@@ -32,13 +32,11 @@ module.exports = (params) => {
 					return 'apisandbox.cieloecommerce.cielo.com.br'
 				else
 					return 'api.cieloecommerce.cielo.com.br';
-				break;
 			case 'consulta':
 				if (params.sandbox)
 					return 'apiquerysandbox.cieloecommerce.cielo.com.br'
 				else
 					return 'apiquery.cieloecommerce.cielo.com.br';
-				break;
 			default:
 				return 'ERROR - HOSTNAME OPTIONS INVÁLIDO';
 		}
