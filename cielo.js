@@ -1,5 +1,4 @@
 var https = require('https'),
-	iconv = require('iconv-lite'),
 	util = require('util');
 
 module.exports = (params) => {
@@ -47,29 +46,30 @@ module.exports = (params) => {
 		const d = JSON.stringify(data);
 		opt.headers['Content-Length'] = Buffer.byteLength(d);
 		var req = https.request(opt, (res) => {
-			var r = '';
-			res.on('data', (chunk) => {
-				try {
-					r += iconv.decode(chunk, 'utf-8');
-				} finally {
-					log(r);
-				}
+			log(opt, data);
+			var chunks = [];
+
+			res.on("data", function (chunk) {
+				chunks.push(chunk);
 			});
 
-			res.on('end', () => {
+			res.on("end", function () {
+				var body = Buffer.concat(chunks);
+				var r = '';
 				try {
-					r = JSON.parse(r);
+					r = JSON.parse(body);
+					log('RETORNO', r);
 				} catch (err) {
 					return reject(err);
 				}
 				log('res.on(end)', r);
 				return resolve(r);		
-			})
+			});
 		});
+		req.write(d);
 		req.on('error', (err) => {
 			reject(err);
 		});
-		req.write(d);
 		req.end();
 	}
 
