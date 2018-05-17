@@ -3,8 +3,8 @@ const
 	tape = require('tape'),
 	test = _test(tape),
 	paramsCielo = {
-        'MerchantId': '1efce832-e60d-435d-b8c1-dd3121ec4248',
-        'MerchantKey': '80T5wEBXuyhBF99ANLlii5WwIlOijvHqafcQNDcD',
+        'MerchantId': 'e60c1e21cf8743d1bc1fbd760fe0aba4',
+        'MerchantKey': 'LVYLUTLJYYIXXRUQMXLIMYEDLRVCRWHNGYQFIVIG',
         'sandbox': true,
         'debug': false
 	},
