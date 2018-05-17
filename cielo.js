@@ -8,7 +8,9 @@ module.exports = (params) => {
    * Caso o flag debug for true, retorna o log no console
    */
   const log = function () {
-    if (debug) { Console.log('------------ DEBUG ------------\n', new Date(), '\n\n', arguments, '\n\n------------ END DEBUG ------------\n') }
+    if (debug) {
+      Console.log('------------ DEBUG ------------\n', new Date(), '\n\n', arguments, '\n\n------------ END DEBUG ------------\n')
+    }
   }
 
   const options = {
@@ -26,9 +28,17 @@ module.exports = (params) => {
   function getHostname (type) {
     switch (type) {
       case 'requisicao':
-        if (params.sandbox) { return 'apisandbox.cieloecommerce.cielo.com.br' } else { return 'api.cieloecommerce.cielo.com.br' }
+        if (params.sandbox) {
+          return 'apisandbox.cieloecommerce.cielo.com.br'
+        } else {
+          return 'api.cieloecommerce.cielo.com.br'
+        }
       case 'consulta':
-        if (params.sandbox) { return 'apiquerysandbox.cieloecommerce.cielo.com.br' } else { return 'apiquery.cieloecommerce.cielo.com.br' }
+        if (params.sandbox) {
+          return 'apiquerysandbox.cieloecommerce.cielo.com.br'
+        } else {
+          return 'apiquery.cieloecommerce.cielo.com.br'
+        }
       default:
         return 'ERROR - HOSTNAME OPTIONS INVÁLIDO'
     }
@@ -84,7 +94,9 @@ module.exports = (params) => {
       path: util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount)
     }
 
-    if (data.serviceTaxAmount) { o.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount) }
+    if (data.serviceTaxAmount) {
+      o.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount)
+    }
 
     options.method = 'PUT'
     return r(o, data)
@@ -101,7 +113,11 @@ module.exports = (params) => {
       method: 'PUT'
     }
 
-    if (data.paymentId) { o.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount) } else { o.path = util.format('/1/sales/OrderId/%s/void?amount=%s', data.merchantOrderId, data.amount) }
+    if (data.paymentId) {
+      o.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount)
+    } else {
+      o.path = util.format('/1/sales/OrderId/%s/void?amount=%s', data.merchantOrderId, data.amount)
+    }
 
     return r(o, data)
   }
