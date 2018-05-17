@@ -41,62 +41,61 @@ module.exports = (params) => {
 		}
 	}
 
-	const r = function(requestOptions, data, resolve, reject) {
-		var opt = Object.assign(options, requestOptions);
-		const d = JSON.stringify(data);
-		opt.headers['Content-Length'] = Buffer.byteLength(d);
-		var req = https.request(opt, (res) => {
-			log(opt, data);
-			var chunks = [];
+	const r = function(requestOptions, data) {
+		return new Promise((resolve, reject) => {
+			var opt = Object.assign(options, requestOptions);
+			const d = JSON.stringify(data);
+			opt.headers['Content-Length'] = Buffer.byteLength(d);
+			var req = https.request(opt, (res) => {
+				log('request options data', opt, data);
+				var chunks = [];
 
-			res.on("data", function (chunk) {
-				chunks.push(chunk);
-			});
+				res.on("data", function (chunk) {
+					chunks.push(chunk);
+				});
 
-			res.on("end", function () {
-				var body = Buffer.concat(chunks);
-				var r = '';
-				try {
-					r = JSON.parse(body);
-					log('RETORNO', r);
-				} catch (err) {
-					return reject(err);
-				}
-				log('res.on(end)', r);
-				return resolve(r);		
+				res.on("end", function () {
+					var body = Buffer.concat(chunks);
+					var r = '';
+					try {
+						r = JSON.parse(body);
+						log('retorno cielo', r);
+					} catch (err) {
+						return reject(err);
+					}
+					log('res.on(end)', r);
+					return resolve(r);		
+				});
 			});
-		});
-		req.write(d);
-		req.on('error', (err) => {
-			reject(err);
-		});
-		req.end();
+			req.write(d);
+			req.on('error', (err) => {
+				log('erro no request ', err);
+				return reject(err);
+			});
+			req.end();
+		})
 	}
 
 	var postSalesCielo = (data) => {
-		return new Promise((resolve, reject) => {
-			const o = {
-				hostname: getHostname('requisicao'),
-				path: '/1/sales',
-				method: 'POST'
-			}
-			r(o, data, resolve, reject);
-		})
+		const o = {
+			hostname: getHostname('requisicao'),
+			path: '/1/sales',
+			method: 'POST'
+		}
+		return r(o, data);
 	}
 
 	var captureSale = (data) => {
-		return new Promise((resolve, reject) => {
-			var o = {
-				hostname: getHostname('requisicao'),
-				path: util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount)
-			}
+		var o = {
+			hostname: getHostname('requisicao'),
+			path: util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount)
+		}
 
-			if (data.serviceTaxAmount)
-				o.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount);
+		if (data.serviceTaxAmount)
+			o.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount);
 
-			options.method = 'PUT';
-			r(o, data, resolve, reject);
-		})
+		options.method = 'PUT';
+		return r(o, data);
 	}
 
 	/**
@@ -105,56 +104,44 @@ module.exports = (params) => {
 	 * @param {callback} callback
 	 */
 	var cancelSale = (data) => {
-		return new Promise((resolve, reject) => {
-			var o = { 
-				hostname: getHostname('requisicao'),
-				method: 'PUT'
-			};
+		var o = { 
+			hostname: getHostname('requisicao'),
+			method: 'PUT'
+		};
 
-			if (data.paymentId)
-				o.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount)
-			else
-				o.path = util.format('/1/sales/OrderId/%s/void?amount=%s', data.merchantOrderId, data.amount);
+		if (data.paymentId)
+			o.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount)
+		else
+			o.path = util.format('/1/sales/OrderId/%s/void?amount=%s', data.merchantOrderId, data.amount);
 
-			r(o, data, resolve, reject);
-		});
+		return r(o, data);
 	}
 
-	var modifyingRecurrence = (data) => {
-		return new Promise((resolve, reject) => {
-			
-			const o = {
-				hostname: getHostname('requisicao'),
-				path: util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, data.type),
-				method: 'PUT'
-			}
-
-			r(o, data, resolve, reject);
-		});
+	var modifyingRecurrence = (data) => {			
+		const o = {
+			hostname: getHostname('requisicao'),
+			path: util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, data.type),
+			method: 'PUT'
+		}
+		return r(o, data);
 	}
 
 	var createTokenizedCard = (data) => {
-		return new Promise((resolve, reject) => {
-			const o = {
-				hostname: getHostname('requisicao'),
-				path: '/1/card',
-				method: 'POST'
-			}
-
-			r(o, data, resolve, reject);
-		})
+		const o = {
+			hostname: getHostname('requisicao'),
+			path: '/1/card',
+			method: 'POST'
+		}
+		return r(o, data);
 	}
 
 	var consultaCielo = (data) => {
-		return new Promise((resolve, reject) => {
-			const o = {
-				hostname: getHostname('consulta'),
-				path: (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId),
-				method: 'GET'
-			}
-			
-			r(o, data, resolve, reject);
-		});
+		const o = {
+			hostname: getHostname('consulta'),
+			path: (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId),
+			method: 'GET'
+		}		
+		return r(o, data);
 	}
 
 	return {
