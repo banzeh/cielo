@@ -9,7 +9,7 @@ module.exports = (params) => {
    */
   const log = function () {
     if (debug) {
-      Console.log('------------ DEBUG ------------\n', new Date(), '\n\n', arguments, '\n\n------------ END DEBUG ------------\n')
+      console.log('------------ DEBUG ------------\n', new Date(), '\n\n', arguments, '\n\n------------ END DEBUG ------------\n')
     }
   }
 
