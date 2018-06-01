@@ -40,6 +40,7 @@ Client para a API 3.0 da Cielo em Node.Js
 #### [Consultas](#consulta)
 + [Consultando as transações usando PaymentID](#consultaPaymentId)
 + [Consultando as transações usando MerchandOrderID](#consultaMerchandOrderID)
++ [Consulta de Cardbin](#consultaCardbin)
 
 
 #### [API Reference](#apiReference)
@@ -458,6 +459,32 @@ const dadosConsulta = {
 const token = await cielo.consulting.sale(dados)
 console.log('token', token);
 ```
+
+### <a name="consultaCardbin"></a> Consulta de Cardbin
+
+```js
+const cardBinParams = {
+  cardBin: 402400
+}
+cielo.consulting.cardBin(cardBinParams)
+.then((data) => {
+    console.log(data)
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+Ou usando Async / Await
+
+```js
+const cardBinParams = {
+  cardBin: 402400
+}
+const cardBin = await cielo.consulting.cardBin(cardBinParams)
+console.log('cardBin', cardBin)
+```
+
 
 ## <a name="apiReference"></a> API Reference
 
