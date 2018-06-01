@@ -72,3 +72,17 @@ brands.forEach(brand => {
     t.end()
   })
 })
+
+test('cardBin', async (t) => {
+  const cardBinParams = {
+    cardBin: 402400
+  }
+  const cardBin = await cielo.consulting.cardBin(cardBinParams)
+
+  t.assert(cardBin.Status === '00', 'Status do CardBin válido (cardBin)')
+  t.assert(cardBin.Provider === 'VISA', 'Bandeira do CardBin correto (cardBin)')
+  t.assert(cardBin.CardType === 'Multiplo', 'Tipo de cartão (cardBin)')
+  t.assert(cardBin.ForeignCard === true, 'Cartão emitido no exterior (cardBin)')
+
+  t.end()
+})

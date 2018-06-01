@@ -149,6 +149,15 @@ module.exports = (params) => {
     return r(o, data)
   }
 
+  const cardBin = (data) => {
+    const o = {
+      hostname: getHostname('consulta'),
+      path: util.format('/1/cardBin/%s', data.cardBin),
+      method: 'GET'
+    }
+    return r(o, data)
+  }
+
   return {
     creditCard: {
       simpleTransaction: postSalesCielo,
@@ -180,7 +189,8 @@ module.exports = (params) => {
     consulting: {
       sale: consultaCielo,
       storeIndetifier: consultaCielo,
-      fraudAnalysis: consultaCielo
+      fraudAnalysis: consultaCielo,
+      cardBin: cardBin
     }
   }
 }
