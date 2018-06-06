@@ -44,6 +44,7 @@ Client para a API 3.0 da Cielo em Node.Js
 
 
 #### [API Reference](#apiReference)
+#### [Testes](#testes)
 #### [Autor](#autor)
 #### [License](#license)
 
@@ -494,13 +495,15 @@ Consulte os campos necessários na documentação da Cielo
 
 [En](http://developercielo.github.io/Webservice-3.0/english.html#api-integration-3.0)
 
-<!--## Tests
+## <a name="testes"></a> Testes
 
-Describe and show how to run the tests with code examples.-->
+Para rodar os testes automatizados, apenas execute o seguinte comando
 
-<!--## Contributors
+```
+npm test
+```
 
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.-->
+Também é possível verificar o histórico de builds através do [Travis CI](https://travis-ci.org/banzeh/cielo/builds)
 
 ## <a name="autor"></a> Autor
 
