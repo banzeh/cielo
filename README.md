@@ -491,9 +491,9 @@ console.log('cardBin', cardBin)
 
 Consulte os campos necessários na documentação da Cielo
 
-[PT-Br](http://developercielo.github.io/Webservice-3.0/?shell#integração-api-3.0)
+[PT-Br](https://developercielo.github.io/manual/cielo-ecommerce)
 
-[En](http://developercielo.github.io/Webservice-3.0/english.html#api-integration-3.0)
+[En](https://developercielo.github.io/en/manual/cielo-ecommerce)
 
 ## <a name="testes"></a> Testes
 
