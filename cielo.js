@@ -114,9 +114,14 @@ module.exports = (params) => {
     }
 
     if (data.paymentId) {
-      o.path = util.format('/1/sales/%s/void?amount=%s', data.paymentId, data.amount)
+      o.path = util.format('/1/sales/%s/void', data.paymentId)
     } else {
-      o.path = util.format('/1/sales/OrderId/%s/void?amount=%s', data.merchantOrderId, data.amount)
+      o.path = util.format('/1/sales/OrderId/%s/void', data.merchantOrderId)
+    }
+
+    // Se o valor do cancelamento for informado, concatena na url
+    if (data.amount > 0){
+      o.path += util.format('?amount=%s', data.amount)
     }
 
     return r(o, data)
