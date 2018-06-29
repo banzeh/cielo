@@ -58,6 +58,11 @@ brands.forEach(brand => {
 
     const consultaMerchantOrderId = await cielo.consulting.sale(consultaParamsMerchantOrderId)
 
+    const cancelaVendaParams = {
+      paymentId: venda.Payment.PaymentId
+    }
+    const cancelaVenda = await cielo.creditCard.cancelSale(cancelaVendaParams)
+
     t.assert('CardToken' in token, 'retorno cardToken correto')
     t.assert(regexToken.test(token.CardToken), 'CardToken válido')
     t.assert(venda.Payment.Status === 1, 'Status da Venda Correto')
@@ -68,6 +73,7 @@ brands.forEach(brand => {
     t.assert(venda.Payment.Amount === vendaParams.Payment.Amount, 'Valor da Transação de Venda correto')
     t.assert(captura.Status === 2, 'Status da Caputra correto')
     t.assert(consultaPaymentId.Payment.CapturedAmount === capturaParams.amount, 'Valor da captura parcial correto')
+    t.assert(cancelaVenda.Status === 10, 'Status de cancelamento correto')
 
     t.end()
   })
