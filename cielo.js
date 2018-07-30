@@ -15,7 +15,6 @@ module.exports = (params) => {
 
   const options = {
     port: 443,
-    secureProtocol: 'TLSv1_method',
     encoding: 'utf-8',
     headers: {
       'Content-Type': 'application/json',
@@ -72,8 +71,14 @@ module.exports = (params) => {
       })
       req.write(d)
       req.on('error', (err) => {
-        log('erro no request ', err)
-        return reject(err)
+        const e = {
+          msg: 'Erro na requisicao para a Cielo',
+          request: opt,
+          data: d,
+          erro: err
+        }
+        log('erro no request ', e)
+        return reject(e)
       })
       req.end()
     })
