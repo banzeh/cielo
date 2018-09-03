@@ -49,7 +49,7 @@ module.exports = (params) => {
       const d = JSON.stringify(data)
       opt.headers['Content-Length'] = Buffer.byteLength(d)
       var req = https.request(opt, (res) => {
-        log('request options data', opt, data)
+        const statusCode = res.statusCode
         var chunks = []
 
         res.on('data', function (chunk) {
@@ -60,7 +60,10 @@ module.exports = (params) => {
           var body = Buffer.concat(chunks)
           var r = ''
           try {
+            if (options.method === 'PUT' && chunks.length === 0 && statusCode === 200) return resolve({statusCode: statusCode})
+            if (chunks.length > 0){
             r = JSON.parse(body)
+            }
             log('retorno cielo', r)
           } catch (err) {
             return reject(err)
