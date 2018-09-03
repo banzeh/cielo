@@ -135,15 +135,6 @@ module.exports = (params) => {
     return r(o, data)
   }
 
-  const modifyingRecurrence = (data) => {
-    const o = {
-      hostname: getHostname('requisicao'),
-      path: util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, data.type),
-      method: 'PUT'
-    }
-    return r(o, data)
-  }
-
   const createTokenizedCard = (data) => {
     const o = {
       hostname: getHostname('requisicao'),
@@ -171,6 +162,18 @@ module.exports = (params) => {
     return r(o, data)
   }
 
+  const modifyingRecurrenceHandler = {
+    get(target, name) {
+      return function (data) {
+        var o = {
+          hostname: getHostname('requisicao'),
+          method: 'PUT',
+          path: util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, name)
+        }
+        return r(o, data[name] || {})
+      }
+    },
+  }
   return {
     creditCard: {
       simpleTransaction: postSalesCielo,
@@ -194,7 +197,7 @@ module.exports = (params) => {
       firstScheduledRecurrence: postSalesCielo,
       creditScheduledRecurrence: postSalesCielo,
       authorizing: postSalesCielo,
-      modifyBuyerData: modifyingRecurrence
+      modify: new Proxy({}, modifyingRecurrenceHandler),
     },
     cards: {
       createTokenizedCard: createTokenizedCard
