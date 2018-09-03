@@ -174,6 +174,16 @@ module.exports = (params) => {
       }
     },
   }
+
+  const recurrenceConsulting = (data) => {
+    const o = {
+      hostname: getHostname('consulta'),
+      path: util.format('/1/RecurrentPayment/%s', data.recurrentPaymentId),
+      method: 'GET'
+    }
+    return r(o, data)
+  }
+
   return {
     creditCard: {
       simpleTransaction: postSalesCielo,
@@ -198,6 +208,7 @@ module.exports = (params) => {
       creditScheduledRecurrence: postSalesCielo,
       authorizing: postSalesCielo,
       modify: new Proxy({}, modifyingRecurrenceHandler),
+      consulting: recurrenceConsulting
     },
     cards: {
       createTokenizedCard: createTokenizedCard

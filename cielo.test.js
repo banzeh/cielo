@@ -164,19 +164,24 @@ test('Recurrency', async (t) => {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId,
     "Interval": 1
   }
-
-  modifyRecurrency = await cielo.recurrentPayments.modify.Interval(modifyRecurrencyParams)
+  const modifyRecurrency = await cielo.recurrentPayments.modify.Interval(modifyRecurrencyParams)
 
   const deactivateRecurrencyParams = {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId
   }
+  const deactivateRecurrency = await cielo.recurrentPayments.modify.Deactivate(deactivateRecurrencyParams)
 
-  deactivateRecurrency = await cielo.recurrentPayments.modify.Deactivate(deactivateRecurrencyParams)
+  const recurrencyConsultingParams = {
+    "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId
+  }
+  const recurrencyConsulting = await cielo.recurrentPayments.consulting(recurrencyConsultingParams)
 
   t.assert(firstRecurrency.Payment.RecurrentPayment.ReasonCode == 0, 'Pagamento recorrente criado')
   t.assert(firstRecurrency.Payment.Status === 1, 'Status transacional autorizado (1)')
   t.assert(firstRecurrency.Payment.RecurrentPayment.Interval === 6, 'Intervalo de recorrência correto (6)')
-  t.assert(modifyRecurrency.statusCode === 200, 'Intervalo da recorrência alterado com sucesso (1)')
-  t.assert(deactivateRecurrency.statusCode === 200, 'Recorrência desativada')
+  t.assert(modifyRecurrency.statusCode === 200, 'StatusCode da modificação da recorrência para mensal correto (200)')
+  t.assert(deactivateRecurrency.statusCode === 200, 'StatusCode da desativação da recorrência correto (200)')
+  t.assert(recurrencyConsulting.RecurrentPayment.Status === 3, 'Status da recorrência correto (3 - desativada pelo lojista)')
+  t.assert(recurrencyConsulting.RecurrentPayment.Interval === 'Monthly', 'Intervalo da recorrência correto (Monthly)')
   
 })
