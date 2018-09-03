@@ -129,3 +129,54 @@ test('Boleto', async (t) => {
   t.assert(typeof boleto.Payment !== 'undefined', 'Boleto retornou Payment')
   t.assert(boleto.Payment.Url.trim() !== '', 'Retornou Url para o boleto')
 })
+
+test('Recurrency', async (t) => {
+  const recurrencyParams = {
+    "MerchantOrderId": "2014113245231706",
+    "Customer": {
+      "Name": "Comprador rec programada"
+    },
+    "Payment": {
+      "Type": "CreditCard",
+      "Amount": 1500,
+      "Installments": 1,
+      "SoftDescriptor": "123456789ABCD",
+      "RecurrentPayment": {
+        "AuthorizeNow": "true",
+        "EndDate": "2019-12-01",
+        "Interval": "SemiAnnual"
+      },
+      "CreditCard": {
+        "CardNumber": "1234123412341231",
+        "Holder": "Teste Holder",
+        "ExpirationDate": "12/2030",
+        "SecurityCode": "262",
+        "SaveCard": "false",
+        "Brand": "Visa"
+      }
+    }
+  }
+
+  const firstRecurrency = await cielo.recurrentPayments.firstScheduledRecurrence(recurrencyParams)
+
+  const modifyRecurrencyParams = 
+  {
+    "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId,
+    "Interval": 1
+  }
+
+  modifyRecurrency = await cielo.recurrentPayments.modify.Interval(modifyRecurrencyParams)
+
+  const deactivateRecurrencyParams = {
+    "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId
+  }
+
+  deactivateRecurrency = await cielo.recurrentPayments.modify.Deactivate(deactivateRecurrencyParams)
+
+  t.assert(firstRecurrency.Payment.RecurrentPayment.ReasonCode == 0, 'Pagamento recorrente criado')
+  t.assert(firstRecurrency.Payment.Status === 1, 'Status transacional autorizado (1)')
+  t.assert(firstRecurrency.Payment.RecurrentPayment.Interval === 6, 'Intervalo de recorrência correto (6)')
+  t.assert(modifyRecurrency.statusCode === 200, 'Intervalo da recorrência alterado com sucesso (1)')
+  t.assert(deactivateRecurrency.statusCode === 200, 'Recorrência desativada')
+  
+})
