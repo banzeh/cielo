@@ -166,6 +166,38 @@ test('Recurrency', async (t) => {
   }
   const modifyRecurrency = await cielo.recurrentPayments.modify.Interval(modifyRecurrencyParams)
 
+  const updateCustomer = {
+    "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId,
+    "Customer": {
+      "Name": "Customer",
+      "Email": "customer@teste.com",
+      "Birthdate": "1999-12-12",
+      "Identity": "22658954236",
+      "IdentityType": "CPF",
+      "Address": {
+        "Street": "Rua Teste",
+        "Number": "174",
+        "Complement": "AP 201",
+        "ZipCode": "21241140",
+        "City": "Rio de Janeiro",
+        "State": "RJ",
+        "Country": "BRA"
+      },
+      "DeliveryAddress": {
+        "Street": "Outra Rua Teste",
+        "Number": "123",
+        "Complement": "AP 111",
+        "ZipCode": "21241111",
+        "City": "Qualquer Lugar",
+        "State": "QL",
+        "Country": "BRA",
+        "District": "Teste"
+      }
+    }
+  }
+
+  await cielo.recurrentPayments.modify.Customer(updateCustomer)
+
   const deactivateRecurrencyParams = {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId
   }
@@ -183,5 +215,6 @@ test('Recurrency', async (t) => {
   t.assert(deactivateRecurrency.statusCode === 200, 'StatusCode da desativação da recorrência correto (200)')
   t.assert(recurrencyConsulting.RecurrentPayment.Status === 3, 'Status da recorrência correto (3 - desativada pelo lojista)')
   t.assert(recurrencyConsulting.RecurrentPayment.Interval === 'Monthly', 'Intervalo da recorrência correto (Monthly)')
+  t.assert(recurrencyConsulting.Customer.Email === 'customer@teste.com', 'Dados do cliente alterados com sucesso')
   
 })
