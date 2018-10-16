@@ -34,6 +34,19 @@ Client para a API 3.0 da Cielo em Node.Js
 #### [Boleto](#boleto)
 + [Criando uma venda de Boleto](#boletoSale)
 
+### [Recorrência](#recorrencia)
++ [Criando Recorrências](#creating)
++ [Modificando Recorrências](#modifyRecurrence)
+  * [Modificando dados do comprador](#modifyRecurrenceCustomer)
+  * [Modificando data final da Recorrência](#modifyRecurrenceEndDate)
+  * [Modificando intevalo da Recorrência](#modifyRecurrenceInterval)
+  * [Modificando dia da Recorrência](#modifyRecurrenceRecurrencyDay)
+  * [Modificando o valor da Recorrência](#modifyRecurrenceAmount)
+  * [Modificando data do próximo Pagamento](#modifyRecurrenceNextPaymentDate)
+  * [Modificando dados do Pagamento da Recorrência](#modifyRecurrencePayment)
+  * [Desabilitando um Pedido Recorrente](#modifyRecurrenceDeactivate)
+  * [Reabilitando um Pedido Recorrente](#modifyRecurrenceReactivate)
+
 #### [Cartões](#cartoes)
 + [Gerando o token de um cartão](#cartoesToken)
 
@@ -41,6 +54,7 @@ Client para a API 3.0 da Cielo em Node.Js
 + [Consultando as transações usando PaymentID](#consultaPaymentId)
 + [Consultando as transações usando MerchandOrderID](#consultaMerchandOrderID)
 + [Consulta de Cardbin](#consultaCardbin)
++ [Consulta de Recorrência](#recurrenceConsulting)
 
 
 #### [API Reference](#apiReference)
@@ -360,12 +374,12 @@ var dadosSale = {
 }
 
 cielo.boleto.sale(dadosSale)
-    .then((data) => {
-        return console.log(data);
-    })
-    .catch((err) => {
-        return console.error('ERRO', err);
-    })
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
 })
 ```
 
@@ -374,6 +388,309 @@ Ou usando Async / Await
 ```js
 const transaction = await cielo.boleto.sale(dadosSale);
 console.log(transaction);
+```
+
+## <a name="recorrencia"></a> Recorrência
+
+### <a name="creatingRecurrence"></a> Criando Recorrências
+
+```js
+const recurrencyParams = {
+  "MerchantOrderId": "2014113245231706",
+  "Customer": {
+    "Name": "Comprador rec programada"
+  },
+  "Payment": {
+    "Type": "CreditCard",
+    "Amount": 1500,
+    "Installments": 1,
+    "SoftDescriptor": "123456789ABCD",
+    "RecurrentPayment": {
+      "AuthorizeNow": "true",
+      "EndDate": "2019-12-01",
+      "Interval": "SemiAnnual"
+    },
+    "CreditCard": {
+      "CardNumber": "1234123412341231",
+      "Holder": "Teste Holder",
+      "ExpirationDate": "12/2030",
+      "SecurityCode": "262",
+      "SaveCard": "false",
+      "Brand": "Visa"
+    }
+  }
+}
+
+cielo.recurrentPayments.firstScheduledRecurrence(recurrencyParams)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando Async / Await
+
+```js
+const firstRecurrency = await cielo.recurrentPayments.firstScheduledRecurrence(recurrencyParams)
+```
+
+### <a name="modifyRecurrence"></a> Modificando Recorrências
+
+#### <a name="modifyRecurrenceCustomer"></a> Modificando dados do comprador
+
+```js
+const updateCustomer = {
+  "recurrentPaymentId": RecurrentPaymentId,
+  "Customer": {
+    "Name": "Customer",
+    "Email": "customer@teste.com",
+    "Birthdate": "1999-12-12",
+    "Identity": "22658954236",
+    "IdentityType": "CPF",
+    "Address": {
+      "Street": "Rua Teste",
+      "Number": "174",
+      "Complement": "AP 201",
+      "ZipCode": "21241140",
+      "City": "Rio de Janeiro",
+      "State": "RJ",
+      "Country": "BRA"
+    },
+    "DeliveryAddress": {
+      "Street": "Outra Rua Teste",
+      "Number": "123",
+      "Complement": "AP 111",
+      "ZipCode": "21241111",
+      "City": "Qualquer Lugar",
+      "State": "QL",
+      "Country": "BRA",
+      "District": "Teste"
+    }
+  }
+}
+
+cielo.recurrentPayments.modify.Customer(updateCustomer)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando await
+
+```js
+const customer = await cielo.recurrentPayments.modify.Customer(updateCustomer)
+```
+
+#### <a name="modifyRecurrenceEndDate"></a> Modificando data final da Recorrência
+
+```js
+const updateEndDate = {
+  "recurrentPaymentId": RecurrentPaymentId,
+  "EndDate": {
+    "EndDate": "2021-01-09",
+  }
+}
+
+cielo.recurrentPayments.modify.EndDate(updateEndDate)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando await
+
+```js
+const customer = await cielo.recurrentPayments.modify.EndDate(updateEndDate)
+```
+
+#### <a name="modifyRecurrenceInterval"></a> Modificando intevalo da Recorrência
+
+```js
+const updateInterval = {
+  "recurrentPaymentId": RecurrentPaymentId,
+  "Interval": {
+    "Interval": 6, // Modifica para cobrança semestral
+  }
+}
+
+cielo.recurrentPayments.modify.Interval(updateInterval)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando await
+
+```js
+const customer = await cielo.recurrentPayments.modify.Interval(updateInterval)
+```
+
+#### <a name="modifyRecurrenceRecurrencyDay"></a> Modificando dia da Recorrência
+
+```js
+const updateRecurrencyDay = {
+  "recurrentPaymentId": RecurrentPaymentId,
+  "RecurrencyDay": {
+    "RecurrencyDay": 10, // Modifica a data da recorrência para o dia 10
+  }
+}
+
+cielo.recurrentPayments.modify.RecurrencyDay(updateRecurrencyDay)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando await
+
+```js
+const customer = await cielo.recurrentPayments.modify.RecurrencyDay(updateRecurrencyDay)
+```
+
+#### <a name="modifyRecurrenceAmount"></a> Modificando o valor da Recorrência
+
+```js
+const updateAmount = {
+  "recurrentPaymentId": RecurrentPaymentId,
+  "Amount": {
+    "Payment": {
+        "Amount": 156 // Valor do Pedido em centavos: 156 equivale a R$ 1,56
+    }
+  }
+}
+
+cielo.recurrentPayments.modify.Amount(updateAmount)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando await
+
+```js
+const customer = await cielo.recurrentPayments.modify.Amount(updateAmount)
+```
+
+#### <a name="modifyRecurrenceNextPaymentDate"></a> Modificando data do próximo Pagamento
+
+```js
+const updateNextPaymentDate = {
+  "recurrentPaymentId": RecurrentPaymentId,
+  "NextPaymentDate": {
+    "NextPaymentDate": "2016-06-15"
+  }
+}
+
+cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando await
+
+```js
+const customer = await cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
+```
+
+#### <a name="modifyRecurrencePayment"></a> Modificando dados do Pagamento da Recorrência
+
+```js
+const updatePayment = {
+  "recurrentPaymentId": RecurrentPaymentId,
+  "Payment": {  
+    "Type":"CreditCard",
+    "Amount":"123",
+    "Installments":3,
+    "Country":"USA",
+    "Currency":"BRL",
+    "SoftDescriptor":"123456789ABCD",
+    "CreditCard":{  
+        "Brand":"Master",
+        "Holder":"Teset card",
+        "CardNumber":"1234123412341232",
+        "ExpirationDate":"12/2030"
+    }
+  }
+}
+
+cielo.recurrentPayments.modify.Payment(updatePayment)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando await
+
+```js
+const customer = await cielo.recurrentPayments.modify.Payment(updatePayment)
+```
+
+#### <a name="modifyRecurrenceDeactivate"></a> Desabilitando um Pedido Recorrente
+
+```js
+const updateDeactivate = {
+  "recurrentPaymentId": RecurrentPaymentId
+}
+
+cielo.recurrentPayments.modify.Deactivate(updateDeactivate)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando await
+
+```js
+const customer = await cielo.recurrentPayments.modify.Deactivate(updateDeactivate)
+```
+
+#### <a name="modifyRecurrenceReactivate"></a> Reabilitando um Pedido Recorrente
+
+```js
+const updateReactivate = {
+  "recurrentPaymentId": RecurrentPaymentId
+}
+
+cielo.recurrentPayments.modify.Reactivate(updateReactivate)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando await
+
+```js
+const customer = await cielo.recurrentPayments.modify.Reactivate(updateReactivate)
 ```
 
 ## <a name="cartoes"></a> Cartões
@@ -486,6 +803,27 @@ const cardBin = await cielo.consulting.cardBin(cardBinParams)
 console.log('cardBin', cardBin)
 ```
 
+### <a name="recurrenceConsulting"></a> Consulta de Recorrência
+
+```js
+const recurrencyConsultingParams = {
+    "recurrentPaymentId": '66b2c162-efbf-4692-aee5-e536c0f81037'
+}
+
+cielo.recurrentPayments.consulting(recurrencyConsultingParams)
+.then((data) => {
+    console.log(data)
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+Ou usando Async / Await
+
+```js
+const recurrencyConsulting = await cielo.recurrentPayments.consulting(recurrencyConsultingParams)
+```
 
 ## <a name="apiReference"></a> API Reference
 
