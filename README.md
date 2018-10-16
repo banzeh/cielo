@@ -491,9 +491,7 @@ const customer = await cielo.recurrentPayments.modify.Customer(updateCustomer)
 ```js
 const updateEndDate = {
   "recurrentPaymentId": RecurrentPaymentId,
-  "EndDate": {
-    "EndDate": "2021-01-09",
-  }
+  "EndDate": "2021-01-09"
 }
 
 cielo.recurrentPayments.modify.EndDate(updateEndDate)
@@ -508,7 +506,7 @@ cielo.recurrentPayments.modify.EndDate(updateEndDate)
 Ou usando await
 
 ```js
-const customer = await cielo.recurrentPayments.modify.EndDate(updateEndDate)
+const endDate = await cielo.recurrentPayments.modify.EndDate(updateEndDate)
 ```
 
 #### <a name="modifyRecurrenceInterval"></a> Modificando intevalo da Recorrência
@@ -516,9 +514,7 @@ const customer = await cielo.recurrentPayments.modify.EndDate(updateEndDate)
 ```js
 const updateInterval = {
   "recurrentPaymentId": RecurrentPaymentId,
-  "Interval": {
-    "Interval": 6, // Modifica para cobrança semestral
-  }
+  "Interval": 6, // Modifica para cobrança semestral
 }
 
 cielo.recurrentPayments.modify.Interval(updateInterval)
@@ -533,7 +529,7 @@ cielo.recurrentPayments.modify.Interval(updateInterval)
 Ou usando await
 
 ```js
-const customer = await cielo.recurrentPayments.modify.Interval(updateInterval)
+const interval = await cielo.recurrentPayments.modify.Interval(updateInterval)
 ```
 
 #### <a name="modifyRecurrenceRecurrencyDay"></a> Modificando dia da Recorrência
@@ -541,9 +537,7 @@ const customer = await cielo.recurrentPayments.modify.Interval(updateInterval)
 ```js
 const updateRecurrencyDay = {
   "recurrentPaymentId": RecurrentPaymentId,
-  "RecurrencyDay": {
-    "RecurrencyDay": 10, // Modifica a data da recorrência para o dia 10
-  }
+  "RecurrencyDay": 10, // Modifica a data da recorrência para o dia 10
 }
 
 cielo.recurrentPayments.modify.RecurrencyDay(updateRecurrencyDay)
@@ -558,7 +552,7 @@ cielo.recurrentPayments.modify.RecurrencyDay(updateRecurrencyDay)
 Ou usando await
 
 ```js
-const customer = await cielo.recurrentPayments.modify.RecurrencyDay(updateRecurrencyDay)
+const recurrencyDay = await cielo.recurrentPayments.modify.RecurrencyDay(updateRecurrencyDay)
 ```
 
 #### <a name="modifyRecurrenceAmount"></a> Modificando o valor da Recorrência
@@ -566,11 +560,7 @@ const customer = await cielo.recurrentPayments.modify.RecurrencyDay(updateRecurr
 ```js
 const updateAmount = {
   "recurrentPaymentId": RecurrentPaymentId,
-  "Amount": {
-    "Payment": {
-        "Amount": 156 // Valor do Pedido em centavos: 156 equivale a R$ 1,56
-    }
-  }
+  "Amount": 156 // Valor do Pedido em centavos: 156 equivale a R$ 1,56
 }
 
 cielo.recurrentPayments.modify.Amount(updateAmount)
@@ -585,7 +575,7 @@ cielo.recurrentPayments.modify.Amount(updateAmount)
 Ou usando await
 
 ```js
-const customer = await cielo.recurrentPayments.modify.Amount(updateAmount)
+const amount = await cielo.recurrentPayments.modify.Amount(updateAmount)
 ```
 
 #### <a name="modifyRecurrenceNextPaymentDate"></a> Modificando data do próximo Pagamento
@@ -593,9 +583,7 @@ const customer = await cielo.recurrentPayments.modify.Amount(updateAmount)
 ```js
 const updateNextPaymentDate = {
   "recurrentPaymentId": RecurrentPaymentId,
-  "NextPaymentDate": {
-    "NextPaymentDate": "2016-06-15"
-  }
+  "NextPaymentDate": "2016-06-15"
 }
 
 cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
@@ -610,7 +598,7 @@ cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
 Ou usando await
 
 ```js
-const customer = await cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
+const nextPaymentDate = await cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
 ```
 
 #### <a name="modifyRecurrencePayment"></a> Modificando dados do Pagamento da Recorrência
@@ -646,7 +634,7 @@ cielo.recurrentPayments.modify.Payment(updatePayment)
 Ou usando await
 
 ```js
-const customer = await cielo.recurrentPayments.modify.Payment(updatePayment)
+const payment = await cielo.recurrentPayments.modify.Payment(updatePayment)
 ```
 
 #### <a name="modifyRecurrenceDeactivate"></a> Desabilitando um Pedido Recorrente
@@ -668,7 +656,7 @@ cielo.recurrentPayments.modify.Deactivate(updateDeactivate)
 Ou usando await
 
 ```js
-const customer = await cielo.recurrentPayments.modify.Deactivate(updateDeactivate)
+const deactivate = await cielo.recurrentPayments.modify.Deactivate(updateDeactivate)
 ```
 
 #### <a name="modifyRecurrenceReactivate"></a> Reabilitando um Pedido Recorrente
@@ -690,7 +678,7 @@ cielo.recurrentPayments.modify.Reactivate(updateReactivate)
 Ou usando await
 
 ```js
-const customer = await cielo.recurrentPayments.modify.Reactivate(updateReactivate)
+const reactivate = await cielo.recurrentPayments.modify.Reactivate(updateReactivate)
 ```
 
 ## <a name="cartoes"></a> Cartões
