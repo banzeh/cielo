@@ -4,8 +4,9 @@ module.exports = (params) => {
   const library = require('./library')(params)
   const get = library.get
   const getHostname = library.getHostname
+  var controller = {}
 
-  const postSalesCielo = (data) => {
+  controller.postSalesCielo = (data) => {
     const o = {
       hostname: getHostname('requisicao'),
       path: '/1/sales',
@@ -14,7 +15,7 @@ module.exports = (params) => {
     return get(o, data)
   }
 
-  const captureSale = (data) => {
+  controller.captureSale = (data) => {
     var o = {
       hostname: getHostname('requisicao'),
       path: util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount),
@@ -33,7 +34,7 @@ module.exports = (params) => {
    * @param {object} data
    * @param {callback} callback
    */
-  const cancelSale = (data) => {
+  controller.cancelSale = (data) => {
     var o = {
       hostname: getHostname('requisicao'),
       method: 'PUT'
@@ -53,7 +54,7 @@ module.exports = (params) => {
     return get(o, data)
   }
 
-  const createTokenizedCard = (data) => {
+  controller.createTokenizedCard = (data) => {
     const o = {
       hostname: getHostname('requisicao'),
       path: '/1/card',
@@ -62,7 +63,7 @@ module.exports = (params) => {
     return get(o, data)
   }
 
-  const consultaCielo = (data) => {
+  controller.consultaCielo = (data) => {
     const o = {
       hostname: getHostname('consulta'),
       path: (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId),
@@ -71,7 +72,8 @@ module.exports = (params) => {
     return get(o, data)
   }
 
-  const cardBin = (data) => {
+  controller.cardBin = function cardbin (data) {
+    console.log('this', this)
     const o = {
       hostname: getHostname('consulta'),
       path: util.format('/1/cardBin/%s', data.cardBin),
@@ -80,7 +82,7 @@ module.exports = (params) => {
     return get(o, data)
   }
 
-  const modifyingRecurrenceHandler = {
+  controller.modifyingRecurrenceHandler = {
     get(target, name) {
       return function (data) {
         var o = {
@@ -93,7 +95,7 @@ module.exports = (params) => {
     }
   }
 
-  const recurrenceConsulting = (data) => {
+  controller.recurrenceConsulting = (data) => {
     const o = {
       hostname: getHostname('consulta'),
       path: util.format('/1/RecurrentPayment/%s', data.recurrentPaymentId),
@@ -102,14 +104,5 @@ module.exports = (params) => {
     return get(o, data)
   }
 
-  return {
-    postSalesCielo: postSalesCielo,
-    cancelSale: cancelSale,
-    captureSale: captureSale,
-    modifyingRecurrenceHandler: modifyingRecurrenceHandler,
-    recurrenceConsulting: recurrenceConsulting,
-    createTokenizedCard: createTokenizedCard,
-    consultaCielo: consultaCielo,
-    cardBin: cardBin
-  }
+  return controller
 }
