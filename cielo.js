@@ -1,4 +1,3 @@
-const util = require('util')
 var controller = {}
 var get
 var getHostname
@@ -23,12 +22,12 @@ controller.postSalesCielo = (data) => {
 controller.captureSale = (data) => {
   var o = {
     hostname: getHostname('requisicao'),
-    path: util.format('/1/sales/%s/capture?amount=%s', data.paymentId, data.amount),
+    path: `/1/sales/${data.paymentId}/capture?amount=${data.amount}`,
     method: 'PUT'
   }
 
   if (data.serviceTaxAmount) {
-    o.path += util.format('/serviceTaxAmount=%s', data.serviceTaxAmount)
+    o.path += `/serviceTaxAmount=${data.serviceTaxAmount}`
   }
 
   return get(o, data)
@@ -46,14 +45,14 @@ controller.cancelSale = (data) => {
   }
 
   if (data.paymentId) {
-    o.path = util.format('/1/sales/%s/void', data.paymentId)
+    o.path = `/1/sales/${data.paymentId}/void`
   } else {
-    o.path = util.format('/1/sales/OrderId/%s/void', data.merchantOrderId)
+    o.path = `/1/sales/OrderId/${data.merchantOrderId}/void`
   }
 
   // Se o valor do cancelamento for informado, concatena na url
   if (data.amount > 0){
-    o.path += util.format('?amount=%s', data.amount)
+    o.path += `?amount=${data.amount}`
   }
 
   return get(o, data)
@@ -71,7 +70,7 @@ controller.createTokenizedCard = (data) => {
 controller.consultaCielo = (data) => {
   const o = {
     hostname: getHostname('consulta'),
-    path: (typeof data.paymentId !== 'undefined') ? util.format('/1/sales/%s', data.paymentId) : util.format('/1/sales?merchantOrderId=%s', data.merchantOrderId),
+    path: (typeof data.paymentId !== 'undefined') ? `/1/sales/${data.paymentId}` : `/1/sales?merchantOrderId=${data.merchantOrderId}`,
     method: 'GET'
   }
   return get(o, data)
@@ -80,7 +79,7 @@ controller.consultaCielo = (data) => {
 controller.cardBin = function cardbin (data) {
   const o = {
     hostname: getHostname('consulta'),
-    path: util.format('/1/cardBin/%s', data.cardBin),
+    path: `/1/cardBin/${data.cardBin}`,
     method: 'GET'
   }
   return get(o, data)
@@ -92,7 +91,7 @@ controller.modifyingRecurrenceHandler = {
       var o = {
         hostname: getHostname('requisicao'),
         method: 'PUT',
-        path: util.format('/1/RecurrentPayment/%s/%s', data.recurrentPaymentId, name)
+        path: `/1/RecurrentPayment/${data.recurrentPaymentId}/${name}`
       }
       return get(o, data[name] || {})
     }
@@ -102,7 +101,7 @@ controller.modifyingRecurrenceHandler = {
 controller.recurrenceConsulting = (data) => {
   const o = {
     hostname: getHostname('consulta'),
-    path: util.format('/1/RecurrentPayment/%s', data.recurrentPaymentId),
+    path: `/1/RecurrentPayment/${data.recurrentPaymentId}`,
     method: 'GET'
   }
   return get(o, data)
