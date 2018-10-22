@@ -1,6 +1,5 @@
-exports = module.exports = (function (params) {
-  var Cielo = require('./cielo')
-  var cielo = new Cielo(params)
+module.exports = (params) => {
+  const cielo = require('./cielo')(params)
   
   return {
     creditCard: {
@@ -25,7 +24,7 @@ exports = module.exports = (function (params) {
       firstScheduledRecurrence: cielo.postSalesCielo,
       creditScheduledRecurrence: cielo.postSalesCielo,
       authorizing: cielo.postSalesCielo,
-      // modify: new Proxy({}, cielo.modifyingRecurrenceHandler),
+      modify: new Proxy({}, cielo.modifyingRecurrenceHandler),
       consulting: cielo.recurrenceConsulting
     },
     cards: {
@@ -38,4 +37,4 @@ exports = module.exports = (function (params) {
       cardBin: cielo.cardBin
     }
   }
-})
+}
