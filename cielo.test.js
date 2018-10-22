@@ -9,7 +9,14 @@ const paramsCielo = {
 }
 const cielo = require('./index')(paramsCielo)
 const regexToken = new RegExp(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/)
+
+
 const brands = ['Visa', 'Master', 'Amex', 'Elo', 'Aura', 'JCB', 'Diners', 'Discover', 'Hipercard']
+// const brands = []
+
+function normalizeDate(data) {
+  return data.getDay() + '/' (data.getMonth() + 1) + '/' + data.getYear()
+}
 
 brands.forEach(brand => {
   test(brand, async (t) => {
@@ -118,7 +125,7 @@ test('Boleto', async (t) => {
       "BoletoNumber": "123",
       "Assignor": "Empresa Teste",
       "Demonstrative": "Desmonstrative Teste",
-      "ExpirationDate": "5/1/2015",
+      "ExpirationDate": "5/1/2019",
       "Identification": "11884926754",
       "Instructions": "Aceitar somente até a data de vencimento, após essa data juros de 1% dia."
     }
@@ -158,6 +165,7 @@ test('Recurrency', async (t) => {
   }
 
   const firstRecurrency = await cielo.recurrentPayments.firstScheduledRecurrence(recurrencyParams)
+  console.log('firstRecurrency', firstRecurrency)
 
   const modifyRecurrencyParams = {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId,
@@ -218,6 +226,7 @@ test('Recurrency', async (t) => {
     "NextPaymentDate": "2018-11-29"
   }
   const nextPaymentDate = await cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
+  console.log(nextPaymentDate)
 
   const deactivateRecurrencyParams = {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId
@@ -228,6 +237,7 @@ test('Recurrency', async (t) => {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId
   }
   const recurrencyConsulting = await cielo.recurrentPayments.consulting(recurrencyConsultingParams)
+  console.log('recurrencyConsulting', recurrencyConsulting)
 
   t.assert(firstRecurrency.Payment.RecurrentPayment.ReasonCode == 0, 'Pagamento recorrente criado')
   t.assert(firstRecurrency.Payment.Status === 1, 'Status transacional autorizado (1)')
