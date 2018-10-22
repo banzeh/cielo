@@ -39,19 +39,13 @@ controller.get = function (optionsData, data) {
       res.on('end', function () {
         var body = Buffer.concat(chunks)
         var response = ''
-        try {
-          if (options.method === 'PUT' && chunks.length === 0 && statusCode === 200) return resolve({statusCode: statusCode})
-          if (chunks.length > 0){
-            response = JSON.parse(body)
-          }
-          log('retorno cielo', response)
-        } catch (err) {
-          return reject(err)
-        }
+        if (options.method === 'PUT' && chunks.length === 0 && statusCode === 200) return resolve({statusCode: statusCode})
+        response = (chunks.length > 0) ? JSON.parse(body) : ''
         log('res.on(end)', response)
         return resolve(response)
       })
     })
+    
     req.write(dataPost)
     req.on('error', (err) => {
       const errorMessage = {
@@ -70,18 +64,10 @@ controller.get = function (optionsData, data) {
 controller.getHostname = function (type) {
   switch (type) {
     case 'requisicao':
-      if (sandbox) {
-        return 'apisandbox.cieloecommerce.cielo.com.br'
-      } else {
-        return 'api.cieloecommerce.cielo.com.br'
-      }
+      return (sandbox) ? 'apisandbox.cieloecommerce.cielo.com.br' : 'api.cieloecommerce.cielo.com.br'
     case 'consulta':
-      if (sandbox) {
-        return 'apiquerysandbox.cieloecommerce.cielo.com.br'
-      } else {
-        return 'apiquery.cieloecommerce.cielo.com.br'
-      }
+      return (sandbox) ? 'apiquerysandbox.cieloecommerce.cielo.com.br' : 'apiquery.cieloecommerce.cielo.com.br'
     default:
-      return 'ERROR - HOSTNAME OPTIONS INVÁLIDO'
+      throw 'ERROR - HOSTNAME OPTIONS INVÁLIDO'
   }
 }
