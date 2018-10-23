@@ -1,5 +1,5 @@
 module.exports = (params) => {
-  const cielo = require('./cielo')(params)
+  const cielo = require('./lib/cielo')(params)
   
   return {
     creditCard: {
