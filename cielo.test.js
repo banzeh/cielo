@@ -9,7 +9,8 @@ const paramsCielo = {
 }
 const cielo = require('./index')(paramsCielo)
 const regexToken = new RegExp(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/)
-const brands = ['Visa', 'Master', 'Amex', 'Elo', 'Aura', 'JCB', 'Diners', 'Discover', 'Hipercard']
+// const brands = ['Visa', 'Master', 'Amex', 'Elo', 'Aura', 'JCB', 'Diners', 'Discover', 'Hipercard']
+const brands = []
 
 brands.forEach(brand => {
   test(brand, async (t) => {
@@ -158,12 +159,16 @@ test('Recurrency', async (t) => {
   }
 
   const firstRecurrency = await cielo.recurrentPayments.firstScheduledRecurrence(recurrencyParams)
+  t.assert(firstRecurrency.Payment.RecurrentPayment.ReasonCode == 0, 'Pagamento recorrente criado')
+  t.assert(firstRecurrency.Payment.Status === 1, 'Status transacional autorizado (1)')
+  t.assert(firstRecurrency.Payment.RecurrentPayment.Interval === 6, 'Intervalo de recorrência correto (6)')
 
   const modifyRecurrencyParams = {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId,
     "Interval": 1
   }
   const modifyRecurrency = await cielo.recurrentPayments.modify.Interval(modifyRecurrencyParams)
+  t.assert(modifyRecurrency.statusCode === 200, 'StatusCode da modificação da recorrência para mensal correto (200)')
 
   const updateCustomer = {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId,
@@ -196,50 +201,49 @@ test('Recurrency', async (t) => {
   }
 
   const customer = await cielo.recurrentPayments.modify.Customer(updateCustomer)
+  t.assert(customer.statusCode === 200, 'StatusCode da modificação do Customer correto (200)')
 
   const endDate = await cielo.recurrentPayments.modify.EndDate({
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId,
     "EndDate": "2021-01-09"
   })
+  t.assert(endDate.statusCode === 200, 'StatusCode da modificação da recorrência terminar dia 09/01/2021 correto (200)')
 
   const recurrencyDay = await cielo.recurrentPayments.modify.RecurrencyDay({
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId,
     "RecurrencyDay": 10
   })
+  t.assert(recurrencyDay.statusCode === 200, 'StatusCode da modificação da recorrência para dia 10 correto (200)')
 
   const updateAmount = {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId,
     "Amount": 156 // Valor do Pedido em centavos: 156 equivale a R$ 1,56
   }
   const amount = await cielo.recurrentPayments.modify.Amount(updateAmount)
+  t.assert(amount.statusCode === 200, 'StatusCode da modificação do valor para 156 correto (200)')
 
+  let newRecurrencyDate = new Date()
+  newRecurrencyDate.setDate(newRecurrencyDate.getDate() + 7) // Altera para a próxima semana
+  nextRecurrency = `${newRecurrencyDate.getFullYear()}-${newRecurrencyDate.getMonth() + 1}-${newRecurrencyDate.getDate()}`;
   const updateNextPaymentDate = {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId,
-    "NextPaymentDate": "2018-11-29"
+    "NextPaymentDate": nextRecurrency
   }
   const nextPaymentDate = await cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
+  t.assert(nextPaymentDate.statusCode === 200, 'StatusCode da modificação da data do próximo pagamento para 15/06/2016 correto (200)')
 
   const deactivateRecurrencyParams = {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId
   }
   const deactivateRecurrency = await cielo.recurrentPayments.modify.Deactivate(deactivateRecurrencyParams)
+  t.assert(deactivateRecurrency.statusCode === 200, 'StatusCode da desativação da recorrência correto (200)')
 
   const recurrencyConsultingParams = {
     "recurrentPaymentId": firstRecurrency.Payment.RecurrentPayment.RecurrentPaymentId
   }
   const recurrencyConsulting = await cielo.recurrentPayments.consulting(recurrencyConsultingParams)
-
-  t.assert(firstRecurrency.Payment.RecurrentPayment.ReasonCode == 0, 'Pagamento recorrente criado')
-  t.assert(firstRecurrency.Payment.Status === 1, 'Status transacional autorizado (1)')
-  t.assert(firstRecurrency.Payment.RecurrentPayment.Interval === 6, 'Intervalo de recorrência correto (6)')
-  t.assert(modifyRecurrency.statusCode === 200, 'StatusCode da modificação da recorrência para mensal correto (200)')
-  t.assert(customer.statusCode === 200, 'StatusCode da modificação do Customer correto (200)')
-  t.assert(endDate.statusCode === 200, 'StatusCode da modificação da recorrência terminar dia 09/01/2021 correto (200)')
-  t.assert(recurrencyDay.statusCode === 200, 'StatusCode da modificação da recorrência para dia 10 correto (200)')
-  t.assert(amount.statusCode === 200, 'StatusCode da modificação do valor para 156 correto (200)')
-  t.assert(nextPaymentDate.statusCode === 200, 'StatusCode da modificação da data do próximo pagamento para 15/06/2016 correto (200)')
-  t.assert(deactivateRecurrency.statusCode === 200, 'StatusCode da desativação da recorrência correto (200)')
   t.assert(recurrencyConsulting.RecurrentPayment.Status === 3, 'Status da recorrência correto (3 - desativada pelo lojista)')
   t.assert(recurrencyConsulting.RecurrentPayment.Interval === 'Monthly', 'Intervalo da recorrência correto (Monthly)')
   t.assert(recurrencyConsulting.Customer.Email === 'customer@teste.com', 'Dados do cliente alterados com sucesso')
+
 })
