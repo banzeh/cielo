@@ -4,7 +4,9 @@
   "description": "Client para a API 3.0 da Cielo em node.js",
   "main": "index.js",
   "scripts": {
-    "test": "node cielo.test.js | tap-spec"
+    "test": "node cielo.test.js | tap-spec",
+    "preversion": "npm install && npm run test",
+    "postversion": "git push --follow-tags"
   },
   "repository": {
     "type": "git",
