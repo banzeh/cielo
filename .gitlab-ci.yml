@@ -25,4 +25,9 @@ test:
   script:
    - npm install
    - npm run test
-   
+
+deploy:
+  stage: deploy
+  script:
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    - npm publish
