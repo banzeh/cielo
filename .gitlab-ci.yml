@@ -19,6 +19,7 @@ cache:
 
 stages:
   - test
+  - deploy
 
 test:
   stage: test
@@ -28,6 +29,7 @@ test:
 
 deploy:
   stage: deploy
+  only: master
   script:
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     - npm publish
