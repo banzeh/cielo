@@ -1,6 +1,7 @@
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
+image: node:8.10
 
 # Pick zero or more services to be used on all builds.
 # Only needed when using a docker container to run your tests in.
@@ -18,7 +19,6 @@ stages:
 
 test:
   stage: test
-  image: node:8.10
   cache:
     paths:
     - node_modules/
