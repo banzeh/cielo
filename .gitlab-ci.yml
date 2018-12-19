@@ -17,8 +17,12 @@ cache:
   paths:
   - node_modules/
 
-test_async:
+stages:
+  - test
+
+test:
+  stage: test
   script:
    - npm install
    - npm run test
-
+   
