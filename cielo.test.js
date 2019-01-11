@@ -9,8 +9,7 @@ const paramsCielo = {
 }
 const cielo = require('./index')(paramsCielo)
 const regexToken = new RegExp(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/)
-// const brands = ['Visa', 'Master', 'Amex', 'Elo', 'Aura', 'JCB', 'Diners', 'Discover', 'Hipercard']
-const brands = []
+const brands = ['Visa', 'Master', 'Amex', 'Elo', 'Aura', 'JCB', 'Diners', 'Discover', 'Hipercard']
 
 brands.forEach(brand => {
   test(brand, async (t) => {
