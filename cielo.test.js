@@ -134,7 +134,7 @@ test('Boleto', async (t) => {
   t.assert(boleto.Payment.Url.trim() !== '', 'Retornou Url para o boleto')
 })
 
-test.skip('Recurrency', async (t) => {
+test('Recurrency', async (t) => {
   const recurrencyParams = {
     "MerchantOrderId": "2014113245231706",
     "Customer": {
