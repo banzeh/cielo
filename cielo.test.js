@@ -18,7 +18,7 @@ function error(err) {
 brands.forEach(brand => {
   test(brand, async (t) => {
     const tokenParams = {
-      'CustomerName': 'Comprador Teste Cielo',
+      'CustomerName': 'Comprádor Teste Cíéló Áá',
       'CardNumber': '4532117080573700',
       'Holder': 'Comprador T Cielo',
       'ExpirationDate': '12/2021',
@@ -29,7 +29,7 @@ brands.forEach(brand => {
     const vendaParams = {
       'MerchantOrderId': 'CieloNodeJS000003',
       'Customer': {
-        'Name': 'Comprador Teste'
+        'Name': 'Comprádor Teste Cíéló Áá'
       },
       'Payment': {
         'Type': 'CreditCard',
@@ -78,6 +78,7 @@ brands.forEach(brand => {
     t.assert(captura.Status === 2, 'Status da Caputra correto')
     t.assert(consultaPaymentId.Payment.CapturedAmount === capturaParams.amount, 'Valor da captura parcial correto')
     t.assert(cancelaVenda.Status === 10, 'Status de cancelamento correto')
+    t.assert(venda.Customer.Name === 'Comprador Teste Cielo Aa', 'Normalização do nome do cliente no boleto')
 
     t.end()
   })
@@ -101,7 +102,7 @@ test('Boleto', async (t) => {
   const boletoParams = {
     "MerchantOrderId": "20180531",
     "Customer": {
-      "Name": "Comprador Teste Boleto",
+      "Name": "Comprádor Boleto Cíéló Áá",
       "Identity": "1234567890",
       "Address": {
         "Street": "Avenida Marechal Câmara",
@@ -129,6 +130,7 @@ test('Boleto', async (t) => {
   }
   const boleto = await cielo.boleto.sale(boletoParams).catch(error)
 
+  t.assert(boleto.Customer.Name === 'Comprador Boleto Cielo Aa', 'Normalização do nome do cliente no boleto')
   t.assert(typeof boleto.Code === 'undefined', 'Não ocorreu erro no boleto')
   t.assert(typeof boleto.Payment !== 'undefined', 'Boleto retornou Payment')
   t.assert(boleto.Payment.Url.trim() !== '', 'Retornou Url para o boleto')
