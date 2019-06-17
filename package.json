@@ -31,6 +31,10 @@
   "devDependencies": {
     "tap-spec": "^5.0.0",
     "tape": "^4.9.1",
-    "tape-promise": "^3.0.0"
+    "tape-promise": "^3.0.0",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "typed-rest-client": "^1.5.0"
   }
 }
