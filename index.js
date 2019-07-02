@@ -1,6 +1,6 @@
 module.exports = (params) => {
   const cielo = require('./lib/cielo')(params)
-  
+
   return {
     creditCard: {
       simpleTransaction: cielo.postSalesCielo,
