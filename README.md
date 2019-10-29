@@ -55,6 +55,7 @@ Client para a API 3.0 da Cielo em Node.Js
 + [Consultando as transações usando MerchandOrderID](#consultaMerchandOrderID)
 + [Consulta de Cardbin](#consultaCardbin)
 + [Consulta de Recorrência](#recurrenceConsulting)
++ [Consulta de cartão tokenizado](#consultaTokenized)
 
 
 #### [API Reference](#apiReference)
@@ -790,6 +791,36 @@ const cardBinParams = {
 const cardBin = await cielo.consulting.cardBin(cardBinParams)
 console.log('cardBin', cardBin)
 ```
+
+### <a name="colsutaTokenized"></a> Consulta Transação usando PaymentId
+
+```js
+const dadosConsulta= {
+    "token": '66b2c162-efbf-4692-aee5-e536c0f81037'
+}
+
+cielo.cards.consultaTokenizedCard(dadosConsulta)
+.then((data) => {
+    console.log(data)
+})
+.catch((err) => {
+    console.log(err);
+})
+```
+
+Ou usando Async / Await
+
+```js
+const dadosConsulta= {
+    "token": '66b2c162-efbf-4692-aee5-e536c0f81037'
+}
+
+const card = await cielo.cards.consultaTokenizedCard(dadosConsulta)
+
+console.log('Consulta token', card)
+```
+
+
 
 ### <a name="recurrenceConsulting"></a> Consulta de Recorrência
 
