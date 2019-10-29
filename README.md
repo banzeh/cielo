@@ -792,7 +792,7 @@ const cardBin = await cielo.consulting.cardBin(cardBinParams)
 console.log('cardBin', cardBin)
 ```
 
-### <a name="colsutaTokenized"></a> Consulta Transação usando PaymentId
+### <a name="colsutaTokenized"></a> Consulta de cartão Tokenizado
 
 ```js
 const dadosConsulta= {
