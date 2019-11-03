@@ -28,7 +28,8 @@ module.exports = (params) => {
       consulting: cielo.recurrenceConsulting
     },
     cards: {
-      createTokenizedCard: cielo.createTokenizedCard
+      createTokenizedCard: cielo.createTokenizedCard,
+      consultaTokenizedCard: cielo.consultaTokenizedCard
     },
     consulting: {
       sale: cielo.consultaCielo,
