@@ -28,7 +28,15 @@ brands.forEach(brand => {
 
     t.assert('CardToken' in token, 'retorno cardToken correto')
     t.assert(regexToken.test(token.CardToken), 'CardToken válido')
+
+    const consultaTokenParams = {
+      token: token.CardToken
+    }
+    const consultaToken = await cielo.cards.consultaTokenizedCard(consultaTokenParams).catch(error)
     
+    t.assert(consultaToken.Holder.toLowerCase() === tokenParams.Holder.toLowerCase(), 'Holder do cartão correto');
+    t.assert(consultaToken.ExpirationDate === tokenParams.ExpirationDate, 'Data de expiração do cartão correta')
+
     const vendaParams = {
       'MerchantOrderId': 'CieloNodeJS000003',
       'Customer': {
