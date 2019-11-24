@@ -26,6 +26,9 @@ brands.forEach(brand => {
     }
     const token = await cielo.cards.createTokenizedCard(tokenParams).catch(error)
 
+    t.assert('CardToken' in token, 'retorno cardToken correto')
+    t.assert(regexToken.test(token.CardToken), 'CardToken válido')
+    
     const vendaParams = {
       'MerchantOrderId': 'CieloNodeJS000003',
       'Customer': {
@@ -44,41 +47,40 @@ brands.forEach(brand => {
       }
     }
     const venda = await cielo.creditCard.simpleTransaction(vendaParams).catch(error)
-
+    
+    t.assert(venda.Payment.Status === 1, 'Status da Venda Correto')
+    t.assert(regexToken.test(venda.Payment.PaymentId), 'venda.Payment.PaymentId válido')
+    t.assert(venda.Payment.Amount === vendaParams.Payment.Amount, 'Valor da Transação de Venda correto')
+    t.assert(venda.Customer.Name === 'Comprador Teste Cielo Aa', 'Normalização do nome do cliente no boleto')
+    
     const capturaParams = {
       paymentId: venda.Payment.PaymentId,
       amount: 70
     }
     const captura = await cielo.creditCard.captureSaleTransaction(capturaParams).catch(error)
+    t.assert(captura.Status === 2, 'Status da Captura correto')
 
     const consultaParams = {
       paymentId: venda.Payment.PaymentId
     }
     const consultaPaymentId = await cielo.consulting.sale(consultaParams).catch(error)
 
+    t.assert(consultaPaymentId.Payment.Status === 2 || consultaPaymentId.Payment.Status === 1, 'Consulta de venda correta')
+    t.assert(venda.Payment.Tid === consultaPaymentId.Payment.Tid, 'Tid da Venda Correto')
+    t.assert(consultaPaymentId.Payment.CapturedAmount === capturaParams.amount, 'Valor da captura parcial correto')
+    
     const consultaParamsMerchantOrderId = {
       merchantOrderId: 'CieloNodeJS000003'
     }
-
+    
     const consultaMerchantOrderId = await cielo.consulting.sale(consultaParamsMerchantOrderId).catch(error)
-
+    t.assert(consultaMerchantOrderId.Payments.filter(x => x.PaymentId === venda.Payment.PaymentId).length > 0, 'Consulta de MerchantOrderId correta')
+    
     const cancelaVendaParams = {
       paymentId: venda.Payment.PaymentId
     }
     const cancelaVenda = await cielo.creditCard.cancelSale(cancelaVendaParams).catch(error)
-
-    t.assert('CardToken' in token, 'retorno cardToken correto')
-    t.assert(regexToken.test(token.CardToken), 'CardToken válido')
-    t.assert(venda.Payment.Status === 1, 'Status da Venda Correto')
-    t.assert(regexToken.test(venda.Payment.PaymentId), 'venda.Payment.PaymentId válido')
-    t.assert(consultaPaymentId.Payment.Status === 2 || consultaPaymentId.Payment.Status === 1, 'Consulta de venda correta')
-    t.assert(consultaMerchantOrderId.Payments.filter(x => x.PaymentId === venda.Payment.PaymentId).length > 0, 'Consulta de MerchantOrderId correta')
-    t.assert(venda.Payment.Tid === consultaPaymentId.Payment.Tid, 'Tid da Venda Correto')
-    t.assert(venda.Payment.Amount === vendaParams.Payment.Amount, 'Valor da Transação de Venda correto')
-    t.assert(captura.Status === 2, 'Status da Caputra correto')
-    t.assert(consultaPaymentId.Payment.CapturedAmount === capturaParams.amount, 'Valor da captura parcial correto')
     t.assert(cancelaVenda.Status === 10, 'Status de cancelamento correto')
-    t.assert(venda.Customer.Name === 'Comprador Teste Cielo Aa', 'Normalização do nome do cliente no boleto')
 
     t.end()
   })
@@ -134,6 +136,8 @@ test('Boleto', async (t) => {
   t.assert(typeof boleto.Code === 'undefined', 'Não ocorreu erro no boleto')
   t.assert(typeof boleto.Payment !== 'undefined', 'Boleto retornou Payment')
   t.assert(boleto.Payment.Url.trim() !== '', 'Retornou Url para o boleto')
+
+  t.end()
 })
 
 test('Recurrency', async (t) => {
@@ -250,4 +254,6 @@ test('Recurrency', async (t) => {
   t.assert(recurrencyConsulting.RecurrentPayment.Status === 3, 'Status da recorrência correto (3 - desativada pelo lojista)')
   t.assert(recurrencyConsulting.RecurrentPayment.Interval === 'Monthly', 'Intervalo da recorrência correto (Monthly)')
   t.assert(recurrencyConsulting.Customer.Email === 'customer@teste.com', 'Dados do cliente alterados com sucesso')
+
+  t.end()
 })
