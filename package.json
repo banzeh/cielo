@@ -30,7 +30,7 @@
   "homepage": "https://banzeh.github.io/cielo/",
   "devDependencies": {
     "tap-spec": "^5.0.0",
-    "tape": "^4.11.0",
+    "tape": "^4.13.0",
     "tape-promise": "^3.0.0"
   }
 }
