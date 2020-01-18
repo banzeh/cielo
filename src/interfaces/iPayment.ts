@@ -5,7 +5,11 @@ export interface ITransaction {
   merchantOrderId: string;
 }
 
-export interface IPayment extends ITransaction {
+export interface IAirLineData {
+  ticketNumber: string;
+}
+
+export interface IPayment {
   type: string;
   amount: number;
   currency: string;
@@ -18,4 +22,6 @@ export interface IPayment extends ITransaction {
   capture: boolean;
   authenticate: boolean;
   creditCard: ICard;
+  isCryptoCurrencyNegotiation?: boolean;
+  airlineData?: IAirLineData;
 }

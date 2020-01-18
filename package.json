@@ -29,6 +29,7 @@
   },
   "homepage": "https://banzeh.github.io/cielo/",
   "devDependencies": {
+    "@types/node": "^12.12.14",
     "tap-spec": "^5.0.0",
     "tape": "^4.9.1",
     "tape-promise": "^3.0.0",

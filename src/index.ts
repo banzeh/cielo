@@ -11,14 +11,14 @@ export class Cielo {
   merchantKey: string;
   debug: boolean;
   sandbox: boolean;
-  requestId?: string;
+  requestId?: string | null;
 
   constructor(constructor: ICieloConstructor) {
     this.merchantId = constructor.merchantId;
     this.merchantKey = constructor.merchantKey;
     this.debug = constructor.debug || false;
     this.sandbox = constructor.sandbox || false;
-    this.requestId = constructor.requestId;
+    this.requestId = constructor.requestId || null;
   }
 
   creditCard() {
