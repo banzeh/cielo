@@ -5,7 +5,11 @@ export interface CreditCardModel {
   /**
    * 	Número do Cartão do Comprador.
    */
-  cardNumber: string;
+  cardNumber?: string;
+  /**
+   * Token de identificação do Cartão.  
+   */
+  cardToken?: string;
   /**
    * Nome do Comprador impresso no cartão.
    */
@@ -13,7 +17,7 @@ export interface CreditCardModel {
   /**
    * Data de validade impresso no cartão.
    */
-  expirationDate: string;
+  expirationDate?: string;
   /**
    * Código de segurança impresso no verso do cartão - Ver Anexo.
    */

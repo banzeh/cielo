@@ -59,4 +59,8 @@ export interface PaymentRequestModel {
    * Define comportamento do meio de pagamento (ver Anexo)/NÃO OBRIGATÓRIO PARA CRÉDITO.
    */
   provider?: string;
+  /**
+   * URI para onde o usuário será redirecionado após o fim do pagamento
+   */
+  ReturnUrl?: string;
 }

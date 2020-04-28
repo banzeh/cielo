@@ -1,3 +1,4 @@
+import { Card } from './class/cards';
 import { CieloTransactionInterface } from './interface/cielo-transaction.interface';
 import { CreditCard } from './class/creditcard';
 
@@ -16,6 +17,7 @@ export class Cielo {
   private sandbox: boolean;
   private requestId?: string | undefined;
   public creditCard: CreditCard;
+  public card: Card;
   
   constructor(constructor: CieloConstructor) {
     this.merchantId = constructor.merchantId;
@@ -34,6 +36,7 @@ export class Cielo {
     };
 
     this.creditCard = new CreditCard(cieloTransactionInterface);
+    this.card = new Card(cieloTransactionInterface);
   }
 
   private getHostnames(sandbox: boolean): Array<string> {
