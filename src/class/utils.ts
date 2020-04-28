@@ -19,6 +19,7 @@ export class Utils {
   }
 
   public httpRequest(options: IHttpRequestOptions, data: any): Promise<IHttpResponse> {
+    console.log('HTTP REQUEST',options);
     return new Promise<IHttpResponse>((resolve, reject) => {
       if (options && options.headers)
         options.headers['Content-Length'] = Buffer.byteLength(data)

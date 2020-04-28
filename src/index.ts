@@ -1,28 +1,13 @@
-export interface ICieloConstructor {
-  merchantId: string;
-  merchantKey: string;
-  debug?: boolean;
-  sandbox?: boolean;
-  requestId?: string;
-}
+export * from './cielo';
 
-export class Cielo {
-  merchantId: string;
-  merchantKey: string;
-  debug: boolean;
-  sandbox: boolean;
-  requestId?: string | null;
-
-  constructor(constructor: ICieloConstructor) {
-    this.merchantId = constructor.merchantId;
-    this.merchantKey = constructor.merchantKey;
-    this.debug = constructor.debug || false;
-    this.sandbox = constructor.sandbox || false;
-    this.requestId = constructor.requestId || null;
-  }
-
-  creditCard() {
-    
-  }
-
-}
+// MODELS
+export * from './models/credit-card/transaction-credit-card.request.model';
+export * from './models/credit-card/transaction-credit-card.response.model';
+export * from './models/address.model';
+export * from './models/airline-data.model';
+export * from './models/card-on-file.model';
+export * from './models/credit-card.model';
+export * from './models/customer.model';
+export * from './models/link-model';
+export * from './models/payment.request.model';
+export * from './models/payment.response.model';
