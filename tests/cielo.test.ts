@@ -2,7 +2,7 @@ import test from "tape";
 import { Cielo, CieloConstructor, TransactionCreditCardRequestModel} from '../src/index';
 import { EnumBrands, EnumCardType } from '../src/enums';
 
-
+const regexToken = new RegExp(/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/)
 const cieloParams: CieloConstructor = {
   merchantId: 'dbe5e423-ed15-4c27-843a-fedf325ea67c',
   merchantKey: 'NPGKHFARFASEZEPYEYLTXJMWACSWDEMJWBAKWPQD',
@@ -11,9 +11,9 @@ const cieloParams: CieloConstructor = {
 const cielo = new Cielo(cieloParams);
 
 test('CreditCard Transaction', async (t) => {
-  const cieloCreditCardTransactionParams: TransactionCreditCardRequestModel = {
+  const vendaParams: TransactionCreditCardRequestModel = {
     customer: {
-      name: 'Cielo API Test',
+      name: 'Comprádor Teste Cíéló Áá',
     },
     merchantOrderId: '123',
     payment: {
@@ -29,7 +29,11 @@ test('CreditCard Transaction', async (t) => {
       type: EnumCardType.CREDIT
     }
   }
-  const response = await cielo.creditCard.transaction(cieloCreditCardTransactionParams);
-  console.log(response);
+  const venda = await cielo.creditCard.transaction(vendaParams);
+  t.assert(venda.payment.status === 1, 'Status da Venda Correto')
+  t.assert(regexToken.test(venda.payment.paymentId), 'venda.Payment.PaymentId válido')
+  t.assert(venda.payment.amount === vendaParams.payment.amount, 'Valor da Transação de Venda correto')
+  t.assert(venda.customer.name === 'Comprador Teste Cielo Aa', 'Normalização do nome do cliente no boleto')
+
   t.end();
 });

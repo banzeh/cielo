@@ -1,8 +1,8 @@
-import { Cielo } from './../cielo';
 import { Utils, IHttpRequestOptions, HttpRequestMethodEnum } from './utils';
 import { TransactionCreditCardResponseModel } from "../models/credit-card/transaction-credit-card.response.model";
 import { TransactionCreditCardRequestModel } from "../models/credit-card/transaction-credit-card.request.model";
 import { CieloTransactionInterface } from '../interface/cielo-transaction.interface';
+import camelcaseKeys from 'camelcase-keys';
 
 export class CreditCard {
   private cieloTransactionParams: CieloTransactionInterface;
@@ -30,7 +30,7 @@ export class CreditCard {
 
       util.httpRequest(options, transaction)
         .then((response) => {
-          return resolve(response.data as TransactionCreditCardResponseModel);
+          return resolve(camelcaseKeys(response.data, {deep: true}) as TransactionCreditCardResponseModel);
         })
         .catch((err) => {
           reject(err);
