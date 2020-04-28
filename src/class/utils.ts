@@ -19,10 +19,11 @@ export class Utils {
   }
 
   public httpRequest(options: IHttpRequestOptions, data: any): Promise<IHttpResponse> {
-    console.log('HTTP REQUEST',options);
+    const dataPost = JSON.stringify(data).normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+
     return new Promise<IHttpResponse>((resolve, reject) => {
       if (options && options.headers)
-        options.headers['Content-Length'] = Buffer.byteLength(data)
+        options.headers['Content-Length'] = Buffer.byteLength(dataPost)
       const req = request(options, (res: IncomingMessage) => {
         var chunks: string = '';
         res.on('data', (chunk: any) => chunks += chunk);
@@ -35,8 +36,12 @@ export class Utils {
             ...this.parseHttpPutResponse(res),
             data: response
           })
-        })
+        });
       });
+
+      req.write(dataPost)
+      req.on('error', (err) => reject(err))
+      req.end()
     });
   }
 }
@@ -51,6 +56,9 @@ export interface IHttpRequestOptions extends RequestOptions {
   method: HttpRequestMethodEnum;
   path: string;
   hostname: string;
+  headers: any;
+  encoding: string;
+  port: number;
 }
 
 export interface IHttpRequestReject {

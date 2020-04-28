@@ -14,12 +14,7 @@ export class Cielo {
   private merchantKey: string;
   private debug: boolean;
   private sandbox: boolean;
-  private requestId?: string | null;
-  private cieloTransactionInterface: CieloTransactionInterface = {
-    hostnameTransacao: '',
-    hostnameQuery: '',
-  };
-  
+  private requestId?: string | undefined;
   public creditCard: CreditCard;
   
   constructor(constructor: CieloConstructor) {
@@ -27,17 +22,32 @@ export class Cielo {
     this.merchantKey = constructor.merchantKey;
     this.debug = constructor.debug || false;
     this.sandbox = constructor.sandbox || false;
-    this.requestId = constructor.requestId || null;
+    this.requestId = constructor.requestId || undefined;
 
-    if (this.sandbox) {
-      this.cieloTransactionInterface.hostnameTransacao = 'apisandbox.cieloecommerce.cielo.com.br';
-      this.cieloTransactionInterface.hostnameQuery = 'apiquerysandbox.cieloecommerce.cielo.com.br';
+    const [hostnameTransacao, hostnameQuery] = this.getHostnames(this.sandbox);
+    const cieloTransactionInterface: CieloTransactionInterface = {
+      hostnameTransacao,
+      hostnameQuery,
+      merchantId: this.merchantId,
+      merchantKey: this.merchantKey,
+      requestId: this.requestId,
+    };
+
+    this.creditCard = new CreditCard(cieloTransactionInterface);
+  }
+
+  private getHostnames(sandbox: boolean): Array<string> {
+    if (sandbox) {
+      return [
+        'apisandbox.cieloecommerce.cielo.com.br',
+        'apiquerysandbox.cieloecommerce.cielo.com.br'
+      ]
     } else {
-      this.cieloTransactionInterface.hostnameTransacao = 'api.cieloecommerce.cielo.com.br';
-      this.cieloTransactionInterface.hostnameQuery = 'apiquery.cieloecommerce.cielo.com.br';
+      return [
+        'api.cieloecommerce.cielo.com.br',
+        'apiquery.cieloecommerce.cielo.com.br',
+      ];
     }
-
-    this.creditCard = new CreditCard(this.cieloTransactionInterface);
   }
 
 

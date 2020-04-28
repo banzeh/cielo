@@ -1,14 +1,14 @@
+import { Cielo } from './../cielo';
 import { Utils, IHttpRequestOptions, HttpRequestMethodEnum } from './utils';
 import { TransactionCreditCardResponseModel } from "../models/credit-card/transaction-credit-card.response.model";
 import { TransactionCreditCardRequestModel } from "../models/credit-card/transaction-credit-card.request.model";
 import { CieloTransactionInterface } from '../interface/cielo-transaction.interface';
 
 export class CreditCard {
-  private hostname: string;
+  private cieloTransactionParams: CieloTransactionInterface;
 
   constructor(transaction: CieloTransactionInterface) {
-    this.hostname = transaction.hostnameTransacao;
-    console.log('CONSTRUCTOR', this.hostname, transaction);
+    this.cieloTransactionParams = transaction;
   }
 
   public transaction(transaction: TransactionCreditCardRequestModel): Promise<TransactionCreditCardResponseModel> {
@@ -17,17 +17,22 @@ export class CreditCard {
       const options: IHttpRequestOptions = {
         method: HttpRequestMethodEnum.POST,
         path: '/1/sales',
-        hostname: this.hostname,
+        hostname: this.cieloTransactionParams.hostnameTransacao,
+        port: 443,
+        encoding: 'utf-8',
+        headers: {
+          'MerchantId': this.cieloTransactionParams.merchantId,
+          'MerchantKey': this.cieloTransactionParams.merchantKey,
+          'RequestId': this.cieloTransactionParams.requestId || '',
+          'Content-Type': 'application/json'
+        }
       }
 
-      console.log('options da REQUISIÇÃO', options, transaction);
       util.httpRequest(options, transaction)
         .then((response) => {
-          console.log('SUCESSO NA REQUISICAO', response);
           return resolve(response.data as TransactionCreditCardResponseModel);
         })
         .catch((err) => {
-          console.log('ERRO NA REQUISICAO', err);
           reject(err);
         });
     });
