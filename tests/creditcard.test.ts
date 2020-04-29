@@ -5,6 +5,7 @@ import {
     Cielo,
     CieloConstructor,
     TransactionCreditCardRequestModel,
+    CancelTransactionRequestModel,
 } from "../src/index";
 import { EnumBrands, EnumCardType } from "../src/enums";
 
@@ -28,6 +29,11 @@ const cieloParams: CieloConstructor = {
 };
 const cielo = new Cielo(cieloParams);
 
+function error (err: Object) {
+    console.log('Ocorreu o seguinte erro', err)
+}
+  
+
 brands.forEach((brand) => {
     test(`Card brand ${brand}`, async (t) => {          
         const vendaParams: TransactionCreditCardRequestModel = {
@@ -36,7 +42,7 @@ brands.forEach((brand) => {
             },
             merchantOrderId: "123",
             payment: {
-                amount: 1000,
+                amount: 10000,
                 creditCard: {
                     brand: EnumBrands.VISA,
                     cardNumber: "4532117080573700",
@@ -48,7 +54,10 @@ brands.forEach((brand) => {
                 type: EnumCardType.CREDIT,
             },
         };
-        const venda = await cielo.creditCard.transaction(vendaParams);
+        const venda = await cielo.creditCard.transaction(vendaParams).catch(error);
+        if (!venda) {
+            return;
+        }
         t.assert(venda.payment.status === 1, "Status da Venda Correto");
         t.assert(
             regexToken.test(venda.payment.paymentId),
@@ -63,11 +72,23 @@ brands.forEach((brand) => {
             "Normalizacao do nome do cliente no boleto"
         );
 
-        const captureParams: CaptureRequestModel = {
-            paymentId: venda.payment.paymentId
+        const capturaParcialParams: CaptureRequestModel = {
+            paymentId: venda.payment.paymentId,
+            amount: 2000,
         };
-        const captura = await cielo.creditCard.captureSaleTransaction(captureParams);
-        t.assert(captura.status === 2, 'Status da Captura correto')
+        const capturaParcial = await cielo.creditCard.captureSaleTransaction(capturaParcialParams).catch(error);
+        if (capturaParcial) {
+            t.assert(capturaParcial.status === 2, 'Status da Captura Parcial correto');
+        }
+
+        const cancelamentoVendaParams: CancelTransactionRequestModel = {
+            paymentId: venda.payment.paymentId,
+            amount: venda.payment.amount,
+        };
+        const cancelamentoVenda = await cielo.creditCard.cancelTransaction(cancelamentoVendaParams).catch(error);
+        if (cancelamentoVenda) {
+            t.assert(cancelamentoVenda.status === 10, 'Status de cancelamento correto');
+        };
 
         t.end();
     });

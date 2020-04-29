@@ -6,7 +6,7 @@ export interface CaptureRequestModel {
   /**
    * Valor do Pedido (ser enviado em centavos).
    */
-  amount?: string;
+  amount?: number;
   /**
    * Aplicável apenas para empresas aéreas.
    * Montante do valor da autorização que deve ser destinado à taxa de serviço.
