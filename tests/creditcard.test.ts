@@ -1,5 +1,4 @@
 import { CaptureRequestModel } from './../src/models/credit-card/capture.request.model';
-import { TokenizeRequestModel } from '../src/models/card/tokenize.request.model';
 import test from "tape";
 import {
     Cielo,

@@ -12,7 +12,7 @@
 - [X] PaymentId
 - [X] MerchantOrderId
 - [X] Recorrência
-- [ ] Cardbin
+- [X] Cardbin
 - [ ] Cartão tokenizado
 
 # Cartão
