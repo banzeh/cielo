@@ -6,3 +6,6 @@ export * from './customer.model';
 export * from './link-model';
 export * from './payment.request.model';
 export * from './payment.response.model';
+export * from './consult-payment.model';
+export * from './recurrent-payment.model';
+export * from './recurrent-trasaction.model';

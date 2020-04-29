@@ -6,6 +6,8 @@ import {
     CieloConstructor,
     TransactionCreditCardRequestModel,
     CancelTransactionRequestModel,
+    ConsultTransactionPaymentIdRequestModel,
+    ConsultTransactionMerchantOrderIdRequestModel,
 } from "../src/index";
 import { EnumBrands, EnumCardType } from "../src/enums";
 
@@ -29,18 +31,18 @@ const cieloParams: CieloConstructor = {
 };
 const cielo = new Cielo(cieloParams);
 
-function error (err: Object) {
+function error(err: Object) {
     console.log('Ocorreu o seguinte erro', err)
 }
-  
+
 
 brands.forEach((brand) => {
-    test(`Card brand ${brand}`, async (t) => {          
+    test(`Card brand ${brand}`, async (t) => {
         const vendaParams: TransactionCreditCardRequestModel = {
             customer: {
                 name: "Comprádor Teste Cíéló Áá",
             },
-            merchantOrderId: "123",
+            merchantOrderId: "TypescriptSDK-banzeh",
             payment: {
                 amount: 10000,
                 creditCard: {
@@ -52,6 +54,7 @@ brands.forEach((brand) => {
                 installments: 1,
                 softDescriptor: "Banzeh",
                 type: EnumCardType.CREDIT,
+                capture: false,
             },
         };
         const venda = await cielo.creditCard.transaction(vendaParams).catch(error);
@@ -80,6 +83,27 @@ brands.forEach((brand) => {
         if (capturaParcial) {
             t.assert(capturaParcial.status === 2, 'Status da Captura Parcial correto');
         }
+
+        const consultaParams: ConsultTransactionPaymentIdRequestModel = {
+            paymentId: venda.payment.paymentId,
+        }
+        const consultaPaymentId = await cielo.consult.paymentId(consultaParams).catch(error);
+
+        if (consultaPaymentId) {
+            t.assert(consultaPaymentId.payment.status === 2 || consultaPaymentId.payment.status === 1, 'Consulta de venda correta')
+            t.assert(venda.payment.tid === consultaPaymentId.payment.tid, 'Tid da Venda Correto')
+            t.assert(consultaPaymentId.payment.capturedAmount === capturaParcialParams.amount, 'Valor da captura parcial correto')
+        }
+        
+        const consultaParamsMerchantOrderId: ConsultTransactionMerchantOrderIdRequestModel = {
+            merchantOrderId: 'TypescriptSDK-banzeh'
+        }
+        
+        const consultaMerchantOrderId = await cielo.consult.merchantOrderId(consultaParamsMerchantOrderId).catch(error);
+        if (consultaMerchantOrderId) {
+            t.assert(consultaMerchantOrderId.payments.filter(x => x.paymentId === venda.payment.paymentId).length > 0, 'Consulta de MerchantOrderId correta')
+        }
+
 
         const cancelamentoVendaParams: CancelTransactionRequestModel = {
             paymentId: venda.payment.paymentId,

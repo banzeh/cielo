@@ -72,7 +72,7 @@ export class CreditCard {
         },
       };
 
-      if (transaction.amount && transaction.amount < 0) {
+      if (transaction.amount && transaction.amount > 0) {
         options.path = `${options.path}?amount=${transaction.amount}`;
       }
 
