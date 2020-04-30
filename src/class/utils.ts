@@ -29,7 +29,7 @@ export class Utils {
         res.on('data', (chunk: any) => chunks += chunk);
     
         res.on('end', () => {
-          const response = (chunks.length > 0) ? JSON.parse(chunks) : '';
+          const response = (chunks.length > 0 && this.validateJSON(chunks)) ? JSON.parse(chunks) : '';
           if (res.statusCode && [200, 201].indexOf(res.statusCode) === -1) return reject(this.parseHttpRequestError(options, data, response));
           if (options.method === 'PUT' && chunks.length === 0) return resolve(this.parseHttpPutResponse(res));
           return resolve({
@@ -44,7 +44,14 @@ export class Utils {
       req.end()
     });
   }
+  
+  public validateJSON(text: string): boolean {
+    return !(/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(
+      text.replace(/"(\\.|[^"\\])*"/g, ''))) &&
+      eval('(' + text + ')');	
+  }
 }
+
 
 export enum HttpRequestMethodEnum {
   GET = 'GET',
