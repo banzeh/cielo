@@ -1,6 +1,6 @@
 ## cielo
 
-Client para a API 3.0 da Cielo em Node.Js
+Client para a API 3.0 da Cielo em Typescript/Nodejs
 
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 [![Build Status](https://travis-ci.org/banzeh/cielo.svg?branch=master)](https://travis-ci.org/banzeh/cielo)
@@ -71,25 +71,27 @@ npm install --save cielo
 ## <a name="howuse"></a> Como utilizar?
 
 ### Iniciando
-```js
-var paramsCielo = {
-    'MerchantId': 'xxxxxxxxxxxxxxxxxxxxxxx',
-    'MerchantKey': 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
-    'RequestId': 'xxxxxxx', // Opcional - Identificação do Servidor na Cielo
-    'sandbox': true, // Opcional - Ambiente de Testes
-    'debug': true // Opcional - Exibe os dados enviados na requisição para a Cielo
+```ts
+import { CieloConstructor, Cielo } from 'cielo';
+
+const cieloParams: CieloConstructor = {
+    merchantId: 'xxxxxxxxxxxxxxxxxxxxxxx',
+    merchantKey: 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
+    requestId: 'xxxxxxx', // Opcional - Identificação do Servidor na Cielo
+    sandbox: true, // Opcional - Ambiente de Testes
+    debug: true // Opcional - Exibe os dados enviados na requisição para a Cielo
 }
 
-var cielo = require('cielo')(paramsCielo);
+const cielo = new Cielo(cieloParams);
 ```
 
 ### <a name="params"></a> Paramêtros de criação
 
 | Campo | Descrição | Obrigatório? | Default |
 | ------------- |:-------------:| -----:| -----:|
-| MerchantId | Identificador da loja na Cielo. | Sim | null |
-| MerchantKey | Chave Publica para Autenticação Dupla na Cielo. | Sim | null |
-| RequestId | Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT. | Não | null |
+| merchantId | Identificador da loja na Cielo. | Sim | null |
+| merchantKey | Chave Publica para Autenticação Dupla na Cielo. | Sim | null |
+| requestId | Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT. | Não | null |
 | sandbox | Ambiente de testes da Cielo | Não | false |
 | debug | Exibe requisição da transação no console | Não | false |
 
@@ -99,41 +101,40 @@ var cielo = require('cielo')(paramsCielo);
 
 Usando Promise
 
-```js
-var dadosSale = {  
-   "MerchantOrderId":"2014111703",
-   "Customer":{  
-      "Name":"Comprador crédito simples"
-   },
-   "Payment":{  
-     "Type":"CreditCard",
-     "Amount":15700,
-     "Installments":1,
-     "SoftDescriptor":"123456789ABCD",
-     "CreditCard":{  
-         "CardNumber":"0000000000000001",
-         "Holder":"Teste Holder",
-         "ExpirationDate":"12/2030",
-         "SecurityCode":"123",
-         "Brand":"Visa"
-     }
-   }
-}
+```ts
+const vendaParams: TransactionCreditCardRequestModel = {
+    customer: {
+        name: "Comprador crédito simples",
+    },
+    merchantOrderId: "2014111703",
+    payment: {
+        amount: 10000, // R$100,00
+        creditCard: {
+            brand: EnumBrands.VISA,
+            cardNumber: "4532117080573700",
+            holder: "Comprador T Cielo",
+            expirationDate: "12/2021",
+        },
+        installments: 1,
+        softDescriptor: "Banzeh",
+        type: EnumCardType.CREDIT,
+        capture: false,
+    },
+};
 
-cielo.creditCard.simpleTransaction(dadosSale)
+cielo.creditCard.transaction(dadosSale)
     .then((data) => {
         return console.log(data);
     })
     .catch((err) => {
         return console.error('ERRO', err);
     })
-})
 ```
 
 Ou usando Async / Await
 
 ```js
-const transaction = await cielo.creditCard.simpleTransaction(dadosSale);
+const transaction = await cielo.creditCard.transaction(dadosSale);
 console.log(transaction);
 ```
 
