@@ -88,23 +88,23 @@ const cielo = new Cielo(cieloParams);
 ### <a name="params"></a> Paramêtros de criação
 
 | Campo | Descrição | Obrigatório? | Default |
-| ------------- |:-------------:| -----:| -----:|
+| :-------------: |:-------------:| :-----:| :-----:|
 | merchantId | Identificador da loja na Cielo. | Sim | null |
-| merchantKey | Chave Publica para Autenticação Dupla na Cielo. | Sim | null |
+| merchantKey | Chave publica para autenticação dupla na Cielo. | Sim | null |
 | requestId | Identificador do Request, utilizado quando o lojista usa diferentes servidores para cada GET/POST/PUT. | Não | null |
 | sandbox | Ambiente de testes da Cielo | Não | false |
 | debug | Exibe requisição da transação no console | Não | false |
 
 ## <a name="creditCard"></a> Cartão de Crédito
 
-### <a name="creditSimpleTransaction"></a>  Criando uma transação simples
+### <a name="creditSimpleTransaction"></a>  Criando uma transação
 
 Usando Promise
 
 ```ts
 const vendaParams: TransactionCreditCardRequestModel = {
     customer: {
-        name: "Comprador crédito simples",
+        name: "Comprador crédito",
     },
     merchantOrderId: "2014111703",
     payment: {
@@ -133,126 +133,41 @@ cielo.creditCard.transaction(dadosSale)
 
 Ou usando Async / Await
 
-```js
+```ts
 const transaction = await cielo.creditCard.transaction(dadosSale);
 console.log(transaction);
 ```
 
-### <a name="creditCompleteTransaction"></a> Criando uma transação completa
-```js
-cielo.creditCard.completeTransaction(dadosSale)
-    .then((data) => {
-        return console.log(data);
-    })
-    .catch((err) => {
-        return console.error('ERRO', err);
-    })
-})
-```
-
-Ou usando Async / Await
-
-```js
-const transaction = await cielo.creditCard.completeTransaction(dadosSale);
-console.log(transaction);
-```
-
-### <a name="creditAuthenticationTransaction"></a> Criando uma venda com Autenticação
-```js
-cielo.creditCard.authenticationTransaction(dadosSale)
-    .then((data) => {
-        return console.log(data);
-    })
-    .catch((err) => {
-        return console.error('ERRO', err);
-    })
-})
-```
-
-Ou usando Async / Await
-
-```js
-const transaction = await cielo.creditCard.authenticationTransaction(dadosSale);
-console.log(transaction);
-```
-
-### <a name="creditFraudTransaction"></a> Criando uma venda com Análise de Fraude
-```js
-cielo.creditCard.fraudAnalysisTransaction(dadosSale)
-    .then((data) => {
-        return console.log(data);
-    })
-    .catch((err) => {
-        return console.error('ERRO', err);
-    })
-})
-```
-
-Ou usando Async / Await
-
-```js
-const transaction = await cielo.creditCard.fraudAnalysisTransaction(dadosSale);
-console.log(transaction);
-```
-
-### <a name="creditCardTokenTransaction"></a> Criando uma venda com Card Token
-```js
-cielo.creditCard.cardTokenTransaction(dadosSale)
-    .then((data) => {
-        return console.log(data);
-    })
-    .catch((err) => {
-        return console.error('ERRO', err);
-    })
-})
-```
-
-Ou usando Async / Await
-
-```js
-const transaction = await cielo.creditCard.cardTokenTransaction(dadosSale);
-console.log(transaction);
-```
-
 ### <a name="creditSaleCapture"></a> Capturando uma venda
-```js
-var dadosSale = {
-    paymentId: '01df6e28-6ddd-45db-a095-903c1adb170a',
-    amount: '15700'
-}
+```ts
+const capturaVendaParams: CaptureRequestModel = {
+    paymentId: '24bc8366-fc31-4d6c-8555-17049a836a07',
+    amount: 2000, // Caso o valor não seja definido, captura a venda no valor total
+};
 
-cielo.creditCard.captureSaleTransaction(dadosSale)
+cielo.creditCard.captureSaleTransaction(capturaVendaParams)
     .then((data) => {
         return console.log(data);
     })
     .catch((err) => {
         return console.error('ERRO', err);
     })
-})
-```
-
-Ou usando Async / Await
-
-```js
-const transaction = await cielo.creditCard.captureSaleTransaction(dadosSale);
-console.log(transaction);
 ```
 
 ### <a name="creditCancelSale"></a> Cancelando uma venda
 ```js
-var dadosSale = {
-    paymentId: '01df6e28-6ddd-45db-a095-903c1adb170a',
-    amount: '15700'
-}
+const cancelamentoVendaParams: CancelTransactionRequestModel = {
+    paymentId: '24bc8366-fc31-4d6c-8555-17049a836a07',
+    amount: 100, // Caso o valor não seja definido, cancela a venda no valor total
+};
 
-cielo.creditCard.cancelSale(dadosSale)
+cielo.creditCard.cancelTransaction(cancelamentoVendaParams)
     .then((data) => {
         return console.log(data);
     })
     .catch((err) => {
         return console.error('ERRO', err);
     })
-})
 ```
 
 Ou usando Async / Await
@@ -262,7 +177,7 @@ const cancel = await cielo.creditCard.cancelSale(dadosSale);
 console.log(cancel);
 ```
 
-## <a name="debitCard"></a> Cartão de Débito
+## <a name="debitCard"></a> Cartão de Débito (@todo)
 
 ### <a name="debitSimpleTransaction"></a> Criando uma venda simplificada
 ```js
@@ -292,17 +207,9 @@ cielo.debitCard.simpleTransaction(dadosSale)
     .catch((err) => {
         return console.error('ERRO', err);
     })
-})
 ```
 
-Ou usando Async / Await
-
-```js
-const transaction = await cielo.debitCard.simpleTransaction(dadosSale);
-console.log(transaction);
-```
-
-## <a name="bankSlip"></a> Pagamentos com Transferência Eletronica
+## <a name="bankSlip"></a> Pagamentos com Transferência Eletronica (@todo)
 
 ### <a name="bankSlipSimpleTransaction"></a> Criando uma venda simplificada
 ```js
@@ -328,17 +235,9 @@ cielo.bankSlip.simpleTransaction(dadosSale)
     .catch((err) => {
         return console.error('ERRO', err);
     })
-})
 ```
 
-Ou usando Async / Await
-
-```js
-const transaction = await cielo.bankSlip.simpleTransaction(dadosSale);
-console.log(transaction);
-```
-
-## <a name="boleto"></a> Boleto
+## <a name="boleto"></a> Boleto (@todo)
 
 ### <a name="boletoSale"></a>  Criando uma venda de Boleto
 ```js
@@ -382,19 +281,11 @@ cielo.boleto.sale(dadosSale)
   .catch((err) => {
     return console.error('ERRO', err);
   })
-})
 ```
 
-Ou usando Async / Await
+## <a name="recorrencia"></a> Recorrência (@todo)
 
-```js
-const transaction = await cielo.boleto.sale(dadosSale);
-console.log(transaction);
-```
-
-## <a name="recorrencia"></a> Recorrência
-
-### <a name="creatingRecurrence"></a> Criando Recorrências
+### <a name="creatingRecurrence"></a> Criando Recorrências (@todo)
 
 ```js
 const recurrencyParams = {
@@ -432,15 +323,9 @@ cielo.recurrentPayments.firstScheduledRecurrence(recurrencyParams)
   })
 ```
 
-Ou usando Async / Await
+### <a name="modifyRecurrence"></a> Modificando Recorrências (@todo)
 
-```js
-const firstRecurrency = await cielo.recurrentPayments.firstScheduledRecurrence(recurrencyParams)
-```
-
-### <a name="modifyRecurrence"></a> Modificando Recorrências
-
-#### <a name="modifyRecurrenceCustomer"></a> Modificando dados do comprador
+#### <a name="modifyRecurrenceCustomer"></a> Modificando dados do comprador (@todo)
 
 ```js
 const updateCustomer = {
@@ -482,13 +367,7 @@ cielo.recurrentPayments.modify.Customer(updateCustomer)
   })
 ```
 
-Ou usando await
-
-```js
-const customer = await cielo.recurrentPayments.modify.Customer(updateCustomer)
-```
-
-#### <a name="modifyRecurrenceEndDate"></a> Modificando data final da Recorrência
+#### <a name="modifyRecurrenceEndDate"></a> Modificando data final da Recorrência (@todo)
 
 ```js
 const updateEndDate = {
@@ -505,13 +384,7 @@ cielo.recurrentPayments.modify.EndDate(updateEndDate)
   })
 ```
 
-Ou usando await
-
-```js
-const endDate = await cielo.recurrentPayments.modify.EndDate(updateEndDate)
-```
-
-#### <a name="modifyRecurrenceInterval"></a> Modificando intevalo da Recorrência
+#### <a name="modifyRecurrenceInterval"></a> Modificando intevalo da Recorrência (@todo)
 
 ```js
 const updateInterval = {
@@ -528,13 +401,7 @@ cielo.recurrentPayments.modify.Interval(updateInterval)
   })
 ```
 
-Ou usando await
-
-```js
-const interval = await cielo.recurrentPayments.modify.Interval(updateInterval)
-```
-
-#### <a name="modifyRecurrenceRecurrencyDay"></a> Modificando dia da Recorrência
+#### <a name="modifyRecurrenceRecurrencyDay"></a> Modificando dia da Recorrência (@todo)
 
 ```js
 const updateRecurrencyDay = {
@@ -551,13 +418,7 @@ cielo.recurrentPayments.modify.RecurrencyDay(updateRecurrencyDay)
   })
 ```
 
-Ou usando await
-
-```js
-const recurrencyDay = await cielo.recurrentPayments.modify.RecurrencyDay(updateRecurrencyDay)
-```
-
-#### <a name="modifyRecurrenceAmount"></a> Modificando o valor da Recorrência
+#### <a name="modifyRecurrenceAmount"></a> Modificando o valor da Recorrência (@todo)
 
 ```js
 const updateAmount = {
@@ -574,13 +435,7 @@ cielo.recurrentPayments.modify.Amount(updateAmount)
   })
 ```
 
-Ou usando await
-
-```js
-const amount = await cielo.recurrentPayments.modify.Amount(updateAmount)
-```
-
-#### <a name="modifyRecurrenceNextPaymentDate"></a> Modificando data do próximo Pagamento
+#### <a name="modifyRecurrenceNextPaymentDate"></a> Modificando data do próximo Pagamento (@todo)
 
 ```js
 const updateNextPaymentDate = {
@@ -597,13 +452,7 @@ cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
   })
 ```
 
-Ou usando await
-
-```js
-const nextPaymentDate = await cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
-```
-
-#### <a name="modifyRecurrencePayment"></a> Modificando dados do Pagamento da Recorrência
+#### <a name="modifyRecurrencePayment"></a> Modificando dados do Pagamento da Recorrência (@todo)
 
 ```js
 const updatePayment = {
@@ -633,13 +482,7 @@ cielo.recurrentPayments.modify.Payment(updatePayment)
   })
 ```
 
-Ou usando await
-
-```js
-const payment = await cielo.recurrentPayments.modify.Payment(updatePayment)
-```
-
-#### <a name="modifyRecurrenceDeactivate"></a> Desabilitando um Pedido Recorrente
+#### <a name="modifyRecurrenceDeactivate"></a> Desabilitando um Pedido Recorrente (@todo)
 
 ```js
 const updateDeactivate = {
@@ -654,14 +497,7 @@ cielo.recurrentPayments.modify.Deactivate(updateDeactivate)
     return console.error('ERRO', err);
   })
 ```
-
-Ou usando await
-
-```js
-const deactivate = await cielo.recurrentPayments.modify.Deactivate(updateDeactivate)
-```
-
-#### <a name="modifyRecurrenceReactivate"></a> Reabilitando um Pedido Recorrente
+#### <a name="modifyRecurrenceReactivate"></a> Reabilitando um Pedido Recorrente (@todo)
 
 ```js
 const updateReactivate = {
@@ -675,12 +511,6 @@ cielo.recurrentPayments.modify.Reactivate(updateReactivate)
   .catch((err) => {
     return console.error('ERRO', err);
   })
-```
-
-Ou usando await
-
-```js
-const reactivate = await cielo.recurrentPayments.modify.Reactivate(updateReactivate)
 ```
 
 ## <a name="cartoes"></a> Cartões
@@ -705,13 +535,6 @@ cielo.cards.createTokenizedCard(dados)
     })
 ```
 
-Ou usando Async / Await
-
-```js
-const token = await cielo.cards.createTokenizedCard(dados)
-console.log('token', token);
-```
-
 ## <a name="consulta"></a> Consultas
 
 ### <a name="consultaPaymentId"></a> Consulta Transação usando PaymentId
@@ -730,17 +553,6 @@ cielo.consulting.sale(dadosConsulta)
     })
 ```
 
-Ou usando Async / Await
-
-```js
-const dadosConsulta = {
-    "paymentId": "24bc8366-fc31-4d6c-8555-17049a836a07"
-};
-
-const token = await cielo.consulting.sale(dados)
-console.log('token', token);
-```
-
 ### <a name="consultaMerchandOrderID"></a> Consultando as transações usando MerchandOrderID
 
 ```js
@@ -757,17 +569,6 @@ cielo.consulting.sale(dadosConsulta)
     })
 ```
 
-Ou usando Async / Await
-
-```js
-const dadosConsulta = {
-    "merchantOrderId": "2014111706"
-};
-
-const token = await cielo.consulting.sale(dados)
-console.log('token', token);
-```
-
 ### <a name="consultaCardbin"></a> Consulta de Cardbin
 
 ```js
@@ -781,16 +582,6 @@ cielo.consulting.cardBin(cardBinParams)
 .catch((err) => {
     console.log(err);
 })
-```
-
-Ou usando Async / Await
-
-```js
-const cardBinParams = {
-  cardBin: 402400
-}
-const cardBin = await cielo.consulting.cardBin(cardBinParams)
-console.log('cardBin', cardBin)
 ```
 
 ### <a name="colsutaTokenized"></a> Consulta de cartão Tokenizado
@@ -809,20 +600,6 @@ cielo.cards.consultaTokenizedCard(dadosConsulta)
 })
 ```
 
-Ou usando Async / Await
-
-```js
-const dadosConsulta= {
-    "token": '66b2c162-efbf-4692-aee5-e536c0f81037'
-}
-
-const card = await cielo.cards.consultaTokenizedCard(dadosConsulta)
-
-console.log('Consulta token', card)
-```
-
-
-
 ### <a name="recurrenceConsulting"></a> Consulta de Recorrência
 
 ```js
@@ -837,12 +614,6 @@ cielo.recurrentPayments.consulting(recurrencyConsultingParams)
 .catch((err) => {
     console.log(err);
 })
-```
-
-Ou usando Async / Await
-
-```js
-const recurrencyConsulting = await cielo.recurrentPayments.consulting(recurrencyConsultingParams)
 ```
 
 ## <a name="apiReference"></a> API Reference
