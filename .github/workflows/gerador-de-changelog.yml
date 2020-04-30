@@ -23,7 +23,7 @@ jobs:
     - name: Configura o GitHub token
       uses: fregante/setup-git-token@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GH_TOKEN }}
         name: "Gerador de changelog"
         email: "changelog@users.noreply.github.com"
 
@@ -38,6 +38,6 @@ jobs:
     - name: Gera o CHANGELOG
       run: |
         npm ci
-        git checkout master
+        git checkout feature/automatic-changelog-test
         npm run release
-        git push origin master --follow-tags
+        git push origin feature/automatic-changelog-test --follow-tags
