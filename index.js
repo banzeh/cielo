@@ -1,6 +1,6 @@
 module.exports = (params) => {
   const cielo = require('./lib/cielo')(params)
-  
+
   return {
     creditCard: {
       simpleTransaction: cielo.postSalesCielo,
@@ -28,7 +28,8 @@ module.exports = (params) => {
       consulting: cielo.recurrenceConsulting
     },
     cards: {
-      createTokenizedCard: cielo.createTokenizedCard
+      createTokenizedCard: cielo.createTokenizedCard,
+      consultaTokenizedCard: cielo.consultaTokenizedCard
     },
     consulting: {
       sale: cielo.consultaCielo,
