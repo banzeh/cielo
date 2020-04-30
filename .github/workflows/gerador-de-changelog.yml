@@ -21,7 +21,7 @@ jobs:
     - name: Configura o GitHub token
       uses: fregante/setup-git-token@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GH_TOKEN }}
         name: "Gerador de changelog"
         email: "changelog@users.noreply.github.com"
 
