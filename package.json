@@ -5,6 +5,7 @@
   "main": "src\\index.ts",
   "scripts": {
     "test": "npx ts-node node_modules/tape/bin/tape tests/**/*.ts",
+    "release": "standard-version",
     "postversion": "git push --follow-tags"
   },
   "repository": {
@@ -28,11 +29,21 @@
     "url": "https://github.com/banzeh/cielo/issues"
   },
   "homepage": "https://banzeh.github.io/cielo/",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "devDependencies": {
     "@babel/preset-typescript": "^7.9.0",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@types/node": "^12.12.14",
     "@types/tape": "^4.13.0",
+    "cz-conventional-changelog": "^3.1.0",
+    "husky": "^4.2.5",
     "jest": "^25.2.4",
+    "standard-version": "^7.1.0",
     "tap-spec": "^5.0.0",
     "tape": "^4.13.2",
     "tape-promise": "^3.0.0",
@@ -42,5 +53,10 @@
   "dependencies": {
     "camelcase-keys": "^6.2.2",
     "typed-rest-client": "^1.5.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
