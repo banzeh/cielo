@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - master
+      - typescript
+      - feature/automatic-changelog-test
 
 jobs:
   build:
