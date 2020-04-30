@@ -1,0 +1,13 @@
+{
+    "types": [
+        {"type": "feat", "section": "Funcionalidades"},
+        {"type": "fix", "section": "Errors Corrigidos"},
+        {"type": "chore", "hidden": true},
+        {"type": "docs", "hidden": true},
+        {"type": "style", "hidden": true},
+        {"type": "refactor", "hidden": true},
+        {"type": "perf", "section": "Melhorias de Performance"},
+        {"type": "test", "hidden": true}
+    ],
+    "releaseCommitMessageFormat": "chore(release): {{currentTag}} [skip ci]"
+}
