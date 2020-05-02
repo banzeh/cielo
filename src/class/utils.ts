@@ -1,6 +1,5 @@
 import { request, RequestOptions } from 'https';
 import { IncomingMessage } from 'http';
-import { resolve } from 'dns';
 
 export class Utils {
   private parseHttpRequestError(options: IHttpRequestOptions, data: string, response: any): IHttpRequestReject {

@@ -60,4 +60,4 @@ typings/
 # Visual Studio debug
 launch.json
 
-teste.js
+dist

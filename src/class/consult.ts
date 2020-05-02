@@ -1,12 +1,12 @@
-import { ConsultBinResponseModel } from './../models/consults/consult-bin.response.model';
-import { ConsultBinRequestModel } from './../models/consults/consult-bin.request.model';
-import { RecurrentPaymentResponseModel } from './../models/recurrent-payment/recurrent-payment.response.model';
-import { IHttpRequestOptions, Utils, HttpRequestMethodEnum } from './utils';
-import { TransactionCreditCardResponseModel } from './../models/credit-card/transaction-credit-card.response.model';
-import { ConsultTransactionPaymentIdRequestModel, ConsultTransactionMerchantOrderIdRequestModel, ConsultTransactionRecurrentPaymentIdRequestModel } from './../models/consults/consult-transaction.request.model';
-import { CieloTransactionInterface } from "../interface/cielo-transaction.interface";
 import camelcaseKeys from 'camelcase-keys';
+import { CieloTransactionInterface } from "../interface/cielo-transaction.interface";
 import { ConsultMerchantOrderIdResponseModel } from '../models/consults';
+import { ConsultBinRequestModel } from './../models/consults/consult-bin.request.model';
+import { ConsultBinResponseModel } from './../models/consults/consult-bin.response.model';
+import { ConsultTransactionMerchantOrderIdRequestModel, ConsultTransactionPaymentIdRequestModel, ConsultTransactionRecurrentPaymentIdRequestModel } from './../models/consults/consult-transaction.request.model';
+import { TransactionCreditCardResponseModel } from './../models/credit-card/transaction-credit-card.response.model';
+import { RecurrentPaymentResponseModel } from './../models/recurrent-payment/recurrent-payment.response.model';
+import { HttpRequestMethodEnum, IHttpRequestOptions, Utils } from './utils';
 
 export class Consult {
   private cieloTransactionParams: CieloTransactionInterface;
