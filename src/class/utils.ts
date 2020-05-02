@@ -1,7 +1,30 @@
-import { request, RequestOptions } from 'https';
 import { IncomingMessage } from 'http';
+import { request, RequestOptions } from 'https';
+import { CieloTransactionInterface } from '../interface/cielo-transaction.interface';
 
 export class Utils {
+  private cieloConstructor: CieloTransactionInterface;
+
+  constructor(params: CieloTransactionInterface) {
+    this.cieloConstructor = params;
+  }
+
+  public getHttpRequestOptions(params: { hostname: string, path: string, method: HttpRequestMethodEnum }): IHttpRequestOptions {
+    return {
+      method: params.method,
+      path: params.path,
+      hostname: params.hostname,
+      port: 443,
+      encoding: "utf-8",
+      headers: {
+        MerchantId: this.cieloConstructor.merchantId,
+        MerchantKey: this.cieloConstructor.merchantKey,
+        RequestId: this.cieloConstructor.requestId || "",
+        "Content-Type": "application/json",
+      },
+    } as IHttpRequestOptions;
+  }
+
   private parseHttpRequestError(options: IHttpRequestOptions, data: string, response: any): IHttpRequestReject {
     return {
       statusCode: response.statusCode || '',
