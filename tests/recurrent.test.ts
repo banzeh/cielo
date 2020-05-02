@@ -1,5 +1,5 @@
 import { RecurrentModifyPaymentModel } from './../dist/models/recurrent-payment/recurrent-modify-payment.model.d';
-import { EnumRecurrentPaymentInterval } from './../src/enums';
+import { EnumRecurrentPaymentInterval, EnumRecurrentPaymentUpdateInterval } from './../src/enums';
 import test from 'tape';
 import {
   CieloConstructor,
@@ -37,32 +37,36 @@ test(`Recorrencia`, async (t) => {
       amount: 1500,
       installments: 1,
       softDescriptor: '123456789ABCD',
+      currency: 'BRL',
+      country: 'BRA',
       recurrentPayment: {
         authorizeNow: true,
         endDate: '2022-12-01',
         interval: EnumRecurrentPaymentInterval.SEMIANNUAL
       },
       creditCard: {
-        cardNumber: '1234123412341231',
+        cardNumber: '4024007197692931',
         holder: 'Teste Holder',
         expirationDate: '12/2030',
         securityCode: '262',
-        saveCard: 'false',
+        saveCard: false,
         brand: 'Visa' as EnumBrands
       }
     }
   }
 
-  const firstRecurrency = await cielo.recurrent.create(createRecurrencyParams);
-  if (firstRecurrency) {
-    t.assert(firstRecurrency.payment.recurrentPayment.reasonCode === 0, 'Pagamento recorrente criado')
-    t.assert(firstRecurrency.payment.status === 1, 'Status transacional autorizado (1)')
-    t.assert(firstRecurrency.payment.recurrentPayment.interval === 6, 'Intervalo de recorrência correto (6)')
+  const firstRecurrency = await cielo.recurrent.create(createRecurrencyParams).catch(error);
+  if (!firstRecurrency) {
+    t.end('Erro na criação da recorrência');
+    return;
   }
+  t.assert(firstRecurrency.payment.recurrentPayment.reasonCode === 0, 'Pagamento recorrente criado')
+  t.assert(firstRecurrency.payment.status === 1, 'Status transacional autorizado (1)')
+  t.assert(firstRecurrency.payment.recurrentPayment.interval === 6, 'Intervalo de recorrência correto (6)')
 
   const modifyRecurrencyParams: RecurrentModifyIntervalModel = {
     paymentId: firstRecurrency.payment.recurrentPayment.recurrentPaymentId,
-    interval: 1
+    interval: EnumRecurrentPaymentUpdateInterval.MONTHLY
   }
   const modifyRecurrency = await cielo.recurrent.modifyInterval(modifyRecurrencyParams).catch(error)
   if (modifyRecurrency) {

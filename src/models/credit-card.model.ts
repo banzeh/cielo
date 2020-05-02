@@ -25,7 +25,7 @@ export interface CreditCardModel {
   /**
    * Booleano que identifica se o cartão será salvo para gerar o CardToken.
    */
-  saveCard?: string;
+  saveCard?: boolean;
   /**
    * Bandeira do cartão (Visa / Master / Amex / Elo / Aura / JCB / Diners / Discover / Hipercard / Hiper).
    */

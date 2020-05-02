@@ -27,6 +27,14 @@ export enum EnumBrands {
 }
 
 export enum EnumRecurrentPaymentInterval {
+  MONTHLY = 'MONTHLY',
+  BIMONTHLY = 'BIMONTHLY',
+  QUARTERLY = 'QUARTERLY',
+  SEMIANNUAL = 'SEMIANNUAL',
+  ANNUAL = 'ANNUAL',
+}
+
+export enum EnumRecurrentPaymentUpdateInterval {
   MONTHLY = 1,
   BIMONTHLY = 2,
   QUARTERLY = 3,

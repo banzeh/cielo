@@ -1,6 +1,6 @@
 import { RecurrentModifyModel } from "./recurrent-modify.model";
-import { EnumRecurrentPaymentInterval } from "../../enums";
+import { EnumRecurrentPaymentUpdateInterval } from "../../enums";
 
 export interface RecurrentModifyIntervalModel extends RecurrentModifyModel {
-  interval: EnumRecurrentPaymentInterval
+  interval: EnumRecurrentPaymentUpdateInterval
 }
