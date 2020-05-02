@@ -1,4 +1,3 @@
-import { camelcaseKeys } from 'camelcase-keys';
 import { IncomingMessage } from 'http';
 import { request, RequestOptions } from 'https';
 import { CieloTransactionInterface } from '../interface/cielo-transaction.interface';
