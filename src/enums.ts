@@ -25,3 +25,11 @@ export enum EnumBrands {
   DISCOVERY = 'DISCOVERY',
   HIPERCARD = 'HIPERCARD'
 }
+
+export enum EnumRecurrentPaymentInterval {
+  MONTHLY = 1,
+  BIMONTHLY = 2,
+  QUARTERLY = 3,
+  SEMIANNUAL = 6,
+  ANNUAL = 12,
+}

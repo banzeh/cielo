@@ -26,4 +26,6 @@ export interface PaymentResponseModel {
   returnCode: string;
   returnMessage: string;
   links: Link[];
+  currency?: string;
+  authorizeNow?: boolean;
 }

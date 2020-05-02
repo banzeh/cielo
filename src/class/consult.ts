@@ -1,12 +1,16 @@
 import camelcaseKeys from 'camelcase-keys';
 import { CieloTransactionInterface } from "../interface/cielo-transaction.interface";
-import { ConsultMerchantOrderIdResponseModel } from '../models/consults';
-import { ConsultBinRequestModel } from './../models/consults/consult-bin.request.model';
-import { ConsultBinResponseModel } from './../models/consults/consult-bin.response.model';
-import { ConsultTransactionMerchantOrderIdRequestModel, ConsultTransactionPaymentIdRequestModel, ConsultTransactionRecurrentPaymentIdRequestModel } from './../models/consults/consult-transaction.request.model';
+import {
+  ConsultMerchantOrderIdResponseModel,
+  ConsultBinResponseModel,
+  ConsultBinRequestModel,
+  ConsultTransactionMerchantOrderIdRequestModel,
+  ConsultTransactionPaymentIdRequestModel,
+  ConsultTransactionRecurrentPaymentIdRequestModel
+} from '../models/consults';
 import { TransactionCreditCardResponseModel } from './../models/credit-card/transaction-credit-card.response.model';
-import { RecurrentPaymentResponseModel } from './../models/recurrent-payment/recurrent-payment.response.model';
 import { HttpRequestMethodEnum, IHttpRequestOptions, Utils } from './utils';
+import { RecurrentPaymentConsultResponseModel } from '../models/recurrent-payment';
 
 export class Consult {
   private cieloTransactionParams: CieloTransactionInterface;
@@ -49,8 +53,8 @@ export class Consult {
     });
   }
 
-  public recurrent(params: ConsultTransactionRecurrentPaymentIdRequestModel): Promise<RecurrentPaymentResponseModel> {
-    return new Promise<RecurrentPaymentResponseModel>((resolve, reject) => {
+  public recurrent(params: ConsultTransactionRecurrentPaymentIdRequestModel): Promise<RecurrentPaymentConsultResponseModel> {
+    return new Promise<RecurrentPaymentConsultResponseModel>((resolve, reject) => {
       const util = new Utils(this.cieloTransactionParams);
       const options: IHttpRequestOptions = util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.GET,
@@ -60,7 +64,7 @@ export class Consult {
 
       util.httpRequest(options, {})
         .then((response) => {
-          return resolve(camelcaseKeys(response.data, {deep: true}) as RecurrentPaymentResponseModel);
+          return resolve(camelcaseKeys(response.data, {deep: true}) as RecurrentPaymentConsultResponseModel);
         })
         .catch((err) => reject(err));
     });
