@@ -2,12 +2,11 @@
   "name": "cielo",
   "version": "2.0.4",
   "description": "Client para a API 3.0 da Cielo em node.js",
-  "main": "dist\\index.js",
+  "main": "src\\index.ts",
   "scripts": {
     "test": "npx ts-node node_modules/tape/bin/tape tests/**/*.ts",
     "release": "standard-version",
-    "postversion": "git push --follow-tags",
-    "build": "npx tsc"
+    "postversion": "git push --follow-tags"
   },
   "repository": {
     "type": "git",

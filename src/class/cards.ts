@@ -13,18 +13,29 @@ export class Card {
 
   public createTokenizedCard(request: TokenizeRequestModel): Promise<TokenizeResponseModel> {
     return new Promise<TokenizeResponseModel>((resolve, reject) => {
-      const util = new Utils(this.cieloTransactionParams);
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
+      const util = new Utils();
+      const options: IHttpRequestOptions = {
         method: HttpRequestMethodEnum.POST,
         path: '/1/card',
         hostname: this.cieloTransactionParams.hostnameTransacao,
-      });
+        port: 443,
+        encoding: 'utf-8',
+        headers: {
+          'MerchantId': this.cieloTransactionParams.merchantId,
+          'MerchantKey': this.cieloTransactionParams.merchantKey,
+          'RequestId': this.cieloTransactionParams.requestId || '',
+          'Content-Type': 'application/json'
+        }
+      }
 
       util.httpRequest(options, request)
         .then((response) => {
           return resolve(camelcaseKeys(response.data, {deep: true}) as TokenizeResponseModel);
         })
-        .catch((err) => reject(err));
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
     });
   }
 }
