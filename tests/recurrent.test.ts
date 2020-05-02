@@ -1,4 +1,3 @@
-import { RecurrentModifyPaymentModel } from './../dist/models/recurrent-payment/recurrent-modify-payment.model.d';
 import { EnumRecurrentPaymentInterval, EnumRecurrentPaymentUpdateInterval } from './../src/enums';
 import test from 'tape';
 import {
