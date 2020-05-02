@@ -16,6 +16,10 @@ export interface AddressModel {
    */
   zipCode?: string;
   /**
+   * Bairro do Comprador.
+   */
+  district?: string;
+  /**
    * 	Cidade do endereço do Comprador.
    */
   city?: string;
