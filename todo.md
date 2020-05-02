@@ -19,7 +19,7 @@
 - [X] Tokenização de cartão
 
 # Boleto
-- [ ] Criando uma venda com Boleto
+- [X] Criando uma venda com Boleto
 
 # Transferência Eletrônica
 - [ ] Criando uma venda simplificada

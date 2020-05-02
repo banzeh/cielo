@@ -1,3 +1,4 @@
+import { BankSlip } from './class/bank-slip';
 import { Recurrent } from './class/recurrent';
 import { Consult } from './class/consult';
 import { Card } from './class/cards';
@@ -18,10 +19,20 @@ export class Cielo {
   private debug: boolean;
   private sandbox: boolean;
   private requestId?: string | undefined;
+
   public creditCard: CreditCard;
+
   public card: Card;
+  public cartao: Card = this.card;
+
   public consult: Consult;
+  public consulta: Consult;
+
   public recurrent: Recurrent;
+  public recorrencia: Recurrent;
+
+  public bankSlip: BankSlip;
+  public boleto: BankSlip;
   
   constructor(constructor: CieloConstructor) {
     this.merchantId = constructor.merchantId;
@@ -43,6 +54,11 @@ export class Cielo {
     this.card = new Card(cieloTransactionInterface);
     this.consult = new Consult(cieloTransactionInterface);
     this.recurrent = new Recurrent(cieloTransactionInterface);
+    this.bankSlip = new BankSlip(cieloTransactionInterface);
+
+    this.consulta = this.consult;
+    this.recorrencia = this.recurrent;
+    this.boleto = this.bankSlip;
   }
 
   private getHostnames(sandbox: boolean): Array<string> {
