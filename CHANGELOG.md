@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/banzeh/cielo/compare/v2.0.4...v2.1.0) (2020-05-02)
+
+
+### Funcionalidades
+
+* adicionado criação e modificação de recorrência ([fd49464](https://github.com/banzeh/cielo/commit/fd49464723a09a54b39c4bdf79749eddf58db830))
+* implementação das atualizações de recorrência ([2e5c1a4](https://github.com/banzeh/cielo/commit/2e5c1a476c7dfba33179a0816706d5cb687d6a34))
+
+
+### Errors Corrigidos
+
+* correção de build ([5854e4d](https://github.com/banzeh/cielo/commit/5854e4d7c1c926b79fbfaf60a92bbb33fcc1fe6b))
+* correção de import no test ([94c1016](https://github.com/banzeh/cielo/commit/94c101643429cbc08d5fb9662a24c9ac29a821f3))
+
+### [2.0.4](https://github.com/banzeh/cielo/compare/v2.0.3...v2.0.4) (2020-05-02)
+
 ### [2.0.3](https://github.com/banzeh/cielo/compare/v2.0.2...v2.0.3) (2020-04-30)
 
 ### [2.0.2](https://github.com/banzeh/cielo/compare/v2.0.0...v2.0.2) (2020-04-30)
