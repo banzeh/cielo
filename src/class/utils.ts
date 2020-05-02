@@ -28,7 +28,7 @@ export class Utils {
   private parseHttpRequestError(options: IHttpRequestOptions, data: string, response: any): IHttpRequestReject {
     return {
       statusCode: response.statusCode || '',
-      request: data,
+      request: JSON.stringify(data).toString(),
       response: response
     } as IHttpRequestReject;
   }

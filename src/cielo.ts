@@ -1,3 +1,4 @@
+import { Recurrent } from './class/recurrent';
 import { Consult } from './class/consult';
 import { Card } from './class/cards';
 import { CieloTransactionInterface } from './interface/cielo-transaction.interface';
@@ -20,6 +21,7 @@ export class Cielo {
   public creditCard: CreditCard;
   public card: Card;
   public consult: Consult;
+  public recurrent: Recurrent;
   
   constructor(constructor: CieloConstructor) {
     this.merchantId = constructor.merchantId;
@@ -40,6 +42,7 @@ export class Cielo {
     this.creditCard = new CreditCard(cieloTransactionInterface);
     this.card = new Card(cieloTransactionInterface);
     this.consult = new Consult(cieloTransactionInterface);
+    this.recurrent = new Recurrent(cieloTransactionInterface);
   }
 
   private getHostnames(sandbox: boolean): Array<string> {
