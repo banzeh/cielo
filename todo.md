@@ -22,7 +22,7 @@
 - [X] Criando uma venda com Boleto
 
 # Transferência Eletrônica
-- [ ] Criando uma venda simplificada
+- [X] Criando uma venda simplificada
 
 # Recorrência
 - [X] Criando recorrência
