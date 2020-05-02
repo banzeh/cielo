@@ -25,13 +25,13 @@
 - [ ] Criando uma venda simplificada
 
 # Recorrência
-- [ ] Criando recorrência
-- [ ] Modificando dados do comprador
-- [ ] Modificando data final da Recorrência
-- [ ] Modificando intevalo da Recorrência
-- [ ] Modificando dia da Recorrência
-- [ ] Modificando o valor da Recorrência
-- [ ] Modificando data do próximo Pagamento
-- [ ] Modificando dados do Pagamento da Recorrência
-- [ ] Desabilitando um Pedido Recorrente
-- [ ] Reabilitando um Pedido Recorrente
+- [X] Criando recorrência
+- [X] Modificando dados do comprador
+- [X] Modificando data final da Recorrência
+- [X] Modificando intevalo da Recorrência
+- [X] Modificando dia da Recorrência
+- [X] Modificando o valor da Recorrência
+- [X] Modificando data do próximo Pagamento
+- [X] Modificando dados do Pagamento da Recorrência
+- [X] Desabilitando um Pedido Recorrente
+- [X] Reabilitando um Pedido Recorrente

@@ -60,4 +60,5 @@ typings/
 # Visual Studio debug
 launch.json
 
-teste.js
+.vscode
+dist
