@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/banzeh/cielo/compare/v2.1.0...v2.1.1) (2020-05-02)
+
+
+### Errors Corrigidos
+
+* fix merge ([eef4007](https://github.com/banzeh/cielo/commit/eef400771e5f628db3927298e873bfad83b35e25))
+
 ## [2.1.0](https://github.com/banzeh/cielo/compare/v2.0.4...v2.1.0) (2020-05-02)
 
 
