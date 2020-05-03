@@ -2,7 +2,6 @@ import test from 'tape';
 import {
   CieloConstructor,
   Cielo,
-  BankSlipCreateRequestModel,
   EletronicTransferCreateRequestModel,
 } from '../src';
 
