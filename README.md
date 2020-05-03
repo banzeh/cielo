@@ -28,8 +28,8 @@ Client para a API 3.0 da Cielo em Typescript/Nodejs
 #### [Cartão de Débito](#debitCard)
 + [Criando uma venda simplificada](#debitSimpleTransaction)
 
-#### [Transferência Eletrônica](#bankSlip)
-+ [Criando uma venda simplificada](#bankSlipSimpleTransaction)
+#### [Transferência Eletrônica](#eletronic-transfer)
++ [Criando uma venda simplificada](#eletronic-transfer-transaction)
 
 #### [Boleto](#boleto)
 + [Criando uma venda de Boleto](#boletoSale)
@@ -172,63 +172,36 @@ cielo.creditCard.cancelTransaction(cancelamentoVendaParams)
 
 Ou usando Async / Await
 
-```js
+```ts
 const cancel = await cielo.creditCard.cancelSale(dadosSale);
 console.log(cancel);
 ```
 
-## <a name="debitCard"></a> Cartão de Débito (@todo)
+## <a name="debitCard"></a> Cartão de Débito
 
 ### <a name="debitSimpleTransaction"></a> Criando uma venda simplificada
-```js
-var dadosSale = {  
-   "MerchantOrderId":"2014121201",
-   "Customer":{  
-      "Name":"Comprador Cartão de débito"
-   },
-   "Payment":{  
-     "Type":"DebitCard",
-     "Amount":15700,
-     "ReturnUrl":"http://www.cielo.com.br",
-     "DebitCard":{  
-         "CardNumber":"4551870000000183",
-         "Holder":"Teste Holder",
-         "ExpirationDate":"12/2030",
-         "SecurityCode":"123",
-         "Brand":"Visa"
-     }
-   }
-}
-
-cielo.debitCard.simpleTransaction(dadosSale)
-    .then((data) => {
-        return console.log(data);
-    })
-    .catch((err) => {
-        return console.error('ERRO', err);
-    })
-```
-
-## <a name="bankSlip"></a> Pagamentos com Transferência Eletronica (@todo)
-
-### <a name="bankSlipSimpleTransaction"></a> Criando uma venda simplificada
-```js
-var dadosSale = {  
-    "MerchantOrderId":"2014111706",
-    "Customer":
-    {  
-        "Name":"Comprador Transferência Eletronica"
+```ts
+const debitCardTransactionParams: DebitCardSimpleTransactionRequestModel = {  
+    merchantOrderId: "2014121201",
+    customer:{  
+      name: "Paulo Henrique"     
     },
-    "Payment":
-    {  
-        "Type":"EletronicTransfer",
-        "Amount":15700,
-        "Provider":"Bradesco",
-        "ReturnUrl":"http://www.banzeh.com.br"
+    payment: {  
+      type: EnumCardType.DEBIT,
+      amount: 15700,
+      provider: "Simulado",
+      returnUrl: "http://www.google.com.br",
+      debitCard:{  
+          cardNumber: "4532117080573703",
+          holder: "Teste Holder",
+          expirationDate: "12/2022",
+          securityCode: "023",
+          brand: EnumBrands.VISA
+      }
     }
-}
+ }
 
-cielo.bankSlip.simpleTransaction(dadosSale)
+  cielo.debitCard.createSimpleTransaction(debitCardTransactionParams)
     .then((data) => {
         return console.log(data);
     })
@@ -237,128 +210,165 @@ cielo.bankSlip.simpleTransaction(dadosSale)
     })
 ```
 
-## <a name="boleto"></a> Boleto (@todo)
+## <a name="eletronic-transfer"></a> Pagamentos com Transferência Eletronica
+
+### <a name="eletronic-transfer-transaction"></a> Criando uma venda simplificada
+```ts
+const transferenciaEletronicaParams: EletronicTransferCreateRequestModel = {
+    merchantOrderId: '2017051109',
+    customer: {
+      name: 'Nome do Comprador',
+      identity: '12345678909',
+      identityType: 'CPF',
+      email: 'comprador@cielo.com.br',
+      address: {
+        street: 'Alameda Xingu',
+        number: '512',
+        complement: '27 andar',
+        zipCode: '12345987',
+        city: 'São Paulo',
+        state: 'SP',
+        country: 'BRA',
+        district: 'Alphaville',
+      },
+    },
+    payment: {
+      provider: 'Bradesco',
+      type: 'EletronicTransfer',
+      amount: 10000,
+      returnUrl: 'http://www.cielo.com.br',
+    },
+  };
+
+  cielo.eletronicTransfer.create(transferenciaEletronicaParams)(dadosSale)
+  .then((data) => {
+      return console.log(data);
+  })
+  .catch((err) => {
+      return console.error('ERRO', err);
+  })
+```
+
+## <a name="boleto"></a> Boleto
 
 ### <a name="boletoSale"></a>  Criando uma venda de Boleto
-```js
-var dadosSale = {  
-    "MerchantOrderId":"2014111706",
-    "Customer":
-    {  
-        "Name":"Comprador Teste Boleto",
-        "Identity": "1234567890",
-        "Address":
-        {
-          "Street": "Avenida Marechal Câmara",
-          "Number": "160",  
-          "Complement": "Sala 934",
-          "ZipCode" : "22750012",
-          "District": "Centro",
-          "City": "Rio de Janeiro",
-          "State" : "RJ",
-          "Country": "BRA"
-        }
+```ts
+const boletoParams: BankSlipCreateRequestModel = {
+    merchantOrderId: '20180531',
+    customer: {
+      name: 'Comprádor Boleto Cíéló Áá',
+      identity: '1234567890',
+      address: {
+        street: 'Avenida Marechal Câmara',
+        number: '160',
+        complement: 'Sala 934',
+        zipCode: '22750012',
+        district: 'Centro',
+        city: 'Rio de Janeiro',
+        state: 'RJ',
+        country: 'BRA'
+      }
     },
-    "Payment":
-    {  
-        "Type":"Boleto",
-        "Amount":15700,
-        "Provider":"INCLUIR PROVIDER",
-        "Address": "Rua Teste",
-        "BoletoNumber": "123",
-        "Assignor": "Empresa Teste",
-        "Demonstrative": "Desmonstrative Teste",
-        "ExpirationDate": "5/1/2015",
-        "Identification": "11884926754",
-        "Instructions": "Aceitar somente até a data de vencimento, após essa data juros de 1% dia."
-    }
-}
-
-cielo.boleto.sale(dadosSale)
-  .then((data) => {
-    return console.log(data);
-  })
-  .catch((err) => {
-    return console.error('ERRO', err);
-  })
-```
-
-## <a name="recorrencia"></a> Recorrência (@todo)
-
-### <a name="creatingRecurrence"></a> Criando Recorrências (@todo)
-
-```js
-const recurrencyParams = {
-  "MerchantOrderId": "2014113245231706",
-  "Customer": {
-    "Name": "Comprador rec programada"
-  },
-  "Payment": {
-    "Type": "CreditCard",
-    "Amount": 1500,
-    "Installments": 1,
-    "SoftDescriptor": "123456789ABCD",
-    "RecurrentPayment": {
-      "AuthorizeNow": "true",
-      "EndDate": "2019-12-01",
-      "Interval": "SemiAnnual"
-    },
-    "CreditCard": {
-      "CardNumber": "1234123412341231",
-      "Holder": "Teste Holder",
-      "ExpirationDate": "12/2030",
-      "SecurityCode": "262",
-      "SaveCard": "false",
-      "Brand": "Visa"
+    payment: {
+      type: 'Boleto',
+      amount: 15700,
+      provider: 'Bradesco2',
+      address: 'Rua Teste',
+      boletoNumber: '123',
+      assignor: 'Empresa Teste',
+      demonstrative: 'Desmonstrative Teste',
+      expirationDate: '5/1/2020',
+      identification: '11884926754',
+      instructions: 'Aceitar somente até a data de vencimento, após essa data juros de 1% dia.'
     }
   }
-}
 
-cielo.recurrentPayments.firstScheduledRecurrence(recurrencyParams)
-  .then((data) => {
-    return console.log(data);
-  })
-  .catch((err) => {
-    return console.error('ERRO', err);
-  })
+  cielo.bankSlip.create(boletoParams)
+    .then((data) => {
+      return console.log(data);
+    })
+    .catch((err) => {
+      return console.error('ERRO', err);
+    })
 ```
 
-### <a name="modifyRecurrence"></a> Modificando Recorrências (@todo)
+## <a name="recorrencia"></a> Recorrência
 
-#### <a name="modifyRecurrenceCustomer"></a> Modificando dados do comprador (@todo)
+### <a name="creatingRecurrence"></a> Criando Recorrências
 
-```js
-const updateCustomer = {
-  "recurrentPaymentId": RecurrentPaymentId,
-  "Customer": {
-    "Name": "Customer",
-    "Email": "customer@teste.com",
-    "Birthdate": "1999-12-12",
-    "Identity": "22658954236",
-    "IdentityType": "CPF",
-    "Address": {
-      "Street": "Rua Teste",
-      "Number": "174",
-      "Complement": "AP 201",
-      "ZipCode": "21241140",
-      "City": "Rio de Janeiro",
-      "State": "RJ",
-      "Country": "BRA"
+```ts
+const createRecurrencyParams: RecurrentCreateModel = {
+    merchantOrderId: '2014113245231706',
+    customer: {
+      name: 'Comprador rec programada'
     },
-    "DeliveryAddress": {
-      "Street": "Outra Rua Teste",
-      "Number": "123",
-      "Complement": "AP 111",
-      "ZipCode": "21241111",
-      "City": "Qualquer Lugar",
-      "State": "QL",
-      "Country": "BRA",
-      "District": "Teste"
+    payment: {
+      type: EnumCardType.CREDIT,
+      amount: 1500,
+      installments: 1,
+      softDescriptor: '123456789ABCD',
+      currency: 'BRL',
+      country: 'BRA',
+      recurrentPayment: {
+        authorizeNow: true,
+        endDate: '2022-12-01',
+        interval: EnumRecurrentPaymentInterval.SEMIANNUAL
+      },
+      creditCard: {
+        cardNumber: '4024007197692931',
+        holder: 'Teste Holder',
+        expirationDate: '12/2030',
+        securityCode: '262',
+        saveCard: false,
+        brand: 'Visa' as EnumBrands
+      }
     }
   }
-}
 
-cielo.recurrentPayments.modify.Customer(updateCustomer)
+  cielo.recurrent.create(createRecurrencyParams)
+    .then((data) => {
+      return console.log(data);
+    })
+    .catch((err) => {
+      return console.error('ERRO', err);
+    })
+```
+
+### <a name="modifyRecurrence"></a> Modificando Recorrências
+
+#### <a name="modifyRecurrenceCustomer"></a> Modificando dados do comprador
+
+```ts
+const updateCustomer: RecurrentModifyCustomerModel = {
+    paymentId: firstRecurrency.payment.recurrentPayment.recurrentPaymentId,
+    customer: {
+      name: 'Customer',
+      email: 'customer@teste.com',
+      birthdate: '1999-12-12',
+      identity: '22658954236',
+      identityType: 'CPF',
+      address: {
+        street: 'Rua Teste',
+        number: '174',
+        complement: 'AP 201',
+        zipCode: '21241140',
+        city: 'Rio de Janeiro',
+        state: 'RJ',
+        country: 'BRA'
+      },
+      deliveryAddress: {
+        street: 'Outra Rua Teste',
+        number: '123',
+        complement: 'AP 111',
+        zipCode: '21241111',
+        city: 'Qualquer Lugar',
+        state: 'QL',
+        country: 'BRA',
+      }
+    }
+  }
+
+cielo.recurrent.modifyCustomer(updateCustomer)
   .then((data) => {
     return console.log(data);
   })
@@ -367,15 +377,15 @@ cielo.recurrentPayments.modify.Customer(updateCustomer)
   })
 ```
 
-#### <a name="modifyRecurrenceEndDate"></a> Modificando data final da Recorrência (@todo)
+#### <a name="modifyRecurrenceEndDate"></a> Modificando data final da Recorrência
 
-```js
-const updateEndDate = {
-  "recurrentPaymentId": RecurrentPaymentId,
-  "EndDate": "2021-01-09"
+```ts
+const updateEndDate: RecurrentModifyEndDateModel = {
+  paymentId: firstRecurrency.payment.recurrentPayment.recurrentPaymentId,
+  endDate: '2021-01-09'
 }
 
-cielo.recurrentPayments.modify.EndDate(updateEndDate)
+cielo.recurrent.modifyEndDate(updateEndDate)
   .then((data) => {
     return console.log(data);
   })
@@ -384,15 +394,15 @@ cielo.recurrentPayments.modify.EndDate(updateEndDate)
   })
 ```
 
-#### <a name="modifyRecurrenceInterval"></a> Modificando intevalo da Recorrência (@todo)
+#### <a name="modifyRecurrenceInterval"></a> Modificando intevalo da Recorrência
 
-```js
-const updateInterval = {
-  "recurrentPaymentId": RecurrentPaymentId,
-  "Interval": 6, // Modifica para cobrança semestral
+```ts
+const modifyRecurrencyParams: RecurrentModifyIntervalModel = {
+  paymentId: firstRecurrency.payment.recurrentPayment.recurrentPaymentId,
+  interval: EnumRecurrentPaymentUpdateInterval.MONTHLY
 }
 
-cielo.recurrentPayments.modify.Interval(updateInterval)
+cielo.recurrent.modifyInterval(modifyRecurrencyParams)
   .then((data) => {
     return console.log(data);
   })
@@ -401,15 +411,15 @@ cielo.recurrentPayments.modify.Interval(updateInterval)
   })
 ```
 
-#### <a name="modifyRecurrenceRecurrencyDay"></a> Modificando dia da Recorrência (@todo)
+#### <a name="modifyRecurrenceRecurrencyDay"></a> Modificando dia da Recorrência
 
-```js
-const updateRecurrencyDay = {
-  "recurrentPaymentId": RecurrentPaymentId,
-  "RecurrencyDay": 10, // Modifica a data da recorrência para o dia 10
-}
+```ts
+const updateRecurrencyDay: RecurrentModifyDayModel = {
+    paymentId: firstRecurrency.payment.recurrentPayment.recurrentPaymentId,
+    recurrencyDay: 10
+  }
 
-cielo.recurrentPayments.modify.RecurrencyDay(updateRecurrencyDay)
+cielo.recurrent.modifyRecurrencyDay(updateRecurrencyDay)
   .then((data) => {
     return console.log(data);
   })
@@ -418,15 +428,15 @@ cielo.recurrentPayments.modify.RecurrencyDay(updateRecurrencyDay)
   })
 ```
 
-#### <a name="modifyRecurrenceAmount"></a> Modificando o valor da Recorrência (@todo)
+#### <a name="modifyRecurrenceAmount"></a> Modificando o valor da Recorrência
 
-```js
-const updateAmount = {
-  "recurrentPaymentId": RecurrentPaymentId,
-  "Amount": 156 // Valor do Pedido em centavos: 156 equivale a R$ 1,56
+```ts
+const updateAmount: RecurrentModifyAmountModel = {
+  paymentId: firstRecurrency.payment.recurrentPayment.recurrentPaymentId,
+  amount: 156 // Valor do Pedido em centavos: 156 equivale a R$ 1,56
 }
 
-cielo.recurrentPayments.modify.Amount(updateAmount)
+cielo.recurrent.modifyAmount(updateAmount)
   .then((data) => {
     return console.log(data);
   })
@@ -435,15 +445,15 @@ cielo.recurrentPayments.modify.Amount(updateAmount)
   })
 ```
 
-#### <a name="modifyRecurrenceNextPaymentDate"></a> Modificando data do próximo Pagamento (@todo)
+#### <a name="modifyRecurrenceNextPaymentDate"></a> Modificando data do próximo Pagamento
 
-```js
-const updateNextPaymentDate = {
-  "recurrentPaymentId": RecurrentPaymentId,
-  "NextPaymentDate": "2016-06-15"
+```ts
+const updateNextPaymentDate: RecurrentModifyNextPaymentDateModel = {
+  paymentId: firstRecurrency.payment.recurrentPayment.recurrentPaymentId,
+  nextPaymentDate: '2020-05-20'
 }
 
-cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
+cielo.recurrent.modifyNextPaymentDate
   .then((data) => {
     return console.log(data);
   })
@@ -454,26 +464,26 @@ cielo.recurrentPayments.modify.NextPaymentDate(updateNextPaymentDate)
 
 #### <a name="modifyRecurrencePayment"></a> Modificando dados do Pagamento da Recorrência (@todo)
 
-```js
-const updatePayment = {
-  "recurrentPaymentId": RecurrentPaymentId,
-  "Payment": {  
-    "Type":"CreditCard",
-    "Amount":"123",
-    "Installments":3,
-    "Country":"USA",
-    "Currency":"BRL",
-    "SoftDescriptor":"123456789ABCD",
-    "CreditCard":{  
-        "Brand":"Master",
-        "Holder":"Teset card",
-        "CardNumber":"1234123412341232",
-        "ExpirationDate":"12/2030"
+```ts
+const updatePayment: RecurrentModifyPaymentModel = {
+  recurrentPaymentId: RecurrentPaymentId,
+  payment: {  
+    type: EnumCardType.CREDIT,
+    amount: "123",
+    installments: 3,
+    country: "USA",
+    currency: "BRL",
+    softDescriptor: "123456789ABCD",
+    creditCard: {  
+        brand: EnumBrands.VISA,
+        holder: "Teset card",
+        cardNumber: "1234123412341232",
+        expirationDate: "12/2030"
     }
   }
 }
 
-cielo.recurrentPayments.modify.Payment(updatePayment)
+cielo.recurrent.modifyPayment(updatePayment)
   .then((data) => {
     return console.log(data);
   })
@@ -482,14 +492,14 @@ cielo.recurrentPayments.modify.Payment(updatePayment)
   })
 ```
 
-#### <a name="modifyRecurrenceDeactivate"></a> Desabilitando um Pedido Recorrente (@todo)
+#### <a name="modifyRecurrenceDeactivate"></a> Desabilitando um Pedido Recorrente
 
-```js
-const updateDeactivate = {
-  "recurrentPaymentId": RecurrentPaymentId
+```ts
+const deactivateRecurrencyParams: RecurrentModifyModel = {
+  paymentId: firstRecurrency.payment.recurrentPayment.recurrentPaymentId
 }
 
-cielo.recurrentPayments.modify.Deactivate(updateDeactivate)
+cielo.recurrent.deactivate(deactivateRecurrencyParams)
   .then((data) => {
     return console.log(data);
   })
@@ -497,14 +507,14 @@ cielo.recurrentPayments.modify.Deactivate(updateDeactivate)
     return console.error('ERRO', err);
   })
 ```
-#### <a name="modifyRecurrenceReactivate"></a> Reabilitando um Pedido Recorrente (@todo)
+#### <a name="modifyRecurrenceReactivate"></a> Reabilitando um Pedido Recorrente
 
-```js
-const updateReactivate = {
-  "recurrentPaymentId": RecurrentPaymentId
+```ts
+const reactivateRecurrencyParams: RecurrentModifyModel = {
+  paymentId: firstRecurrency.payment.recurrentPayment.recurrentPaymentId
 }
 
-cielo.recurrentPayments.modify.Reactivate(updateReactivate)
+cielo.recurrent.reactivate(updateReactivate)
   .then((data) => {
     return console.log(data);
   })
@@ -517,16 +527,16 @@ cielo.recurrentPayments.modify.Reactivate(updateReactivate)
 
 ### <a name="cartoesToken"></a> Gerando o token de cartão
 
-```js
-const dados = {
-        "CustomerName": "Comprador Teste Cielo",
-        "CardNumber": "4532117080573700",
-        "Holder": "Comprador T Cielo",
-        "ExpirationDate": "12/2021",
-        "Brand": "Visa"
-    };
+```ts
+const tokenParams: TokenizeRequestModel = {
+  customerName: 'Comprádor Teste Cíéló Áá',
+  cardNumber: '5555666677778884',
+  holder: 'Comprador T Cielo',
+  expirationDate: '12/2021',
+  brand: brand as EnumBrands
+};
 
-cielo.cards.createTokenizedCard(dados)
+cielo.card.createTokenizedCard(tokenParams)
     .then((data) => {
         console.log(data)
     })
@@ -539,12 +549,12 @@ cielo.cards.createTokenizedCard(dados)
 
 ### <a name="consultaPaymentId"></a> Consulta Transação usando PaymentId
 
-```js
-const dadosConsulta = {
-    "paymentId": "24bc8366-fc31-4d6c-8555-17049a836a07"
+```ts
+const consultaParams: ConsultTransactionPaymentIdRequestModel = {
+    paymentId: "24bc8366-fc31-4d6c-8555-17049a836a07"
 };
 
-cielo.consulting.sale(dadosConsulta)
+cielo.consult.paymentId(consultaParams)
     .then((data) => {
         console.log(data)
     })
@@ -555,12 +565,12 @@ cielo.consulting.sale(dadosConsulta)
 
 ### <a name="consultaMerchandOrderID"></a> Consultando as transações usando MerchandOrderID
 
-```js
-const dadosConsulta = {
-    "merchantOrderId": "2014111706"
+```ts
+const consultaParamsMerchantOrderId: ConsultTransactionMerchantOrderIdRequestModel = {
+    merchantOrderId: "2014111706"
 };
 
-cielo.consulting.sale(dadosConsulta)
+cielo.consult.merchantOrderId(consultaParamsMerchantOrderId)
     .then((data) => {
         console.log(data)
     })
@@ -571,11 +581,12 @@ cielo.consulting.sale(dadosConsulta)
 
 ### <a name="consultaCardbin"></a> Consulta de Cardbin
 
-```js
-const cardBinParams = {
-  cardBin: 402400
-}
-cielo.consulting.cardBin(cardBinParams)
+```ts
+const consultaBinNacionalParams: ConsultBinRequestModel = {
+  cardBin: '453211'
+};
+
+cielo.consult.bin(consultaBinNacionalParams)
 .then((data) => {
     console.log(data)
 })
@@ -586,12 +597,12 @@ cielo.consulting.cardBin(cardBinParams)
 
 ### <a name="colsutaTokenized"></a> Consulta de cartão Tokenizado
 
-```js
-const dadosConsulta= {
-    "token": '66b2c162-efbf-4692-aee5-e536c0f81037'
+```ts
+const consultaCartaoTokenizadoParams: ConsultTokenRequestModel= {
+    cardToken: '66b2c162-efbf-4692-aee5-e536c0f81037'
 }
 
-cielo.cards.consultaTokenizedCard(dadosConsulta)
+cielo.consult.cardtoken(consultaCartaoTokenizadoParams)
 .then((data) => {
     console.log(data)
 })
@@ -602,12 +613,12 @@ cielo.cards.consultaTokenizedCard(dadosConsulta)
 
 ### <a name="recurrenceConsulting"></a> Consulta de Recorrência
 
-```js
-const recurrencyConsultingParams = {
-    "recurrentPaymentId": '66b2c162-efbf-4692-aee5-e536c0f81037'
+```ts
+const recurrencyConsultingParams: ConsultTransactionRecurrentPaymentIdRequestModel = {
+  recurrentPaymentId: firstRecurrency.payment.recurrentPayment.recurrentPaymentId
 }
 
-cielo.recurrentPayments.consulting(recurrencyConsultingParams)
+cielo.consult.recurrent(recurrencyConsultingParams)
 .then((data) => {
     console.log(data)
 })
