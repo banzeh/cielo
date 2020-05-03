@@ -1,3 +1,4 @@
+import { EletronicTransfer } from './class/eletronic-transfer';
 import { BankSlip } from './class/bank-slip';
 import { Recurrent } from './class/recurrent';
 import { Consult } from './class/consult';
@@ -36,6 +37,9 @@ export class Cielo {
   public bankSlip: BankSlip;
   public boleto: BankSlip;
 
+  public eletronicTransfer: EletronicTransfer;
+  public transferenciaEletronica: EletronicTransfer;
+  
   constructor(constructor: CieloConstructor) {
     this.merchantId = constructor.merchantId;
     this.merchantKey = constructor.merchantKey;
@@ -58,10 +62,12 @@ export class Cielo {
     this.consult = new Consult(cieloTransactionInterface);
     this.recurrent = new Recurrent(cieloTransactionInterface);
     this.bankSlip = new BankSlip(cieloTransactionInterface);
+    this.eletronicTransfer = new EletronicTransfer(cieloTransactionInterface);
 
     this.consulta = this.consult;
     this.recorrencia = this.recurrent;
     this.boleto = this.bankSlip;
+    this.transferenciaEletronica = this.eletronicTransfer;
   }
 
   private getHostnames(sandbox: boolean): Array<string> {
