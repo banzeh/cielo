@@ -1,4 +1,3 @@
-import { DebitCardSimpleTransactionRequest } from './debit-card-simple-transaction.request.model';
 import { Link } from '../link-model';
 
 export interface CustomerSimpleTransactionResponse {
@@ -29,7 +28,7 @@ export interface PaymentSimpleTransactionResponse {
   links: Link[];
 }
 
-export interface DebitCardSimpleTransactionResponse {
+export interface DebitCardSimpleTransactionResponseModel {
   merchantOrderId: string;
   customer: CustomerSimpleTransactionResponse;
   payment: PaymentSimpleTransactionResponse;
