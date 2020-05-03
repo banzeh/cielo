@@ -6,14 +6,14 @@
 - [X] Cancelamento de venda
 
 # Cartão de Débito
-- [ ] Criando uma venda simplificada
+- [X] Criando uma venda simplificada
 
 # Consulta
 - [X] PaymentId
 - [X] MerchantOrderId
 - [X] Recorrência
 - [X] Cardbin
-- [ ] Cartão tokenizado
+- [X] Cartão tokenizado
 
 # Cartão
 - [X] Tokenização de cartão
@@ -22,7 +22,7 @@
 - [X] Criando uma venda com Boleto
 
 # Transferência Eletrônica
-- [ ] Criando uma venda simplificada
+- [X] Criando uma venda simplificada
 
 # Recorrência
 - [X] Criando recorrência
