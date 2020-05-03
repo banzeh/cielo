@@ -42,7 +42,7 @@
     "@types/tape": "^4.13.0",
     "cz-conventional-changelog": "^3.1.0",
     "husky": "^4.2.5",
-    "jest": "^25.5.3",
+    "jest": "^25.5.4",
     "standard-version": "^7.1.0",
     "tap-spec": "^5.0.0",
     "tape": "^4.13.2",
