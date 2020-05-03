@@ -13,11 +13,18 @@ jobs:
         with:
           node-version: 8.1.0
       - run: npm i
-      - run: npm test
       - run: npm run build
 
-  publish-npm:
+  test:
     needs: build
+    runs-on: ubunt-latest
+    steps: 
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - run: npm test
+
+  publish-npm:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -28,17 +35,3 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
-
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 8.1.0
-          registry-url: https://npm.pkg.github.com/
-          scope: '@your-github-username'
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
