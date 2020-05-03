@@ -45,7 +45,7 @@ brands.forEach((brand) => {
             payment: {
                 amount: 10000,
                 creditCard: {
-                    brand: EnumBrands.VISA,
+                    brand: brand as EnumBrands,
                     cardNumber: "4532117080573700",
                     holder: "Comprador T Cielo",
                     expirationDate: "12/2021",

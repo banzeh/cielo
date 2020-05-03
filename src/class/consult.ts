@@ -6,7 +6,9 @@ import {
   ConsultBinRequestModel,
   ConsultTransactionMerchantOrderIdRequestModel,
   ConsultTransactionPaymentIdRequestModel,
-  ConsultTransactionRecurrentPaymentIdRequestModel
+  ConsultTransactionRecurrentPaymentIdRequestModel,
+  ConsultTokenRequestModel,
+  ConsultTokenResponseModel
 } from '../models/consults';
 import { TransactionCreditCardResponseModel } from './../models/credit-card/transaction-credit-card.response.model';
 import { HttpRequestMethodEnum, IHttpRequestOptions, Utils } from './utils';
@@ -82,6 +84,23 @@ export class Consult {
       util.httpRequest(options, {})
         .then((response) => {
           return resolve(camelcaseKeys(response.data, {deep: true}) as ConsultBinResponseModel);
+        })
+        .catch((err) => reject(err));
+    });
+  }
+
+  public cardtoken(params: ConsultTokenRequestModel): Promise<ConsultTokenResponseModel> {
+    return new Promise<ConsultTokenResponseModel>((resolve, reject) => {
+      const util = new Utils(this.cieloTransactionParams);
+      const options: IHttpRequestOptions = util.getHttpRequestOptions({
+        method: HttpRequestMethodEnum.GET,
+        path: `/1/card/${params.cardToken}`,
+        hostname: this.cieloTransactionParams.hostnameQuery,
+      });
+
+      util.httpRequest(options, {})
+        .then((response) => {
+          return resolve(camelcaseKeys(response.data, {deep: true}) as ConsultTokenResponseModel);
         })
         .catch((err) => reject(err));
     });

@@ -1,9 +1,11 @@
+import { EletronicTransfer } from './class/eletronic-transfer';
 import { BankSlip } from './class/bank-slip';
 import { Recurrent } from './class/recurrent';
 import { Consult } from './class/consult';
 import { Card } from './class/cards';
 import { CieloTransactionInterface } from './interface/cielo-transaction.interface';
 import { CreditCard } from './class/creditcard';
+import { DebitCard } from './class/debit-card';
 
 export interface CieloConstructor {
   merchantId: string;
@@ -21,6 +23,7 @@ export class Cielo {
   private requestId?: string | undefined;
 
   public creditCard: CreditCard;
+  public debitCard: DebitCard;
 
   public card: Card;
   public cartao: Card = this.card;
@@ -33,6 +36,9 @@ export class Cielo {
 
   public bankSlip: BankSlip;
   public boleto: BankSlip;
+
+  public eletronicTransfer: EletronicTransfer;
+  public transferenciaEletronica: EletronicTransfer;
   
   constructor(constructor: CieloConstructor) {
     this.merchantId = constructor.merchantId;
@@ -51,14 +57,17 @@ export class Cielo {
     };
 
     this.creditCard = new CreditCard(cieloTransactionInterface);
+    this.debitCard = new DebitCard(cieloTransactionInterface);
     this.card = new Card(cieloTransactionInterface);
     this.consult = new Consult(cieloTransactionInterface);
     this.recurrent = new Recurrent(cieloTransactionInterface);
     this.bankSlip = new BankSlip(cieloTransactionInterface);
+    this.eletronicTransfer = new EletronicTransfer(cieloTransactionInterface);
 
     this.consulta = this.consult;
     this.recorrencia = this.recurrent;
     this.boleto = this.bankSlip;
+    this.transferenciaEletronica = this.eletronicTransfer;
   }
 
   private getHostnames(sandbox: boolean): Array<string> {

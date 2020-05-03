@@ -8,3 +8,5 @@ export * from './models/card';
 export * from './models/consults';
 export * from './models/recurrent-payment';
 export * from './models/bank-slip';
+export * from './models/debit-card';
+export * from './models/eletronic-transfer';
