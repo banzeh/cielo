@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/banzeh/cielo/compare/v2.1.1...v2.2.0) (2020-05-03)
+
+
+### Funcionalidades
+
+* adiciona apção de criar uma transação com cartão de débito ([dc67a2a](https://github.com/banzeh/cielo/commit/dc67a2ad91e46477a3322ba982fa169e21c06f25))
+* adicionado consulta de card token ([2737624](https://github.com/banzeh/cielo/commit/273762456ddbc3173568a012a55342dd464f29d3))
+* adicionado opção de transferência eletrônica ([32035f2](https://github.com/banzeh/cielo/commit/32035f25801bfc8774efaa69d1504891b55d8b53))
+
+
+### Errors Corrigidos
+
+* correção de testes ([2ba1700](https://github.com/banzeh/cielo/commit/2ba17004e66379718f9f42955a16e328c4d282fe))
+* **src\models\card\tokenize.request.model.ts:** correção de tipagem ([6d83f3e](https://github.com/banzeh/cielo/commit/6d83f3e150c0152c567ff7a63e5cb6ed3b3501ca))
+
 ### [2.1.1](https://github.com/banzeh/cielo/compare/v2.1.0...v2.1.1) (2020-05-02)
 
 
