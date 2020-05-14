@@ -1,6 +1,7 @@
 import { IncomingMessage } from 'http';
 import { request, RequestOptions } from 'https';
 import { CieloTransactionInterface } from '../interface/cielo-transaction.interface';
+import camelcaseKeys from 'camelcase-keys';
 
 export class Utils {
   private cieloConstructor: CieloTransactionInterface;
@@ -56,7 +57,7 @@ export class Utils {
           if (options.method === 'PUT' && chunks.length === 0) return resolve(this.parseHttpPutResponse(res));
           return resolve({
             ...this.parseHttpPutResponse(res),
-            data: response
+            data: camelcaseKeys(response, { deep: true })
           })
         });
       });
@@ -65,6 +66,17 @@ export class Utils {
       req.on('error', (err) => reject(err))
       req.end()
     });
+  }
+
+  public request<T>(options: IHttpRequestOptions, data: any): Promise<T> {
+    return  new Promise((resolve, reject) => {
+      this.httpRequest(options, data)
+        .then((response) => {
+          const data = response.data ? response.data : {};
+          resolve(data as T)
+        })
+        .catch(reject);
+    })
   }
   
   public validateJSON(text: string): boolean {

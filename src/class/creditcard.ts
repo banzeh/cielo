@@ -1,7 +1,6 @@
 import { CancelTransactionResponseModel } from './../models/credit-card/cancel-transaction.response.model';
 import { Utils, IHttpRequestOptions, HttpRequestMethodEnum } from './utils';
 import { CieloTransactionInterface } from "../interface/cielo-transaction.interface";
-import camelcaseKeys from "camelcase-keys";
 import {
   TransactionCreditCardRequestModel,
   TransactionCreditCardResponseModel,
@@ -18,32 +17,16 @@ export class CreditCard {
   }
 
   public transaction(transaction: TransactionCreditCardRequestModel): Promise<TransactionCreditCardResponseModel> {
-    return new Promise<TransactionCreditCardResponseModel>(
-      (resolve, reject) => {
         const util = new Utils(this.cieloTransactionParams);
         const options: IHttpRequestOptions = util.getHttpRequestOptions({
           method: HttpRequestMethodEnum.POST,
           path: "/1/sales",
           hostname: this.cieloTransactionParams.hostnameTransacao,
         });
-
-        util.httpRequest(options, transaction)
-          .then((response) => {
-            return resolve(
-              camelcaseKeys(response.data, {
-                deep: true,
-              }) as TransactionCreditCardResponseModel
-            );
-          })
-          .catch((err) => reject(err));
-      }
-    );
+        return util.request<TransactionCreditCardResponseModel>(options, transaction);
   }
 
-  public captureSaleTransaction(
-    transaction: CaptureRequestModel
-  ): Promise<CaptureResponseModel> {
-    return new Promise<CaptureResponseModel>((resolve, reject) => {
+  public captureSaleTransaction(transaction: CaptureRequestModel): Promise<CaptureResponseModel> {
       const util = new Utils(this.cieloTransactionParams);
       const options: IHttpRequestOptions = util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.PUT,
@@ -55,19 +38,10 @@ export class CreditCard {
         options.path = `${options.path}?amount=${transaction.amount}`;
       }
 
-      util
-        .httpRequest(options, {})
-        .then((response) => {
-          return resolve(
-            camelcaseKeys(response.data, { deep: true }) as CaptureResponseModel
-          );
-        })
-        .catch((err) => reject(err));
-    });
+      return util.request<CaptureResponseModel>(options, {});
   }
 
   public cancelTransaction(cancelTransactionRequest: CancelTransactionRequestModel): Promise<CancelTransactionResponseModel> {
-    return new Promise<CancelTransactionResponseModel>((resolve, reject) => {
       const util = new Utils(this.cieloTransactionParams);
       // Caso seja passado o valor do cancelamento, adiciona na url
       const amount = (cancelTransactionRequest.amount) ? `?amount=${cancelTransactionRequest.amount}` : '';
@@ -77,15 +51,6 @@ export class CreditCard {
         path: path,
         hostname: this.cieloTransactionParams.hostnameTransacao,
       });
-
-      util
-        .httpRequest(options, {})
-        .then((response) => {
-          return resolve(
-            camelcaseKeys(response.data, { deep: true }) as CancelTransactionResponseModel
-          );
-        })
-        .catch((err) => reject(err));
-    });
+      return util.request<CancelTransactionResponseModel>(options, {})
   }
 }
