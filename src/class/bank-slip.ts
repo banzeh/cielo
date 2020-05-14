@@ -4,7 +4,6 @@ import {
   BankSlipCreateResponseModel
 } from "../models/bank-slip";
 import { Utils, IHttpRequestOptions, HttpRequestMethodEnum } from "./utils";
-import camelcaseKeys from "camelcase-keys";
 
 export class BankSlip {
   private cieloTransactionParams: CieloTransactionInterface;
@@ -14,7 +13,6 @@ export class BankSlip {
   }
 
   public create(request: BankSlipCreateRequestModel): Promise<BankSlipCreateResponseModel> {
-    return new Promise<BankSlipCreateResponseModel>((resolve, reject) => {
       const util = new Utils(this.cieloTransactionParams);
       const options: IHttpRequestOptions = util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.POST,
@@ -22,11 +20,6 @@ export class BankSlip {
         hostname: this.cieloTransactionParams.hostnameTransacao,
       });
 
-      util.httpRequest(options, request)
-        .then((response) => {
-          return resolve(camelcaseKeys(response.data, {deep: true}) as BankSlipCreateResponseModel);
-        })
-        .catch((err) => reject(err));
-    });
+      return util.request<BankSlipCreateResponseModel>(options, request);
   }
 }

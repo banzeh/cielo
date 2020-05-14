@@ -1,4 +1,3 @@
-import camelcaseKeys from 'camelcase-keys';
 import { CieloTransactionInterface } from "../interface/cielo-transaction.interface";
 import {
   ConsultMerchantOrderIdResponseModel,
@@ -22,7 +21,6 @@ export class Consult {
   }
 
   public paymentId(params: ConsultTransactionPaymentIdRequestModel): Promise<TransactionCreditCardResponseModel> {
-    return new Promise<TransactionCreditCardResponseModel>((resolve, reject) => {
       const util = new Utils(this.cieloTransactionParams);
       const options: IHttpRequestOptions = util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.GET,
@@ -30,16 +28,10 @@ export class Consult {
         hostname: this.cieloTransactionParams.hostnameQuery,
       });
 
-      util.httpRequest(options, {})
-        .then((response) => {
-          return resolve(camelcaseKeys(response.data, {deep: true}) as TransactionCreditCardResponseModel);
-        })
-        .catch((err) => reject(err));
-    });
+      return util.request<TransactionCreditCardResponseModel>(options, {});
   }
 
   public merchantOrderId(params: ConsultTransactionMerchantOrderIdRequestModel): Promise<ConsultMerchantOrderIdResponseModel> {
-    return new Promise<ConsultMerchantOrderIdResponseModel>((resolve, reject) => {
       const util = new Utils(this.cieloTransactionParams);
       const options: IHttpRequestOptions = util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.GET,
@@ -47,16 +39,10 @@ export class Consult {
         hostname: this.cieloTransactionParams.hostnameQuery,
       });
 
-      util.httpRequest(options, {})
-        .then((response) => {
-          return resolve(camelcaseKeys(response.data, {deep: true}) as ConsultMerchantOrderIdResponseModel);
-        })
-        .catch((err) => reject(err));
-    });
+      return util.request<ConsultMerchantOrderIdResponseModel>(options, {});
   }
 
   public recurrent(params: ConsultTransactionRecurrentPaymentIdRequestModel): Promise<RecurrentPaymentConsultResponseModel> {
-    return new Promise<RecurrentPaymentConsultResponseModel>((resolve, reject) => {
       const util = new Utils(this.cieloTransactionParams);
       const options: IHttpRequestOptions = util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.GET,
@@ -64,16 +50,10 @@ export class Consult {
         hostname: this.cieloTransactionParams.hostnameQuery,
       });
 
-      util.httpRequest(options, {})
-        .then((response) => {
-          return resolve(camelcaseKeys(response.data, {deep: true}) as RecurrentPaymentConsultResponseModel);
-        })
-        .catch((err) => reject(err));
-    });
+      return util.request<RecurrentPaymentConsultResponseModel>(options, {});
   }
 
   public bin(params: ConsultBinRequestModel): Promise<ConsultBinResponseModel> {
-    return new Promise<ConsultBinResponseModel>((resolve, reject) => {
       const util = new Utils(this.cieloTransactionParams);
       const options: IHttpRequestOptions = util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.GET,
@@ -81,16 +61,10 @@ export class Consult {
         hostname: this.cieloTransactionParams.hostnameQuery,
       });
 
-      util.httpRequest(options, {})
-        .then((response) => {
-          return resolve(camelcaseKeys(response.data, {deep: true}) as ConsultBinResponseModel);
-        })
-        .catch((err) => reject(err));
-    });
+      return util.request<ConsultBinResponseModel>(options, {});
   }
 
   public cardtoken(params: ConsultTokenRequestModel): Promise<ConsultTokenResponseModel> {
-    return new Promise<ConsultTokenResponseModel>((resolve, reject) => {
       const util = new Utils(this.cieloTransactionParams);
       const options: IHttpRequestOptions = util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.GET,
@@ -98,12 +72,7 @@ export class Consult {
         hostname: this.cieloTransactionParams.hostnameQuery,
       });
 
-      util.httpRequest(options, {})
-        .then((response) => {
-          return resolve(camelcaseKeys(response.data, {deep: true}) as ConsultTokenResponseModel);
-        })
-        .catch((err) => reject(err));
-    });
+      return util.request<ConsultTokenResponseModel>(options, {});
   }
   
 }

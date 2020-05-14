@@ -11,7 +11,6 @@ import {
   RecurrentModifyModel,
   RecurrentCreateResponse
 } from "../models/recurrent-payment";
-import camelcaseKeys from "camelcase-keys";
 import { CustomerModel, PaymentRequestModel, PaymentRecurrentModifyModel } from "../models";
 import { RecurrentModifyPaymentModel } from "../models/recurrent-payment/recurrent-modify-payment.model";
 
@@ -23,7 +22,6 @@ export class Recurrent {
   }
 
   public create(params: RecurrentCreateModel): Promise<RecurrentCreateResponse> {
-    return new Promise<RecurrentCreateResponse>((resolve, reject) => {
       const util = new Utils(this.cieloTransactionParams);
       const options: IHttpRequestOptions = util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.POST,
@@ -31,10 +29,7 @@ export class Recurrent {
         hostname: this.cieloTransactionParams.hostnameTransacao,
       });
 
-      util.httpRequest(options, params)
-        .then((response) => resolve(camelcaseKeys(response.data, {deep: true,}) as RecurrentCreateResponse))
-        .catch((err) => reject(err));
-    });
+      return util.request<RecurrentCreateResponse>(options, params);
   }
 
   public modifyCustomer(params: RecurrentModifyCustomerModel): Promise<IHttpResponse> {
@@ -42,7 +37,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Customer`,
       data: params.customer
     };
-    return this.modify(modifyParams);
+    return this.modify<IHttpResponse>(modifyParams);
   };
 
   public modifyEndDate(params: RecurrentModifyEndDateModel): Promise<IHttpResponse> {
@@ -50,7 +45,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/EndDate`,
       data: params.endDate
     };
-    return this.modify(modifyParams);
+    return this.modify<IHttpResponse>(modifyParams);
   };
 
   public modifyInterval(params: RecurrentModifyIntervalModel): Promise<IHttpResponse> {
@@ -58,7 +53,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Interval`,
       data: params.interval
     };
-    return this.modify(modifyParams);
+    return this.modify<IHttpResponse>(modifyParams);
   };
 
   public modifyRecurrencyDay(params: RecurrentModifyDayModel): Promise<IHttpResponse> {
@@ -66,7 +61,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/RecurrencyDay`,
       data: params.recurrencyDay
     };
-    return this.modify(modifyParams);
+    return this.modify<IHttpResponse>(modifyParams);
   };
 
   public modifyAmount(params: RecurrentModifyAmountModel): Promise<IHttpResponse> {
@@ -74,7 +69,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Amount`,
       data: (params.amount * 100).toString()
     };
-    return this.modify(modifyParams);
+    return this.modify<IHttpResponse>(modifyParams);
   };
 
   public modifyNextPaymentDate(params: RecurrentModifyNextPaymentDateModel): Promise<IHttpResponse> {
@@ -82,7 +77,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/NextPaymentDate`,
       data: params.nextPaymentDate
     };
-    return this.modify(modifyParams);
+    return this.modify<IHttpResponse>(modifyParams);
   };
 
   public modifyPayment(params: RecurrentModifyPaymentModel): Promise<IHttpResponse> {
@@ -90,7 +85,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Payment`,
       data: params.payment
     };
-    return this.modify(modifyParams);
+    return this.modify<IHttpResponse>(modifyParams);
   };
 
   public deactivate(params: RecurrentModifyModel): Promise<IHttpResponse> {
@@ -98,7 +93,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Deactivate`,
       data: ''
     };
-    return this.modify(modifyParams);
+    return this.modify<IHttpResponse>(modifyParams);
   };
 
   public reactivate(params: RecurrentModifyModel): Promise<IHttpResponse> {
@@ -106,11 +101,10 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Reactivate`,
       data: ''
     };
-    return this.modify(modifyParams);
+    return this.modify<IHttpResponse>(modifyParams);
   };
 
-  private modify(params: {path: string, data: string | CustomerModel | PaymentRecurrentModifyModel | number}): Promise<IHttpResponse> {
-    return new Promise<IHttpResponse>((resolve, reject) => {
+  private modify<T>(params: {path: string, data: string | CustomerModel | PaymentRecurrentModifyModel | number}): Promise<IHttpResponse> {
       const util = new Utils(this.cieloTransactionParams);
       const options: IHttpRequestOptions = util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.PUT,
@@ -118,16 +112,7 @@ export class Recurrent {
         hostname: this.cieloTransactionParams.hostnameTransacao,
       });
 
-      util.httpRequest(options, params.data)
-        .then((response) => {
-          return resolve(
-            camelcaseKeys(response, {
-              deep: true,
-            }) as IHttpResponse
-          );
-        })
-        .catch((err) => reject(err));
-    });
+      return util.httpRequest(options, params.data);
   }
 
 }
