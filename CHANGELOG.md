@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.6](https://github.com/banzeh/cielo/compare/v2.2.4...v2.2.6) (2020-05-26)
+
+
+### Errors Corrigidos
+
+* **package.json:** corrige erro de módulo ([768b084](https://github.com/banzeh/cielo/commit/768b084295c50186b5f74533071427909acdea01))
+
 ### [2.2.5](https://github.com/banzeh/cielo/compare/v2.2.4...v2.2.5) (2020-05-23)
 
 ### [2.2.4](https://github.com/banzeh/cielo/compare/v2.2.3...v2.2.4) (2020-05-14)
