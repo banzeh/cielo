@@ -11,24 +11,24 @@ import {
 
 export class CreditCard {
   private cieloTransactionParams: CieloTransactionInterface;
+  private util: Utils;
 
-  constructor(transaction: CieloTransactionInterface) {
-    this.cieloTransactionParams = transaction;
+  constructor(cieloTransactionParams: CieloTransactionInterface) {
+    this.cieloTransactionParams = cieloTransactionParams;
+    this.util = new Utils(cieloTransactionParams);
   }
 
   public transaction(transaction: TransactionCreditCardRequestModel): Promise<TransactionCreditCardResponseModel> {
-        const util = new Utils(this.cieloTransactionParams);
-        const options: IHttpRequestOptions = util.getHttpRequestOptions({
+        const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
           method: HttpRequestMethodEnum.POST,
           path: "/1/sales",
           hostname: this.cieloTransactionParams.hostnameTransacao,
         });
-        return util.request<TransactionCreditCardResponseModel>(options, transaction);
+        return this.util.request<TransactionCreditCardResponseModel>(options, transaction);
   }
 
   public captureSaleTransaction(transaction: CaptureRequestModel): Promise<CaptureResponseModel> {
-      const util = new Utils(this.cieloTransactionParams);
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
+      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.PUT,
         path: `/1/sales/${transaction.paymentId}/capture`,
         hostname: this.cieloTransactionParams.hostnameTransacao,
@@ -38,19 +38,18 @@ export class CreditCard {
         options.path = `${options.path}?amount=${transaction.amount}`;
       }
 
-      return util.request<CaptureResponseModel>(options, {});
+      return this.util.request<CaptureResponseModel>(options, {});
   }
 
   public cancelTransaction(cancelTransactionRequest: CancelTransactionRequestModel): Promise<CancelTransactionResponseModel> {
-      const util = new Utils(this.cieloTransactionParams);
       // Caso seja passado o valor do cancelamento, adiciona na url
       const amount = (cancelTransactionRequest.amount) ? `?amount=${cancelTransactionRequest.amount}` : '';
       const path = (cancelTransactionRequest.paymentId) ? `/1/sales/${cancelTransactionRequest.paymentId}/void${amount}` : `/1/sales/OrderId/${cancelTransactionRequest.merchantOrderId}/void${amount}`
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
+      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.PUT,
         path: path,
         hostname: this.cieloTransactionParams.hostnameTransacao,
       });
-      return util.request<CancelTransactionResponseModel>(options, {})
+      return this.util.request<CancelTransactionResponseModel>(options, {})
   }
 }

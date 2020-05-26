@@ -16,20 +16,21 @@ import { RecurrentModifyPaymentModel } from "../models/recurrent-payment/recurre
 
 export class Recurrent {
   private cieloTransactionParams: CieloTransactionInterface;
+  private util: Utils;
 
   constructor(transaction: CieloTransactionInterface) {
     this.cieloTransactionParams = transaction;
+    this.util = new Utils(this.cieloTransactionParams)
   }
 
   public create(params: RecurrentCreateModel): Promise<RecurrentCreateResponse> {
-      const util = new Utils(this.cieloTransactionParams);
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
+      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.POST,
         path: '/1/sales/',
         hostname: this.cieloTransactionParams.hostnameTransacao,
       });
 
-      return util.request<RecurrentCreateResponse>(options, params);
+      return this.util.request<RecurrentCreateResponse>(options, params);
   }
 
   public modifyCustomer(params: RecurrentModifyCustomerModel): Promise<IHttpResponse> {
@@ -105,14 +106,13 @@ export class Recurrent {
   };
 
   private modify<T>(params: {path: string, data: string | CustomerModel | PaymentRecurrentModifyModel | number}): Promise<IHttpResponse> {
-      const util = new Utils(this.cieloTransactionParams);
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
+      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.PUT,
         path: params.path,
         hostname: this.cieloTransactionParams.hostnameTransacao,
       });
 
-      return util.httpRequest(options, params.data);
+      return this.util.httpRequest(options, params.data);
   }
 
 }

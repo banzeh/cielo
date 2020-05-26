@@ -2,7 +2,7 @@
   "name": "cielo",
   "version": "2.2.5",
   "description": "Client para a API 3.0 da Cielo em node.js",
-  "main": "dist\\index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "npx ts-node node_modules/tape/bin/tape tests/**/*.ts",
     "release": "standard-version",
