@@ -5,19 +5,19 @@ import { CieloTransactionInterface } from './../interface/cielo-transaction.inte
 
 export class Card {
   private cieloTransactionParams: CieloTransactionInterface;
+  private util: Utils;
 
   constructor(transaction: CieloTransactionInterface) {
     this.cieloTransactionParams = transaction;
+    this.util = new Utils(this.cieloTransactionParams);
   }
 
   public createTokenizedCard(request: TokenizeRequestModel): Promise<TokenizeResponseModel> {
-      const util = new Utils(this.cieloTransactionParams);
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
+      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.POST,
         path: '/1/card',
         hostname: this.cieloTransactionParams.hostnameTransacao,
       });
-
-      return util.request<TokenizeResponseModel>(options, request);
+      return this.util.request<TokenizeResponseModel>(options, request);
   }
 }
