@@ -1,6 +1,6 @@
 {
   "name": "cielo",
-  "version": "2.2.4-beta.1",
+  "version": "2.2.5",
   "description": "Client para a API 3.0 da Cielo em node.js",
   "main": "dist/index.js",
   "scripts": {
@@ -40,15 +40,15 @@
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@types/tape": "^4.13.0",
-    "cz-conventional-changelog": "^3.1.0",
+    "cz-conventional-changelog": "^3.2.0",
     "husky": "^4.2.5",
-    "jest": "^25.5.3",
+    "jest": "^25.5.4",
     "standard-version": "^7.1.0",
     "tap-spec": "^5.0.0",
     "tape": "^4.13.2",
     "tape-promise": "^3.0.0",
-    "ts-node": "^8.9.1",
-    "typescript": "^3.5.2"
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.3"
   },
   "dependencies": {
     "camelcase-keys": "^6.2.2",
