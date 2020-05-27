@@ -1,7 +1,7 @@
 {
     "types": [
         {"type": "feat", "section": "Funcionalidades"},
-        {"type": "fix", "section": "Errors Corrigidos"},
+        {"type": "fix", "section": "Erros Corrigidos"},
         {"type": "chore", "hidden": true},
         {"type": "docs", "hidden": true},
         {"type": "style", "hidden": true},
