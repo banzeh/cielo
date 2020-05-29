@@ -10,6 +10,38 @@ export class Utils {
     this.cieloConstructor = params;
   }
 
+  public get<T>(params: { path: string }): Promise<T> {
+    const hostname = this.cieloConstructor.hostnameQuery;
+    const { path } = params;
+    const method = HttpRequestMethodEnum.GET;
+
+    const options: IHttpRequestOptions = this.getHttpRequestOptions({
+      path,
+      hostname,
+      method,
+    });
+    return this.request<T>(options, {});
+  }
+
+  public postToSales<T, U>(data: U): Promise<T> {
+    return this.post<T, U>({ path: '/1/sales/' }, data);
+  }
+
+  /**
+   * Realiza um post na API da Cielo 
+   * @param params path do post
+   * @param data payload de envio
+   */
+  public post<T, U>(params: { path: string }, data: U):Promise<T> {
+    const { path } = params;
+    const options: IHttpRequestOptions = this.getHttpRequestOptions({
+      method: HttpRequestMethodEnum.POST,
+      path,
+      hostname: this.cieloConstructor.hostnameTransacao,
+    });
+    return this.request<T>(options, data);
+  }
+
   public getHttpRequestOptions(params: { hostname: string, path: string, method: HttpRequestMethodEnum }): IHttpRequestOptions {
     return {
       method: params.method,
