@@ -19,12 +19,7 @@ export class CreditCard {
   }
 
   public transaction(transaction: TransactionCreditCardRequestModel): Promise<TransactionCreditCardResponseModel> {
-        const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
-          method: HttpRequestMethodEnum.POST,
-          path: "/1/sales",
-          hostname: this.cieloTransactionParams.hostnameTransacao,
-        });
-        return this.util.request<TransactionCreditCardResponseModel>(options, transaction);
+        return this.util.postToSales<TransactionCreditCardResponseModel, TransactionCreditCardRequestModel>(transaction);
   }
 
   public captureSaleTransaction(transaction: CaptureRequestModel): Promise<CaptureResponseModel> {

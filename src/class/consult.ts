@@ -24,53 +24,43 @@ export class Consult {
   }
 
   public paymentId(params: ConsultTransactionPaymentIdRequestModel): Promise<TransactionCreditCardResponseModel> {
-      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.GET,
+      const options = {
         path: `/1/sales/${params.paymentId}`,
-        hostname: this.cieloTransactionParams.hostnameQuery,
-      });
+      };
 
-      return this.util.request<TransactionCreditCardResponseModel>(options, {});
+      return this.util.get<TransactionCreditCardResponseModel>(options);
   }
 
   public merchantOrderId(params: ConsultTransactionMerchantOrderIdRequestModel): Promise<ConsultMerchantOrderIdResponseModel> {
-      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.GET,
+      const options = {
         path: `/1/sales?merchantOrderId=${params.merchantOrderId}`,
-        hostname: this.cieloTransactionParams.hostnameQuery,
-      });
+      };
 
-      return this.util.request<ConsultMerchantOrderIdResponseModel>(options, {});
+      return this.util.get<ConsultMerchantOrderIdResponseModel>(options);
   }
 
   public recurrent(params: ConsultTransactionRecurrentPaymentIdRequestModel): Promise<RecurrentPaymentConsultResponseModel> {
-      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.GET,
+      const options = {
         path: `/1/RecurrentPayment/${params.recurrentPaymentId}`,
-        hostname: this.cieloTransactionParams.hostnameQuery,
-      });
+      };
 
-      return this.util.request<RecurrentPaymentConsultResponseModel>(options, {});
+      return this.util.get<RecurrentPaymentConsultResponseModel>(options);
   }
 
   public bin(params: ConsultBinRequestModel): Promise<ConsultBinResponseModel> {
-      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.GET,
+      const options = {
         path: `/1/cardBin/${params.cardBin}`,
-        hostname: this.cieloTransactionParams.hostnameQuery,
-      });
+      };
 
-      return this.util.request<ConsultBinResponseModel>(options, {});
+      return this.util.get<ConsultBinResponseModel>(options);
   }
 
   public cardtoken(params: ConsultTokenRequestModel): Promise<ConsultTokenResponseModel> {
-      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.GET,
+      const options = {
         path: `/1/card/${params.cardToken}`,
-        hostname: this.cieloTransactionParams.hostnameQuery,
-      });
+      };
 
-      return this.util.request<ConsultTokenResponseModel>(options, {});
+      return this.util.get<ConsultTokenResponseModel>(options);
   }
   
 }

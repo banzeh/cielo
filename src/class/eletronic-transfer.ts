@@ -12,12 +12,6 @@ export class EletronicTransfer {
   }
 
   public create(request: EletronicTransferCreateRequestModel): Promise<EletronicTransferCreateResponseModel> {
-      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.POST,
-        path: '/1/sales',
-        hostname: this.cieloTransactionParams.hostnameTransacao,
-      });
-
-      return this.util.request<EletronicTransferCreateResponseModel>(options, request);
+      return this.util.postToSales<EletronicTransferCreateResponseModel, EletronicTransferCreateRequestModel>(request);
   }
 }
