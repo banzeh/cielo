@@ -24,13 +24,7 @@ export class Recurrent {
   }
 
   public create(params: RecurrentCreateModel): Promise<RecurrentCreateResponse> {
-      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.POST,
-        path: '/1/sales/',
-        hostname: this.cieloTransactionParams.hostnameTransacao,
-      });
-
-      return this.util.request<RecurrentCreateResponse>(options, params);
+      return this.util.postToSales<RecurrentCreateResponse, RecurrentCreateModel>(params);
   }
 
   public modifyCustomer(params: RecurrentModifyCustomerModel): Promise<IHttpResponse> {

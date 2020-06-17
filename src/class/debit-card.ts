@@ -12,11 +12,6 @@ export class DebitCard {
   }
 
   public createSimpleTransaction(transaction: DebitCardSimpleTransactionRequestModel): Promise<DebitCardSimpleTransactionResponseModel> {
-        const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
-          method: HttpRequestMethodEnum.POST,
-          path: "/1/sales",
-          hostname: this.cieloTransactionParams.hostnameTransacao,
-        });
-        return this.util.request<DebitCardSimpleTransactionResponseModel>(options, transaction);
+        return this.util.postToSales<DebitCardSimpleTransactionResponseModel, DebitCardSimpleTransactionRequestModel>(transaction);
   }
 }

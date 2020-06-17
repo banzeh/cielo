@@ -15,64 +15,52 @@ import { RecurrentPaymentConsultResponseModel } from '../models/recurrent-paymen
 
 export class Consult {
   private cieloTransactionParams: CieloTransactionInterface;
+  private util: Utils;
+
 
   constructor(transaction: CieloTransactionInterface) {
     this.cieloTransactionParams = transaction;
+    this.util = new Utils(transaction);
   }
 
   public paymentId(params: ConsultTransactionPaymentIdRequestModel): Promise<TransactionCreditCardResponseModel> {
-      const util = new Utils(this.cieloTransactionParams);
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.GET,
+      const options = {
         path: `/1/sales/${params.paymentId}`,
-        hostname: this.cieloTransactionParams.hostnameQuery,
-      });
+      };
 
-      return util.request<TransactionCreditCardResponseModel>(options, {});
+      return this.util.get<TransactionCreditCardResponseModel>(options);
   }
 
   public merchantOrderId(params: ConsultTransactionMerchantOrderIdRequestModel): Promise<ConsultMerchantOrderIdResponseModel> {
-      const util = new Utils(this.cieloTransactionParams);
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.GET,
+      const options = {
         path: `/1/sales?merchantOrderId=${params.merchantOrderId}`,
-        hostname: this.cieloTransactionParams.hostnameQuery,
-      });
+      };
 
-      return util.request<ConsultMerchantOrderIdResponseModel>(options, {});
+      return this.util.get<ConsultMerchantOrderIdResponseModel>(options);
   }
 
   public recurrent(params: ConsultTransactionRecurrentPaymentIdRequestModel): Promise<RecurrentPaymentConsultResponseModel> {
-      const util = new Utils(this.cieloTransactionParams);
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.GET,
+      const options = {
         path: `/1/RecurrentPayment/${params.recurrentPaymentId}`,
-        hostname: this.cieloTransactionParams.hostnameQuery,
-      });
+      };
 
-      return util.request<RecurrentPaymentConsultResponseModel>(options, {});
+      return this.util.get<RecurrentPaymentConsultResponseModel>(options);
   }
 
   public bin(params: ConsultBinRequestModel): Promise<ConsultBinResponseModel> {
-      const util = new Utils(this.cieloTransactionParams);
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.GET,
+      const options = {
         path: `/1/cardBin/${params.cardBin}`,
-        hostname: this.cieloTransactionParams.hostnameQuery,
-      });
+      };
 
-      return util.request<ConsultBinResponseModel>(options, {});
+      return this.util.get<ConsultBinResponseModel>(options);
   }
 
   public cardtoken(params: ConsultTokenRequestModel): Promise<ConsultTokenResponseModel> {
-      const util = new Utils(this.cieloTransactionParams);
-      const options: IHttpRequestOptions = util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.GET,
+      const options = {
         path: `/1/card/${params.cardToken}`,
-        hostname: this.cieloTransactionParams.hostnameQuery,
-      });
+      };
 
-      return util.request<ConsultTokenResponseModel>(options, {});
+      return this.util.get<ConsultTokenResponseModel>(options);
   }
   
 }

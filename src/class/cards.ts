@@ -13,11 +13,6 @@ export class Card {
   }
 
   public createTokenizedCard(request: TokenizeRequestModel): Promise<TokenizeResponseModel> {
-      const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
-        method: HttpRequestMethodEnum.POST,
-        path: '/1/card',
-        hostname: this.cieloTransactionParams.hostnameTransacao,
-      });
-      return this.util.request<TokenizeResponseModel>(options, request);
+      return this.util.post<TokenizeResponseModel, TokenizeRequestModel>({ path: '/1/card' }, request);
   }
 }

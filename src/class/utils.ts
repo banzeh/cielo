@@ -10,6 +10,38 @@ export class Utils {
     this.cieloConstructor = params;
   }
 
+  public get<T>(params: { path: string }): Promise<T> {
+    const hostname = this.cieloConstructor.hostnameQuery;
+    const { path } = params;
+    const method = HttpRequestMethodEnum.GET;
+
+    const options: IHttpRequestOptions = this.getHttpRequestOptions({
+      path,
+      hostname,
+      method,
+    });
+    return this.request<T>(options, {});
+  }
+
+  public postToSales<T, U>(data: U): Promise<T> {
+    return this.post<T, U>({ path: '/1/sales/' }, data);
+  }
+
+  /**
+   * Realiza um post na API da Cielo 
+   * @param params path do post
+   * @param data payload de envio
+   */
+  public post<T, U>(params: { path: string }, data: U):Promise<T> {
+    const { path } = params;
+    const options: IHttpRequestOptions = this.getHttpRequestOptions({
+      method: HttpRequestMethodEnum.POST,
+      path,
+      hostname: this.cieloConstructor.hostnameTransacao,
+    });
+    return this.request<T>(options, data);
+  }
+
   public getHttpRequestOptions(params: { hostname: string, path: string, method: HttpRequestMethodEnum }): IHttpRequestOptions {
     return {
       method: params.method,
@@ -53,7 +85,7 @@ export class Utils {
     
         res.on('end', () => {
           const response = (chunks.length > 0 && this.validateJSON(chunks)) ? JSON.parse(chunks) : '';
-          if (res.statusCode && [200, 201].indexOf(res.statusCode) === -1) return reject(this.parseHttpRequestError(options, data, response));
+          if (res.statusCode && [200, 201].indexOf(res.statusCode) === -1) return reject(this.parseHttpRequestError(options, data, res));
           if (options.method === 'PUT' && chunks.length === 0) return resolve(this.parseHttpPutResponse(res));
           return resolve({
             ...this.parseHttpPutResponse(res),
