@@ -7,6 +7,7 @@ export interface SimpleTransactionRequestDebitCard {
     expirationDate: string;
     securityCode?: string;
     brand: EnumBrands;
+    [x: string]: any;
 }
 
 export interface SimpleTransactionRequestPayment {
@@ -17,10 +18,12 @@ export interface SimpleTransactionRequestPayment {
     debitCard: SimpleTransactionRequestDebitCard;
     isCryptoCurrencyNegotiation?: boolean;
     provider: string;
+    [x: string]: any;
 }
 
 export interface DebitCardSimpleTransactionRequestModel {
     merchantOrderId: string;
     customer?: CustomerModel;
     payment: SimpleTransactionRequestPayment;
+    [x: string]: any;
 }

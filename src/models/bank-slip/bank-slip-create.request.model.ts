@@ -11,10 +11,12 @@ export interface PaymentBankSlip {
   expirationDate: string;
   identification: string;
   instructions: string;
+  [x: string]: any;
 }
 
 export interface BankSlipCreateRequestModel {
   merchantOrderId: string;
   customer: CustomerModel;
   payment: PaymentBankSlip;
+  [x: string]: any;
 }
