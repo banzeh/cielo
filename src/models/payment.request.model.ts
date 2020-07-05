@@ -68,5 +68,6 @@ export interface PaymentRequestModel {
   /**
    * Informações de recorrência de pagamento
    */
-  recurrentPayment?: RecurrentPaymentModel,
+  recurrentPayment?: RecurrentPaymentModel;
+  [x: string]: any;
 }

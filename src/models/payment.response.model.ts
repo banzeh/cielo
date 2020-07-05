@@ -28,4 +28,6 @@ export interface PaymentResponseModel {
   links: Link[];
   currency?: string;
   authorizeNow?: boolean;
+  receivedDate?: string;
+  capturedDate?: string;
 }
