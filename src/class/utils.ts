@@ -85,7 +85,7 @@ export class Utils {
     
         res.on('end', () => {
           const response = (chunks.length > 0 && this.validateJSON(chunks)) ? JSON.parse(chunks) : '';
-          if (res.statusCode && [200, 201].indexOf(res.statusCode) === -1) return reject(this.parseHttpRequestError(options, data, response));
+          if (res.statusCode && [200, 201].indexOf(res.statusCode) === -1) return reject(this.parseHttpRequestError(options, data, res));
           if (options.method === 'PUT' && chunks.length === 0) return resolve(this.parseHttpPutResponse(res));
           return resolve({
             ...this.parseHttpPutResponse(res),

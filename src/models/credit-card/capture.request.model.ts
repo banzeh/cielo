@@ -13,4 +13,5 @@ export interface CaptureRequestModel {
    * Obs.: Esse valor não é adicionado ao valor da autorização.	
    */
   serviceTaxAmount?: string;
+  [x: string]: any;
 }

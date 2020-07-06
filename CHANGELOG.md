@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.1](https://github.com/banzeh/cielo/compare/v2.3.0...v2.3.1) (2020-07-05)
+
+
+### Erros Corrigidos
+
+* adicionado campos nas models ([d5c18c7](https://github.com/banzeh/cielo/commit/d5c18c757e74a34a19b3faeded2f6c1240b780d1)), closes [#77](https://github.com/banzeh/cielo/issues/77)
+
+### [2.3.0](https://github.com/banzeh/cielo/compare/v2.2.6...v2.3.0)
+
+### ⚠ BREAKING CHANGES
+
+* **src/models/payment.request.model.ts:** Propriedade *returnUrl* estava definida como *ReturnUrl*. Foi atualizada para
+seguir o padrão camelcase.
+
+### Erros Corrigidos
+
+* **src/models/payment.request.model.ts:** correçào de model ([eaf223f](https://github.com/banzeh/cielo/commit/eaf223f77984f43b0ee69a28a1bbc7784af27303))
+* **src\class\utils.ts:** correção no retorno de erro da recorrência ([a4485c9](https://github.com/banzeh/cielo/commit/a4485c94b9d7e3be4b33deabc93add19af7fa794)), closes [#73](https://github.com/banzeh/cielo/issues/73)
+
 ### [2.2.6](https://github.com/banzeh/cielo/compare/v2.2.4...v2.2.6) (2020-05-26)
 
 

@@ -6,4 +6,5 @@ export interface TokenizeRequestModel {
   holder: string;
   expirationDate: string;
   brand: EnumBrands;
+  [x: string]: any;
 }

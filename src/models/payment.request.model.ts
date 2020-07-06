@@ -35,7 +35,7 @@ export interface PaymentRequestModel {
   /**
    * Texto impresso na fatura bancaria comprador - Exclusivo para VISA/MASTER - não permite caracteres especiais - Ver Anexo
    */
-  softDescriptor: string;
+  softDescriptor?: string;
   /**
    * Dados do cartão
    */
@@ -63,10 +63,11 @@ export interface PaymentRequestModel {
   /**
    * URI para onde o usuário será redirecionado após o fim do pagamento
    */
-  ReturnUrl?: string;
+  returnUrl?: string;
 
   /**
    * Informações de recorrência de pagamento
    */
-  recurrentPayment?: RecurrentPaymentModel,
+  recurrentPayment?: RecurrentPaymentModel;
+  [x: string]: any;
 }
