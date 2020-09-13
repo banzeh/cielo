@@ -17,7 +17,7 @@ jobs:
 
   test:
     needs: build
-    runs-on: ubunt-latest
+    runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
