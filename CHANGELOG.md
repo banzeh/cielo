@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.2](https://github.com/banzeh/cielo/compare/v2.3.1...v2.3.2) (2020-09-13)
+
+
+### Erros Corrigidos
+
+* **enums.ts:** correção de enum DISCOVER ([7d8ce81](https://github.com/banzeh/cielo/commit/7d8ce81ab5c3e927da15006d1ac1edca7878507b)), closes [#85](https://github.com/banzeh/cielo/issues/85)
+
 ### [2.3.1](https://github.com/banzeh/cielo/compare/v2.3.0...v2.3.1) (2020-07-05)
 
 
