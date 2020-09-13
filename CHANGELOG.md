@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.4](https://github.com/banzeh/cielo/compare/v2.3.3...v2.3.4) (2020-09-13)
+
+
+### Erros Corrigidos
+
+* CI ([8c16a6b](https://github.com/banzeh/cielo/commit/8c16a6bc2cec0c6d6174b9757565fe8c057f472f))
+
 ### [2.3.3](https://github.com/banzeh/cielo/compare/v2.3.2...v2.3.3) (2020-09-13)
 
 ### [2.3.2](https://github.com/banzeh/cielo/compare/v2.3.1...v2.3.2) (2020-09-13)
