@@ -22,7 +22,8 @@ export enum EnumBrands {
   AURA = 'AURA',
   JCB = 'JCB',
   DINERS = 'DINERS',
-  DISCOVERY = 'DISCOVERY',
+  DISCOVERY = 'DISCOVER',
+  DISCOVER = 'DISCOVER',
   HIPERCARD = 'HIPERCARD'
 }
 
