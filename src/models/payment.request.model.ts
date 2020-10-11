@@ -70,7 +70,9 @@ export interface PaymentRequestModel {
    * Informações de recorrência de pagamento
    */
   recurrentPayment?: RecurrentPaymentModel,
-  /**
+  [x: string]: any;
+
+   /**
    * Informações para análise de fraude contratada direto com a Cielo
    */
   fraudAnalysis?: FraudAnalysisModel

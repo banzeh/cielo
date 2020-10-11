@@ -42,6 +42,7 @@ test(`Recorrencia`, async (t) => {
             country: 'BRA',
             recurrentPayment: {
                 authorizeNow: true,
+                startDate: '2021-12-01',
                 endDate: '2022-12-01',
                 interval: EnumRecurrentPaymentInterval.SEMIANNUAL,
             },

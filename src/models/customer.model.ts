@@ -38,4 +38,9 @@ export interface CustomerModel {
    * Endereço de entraga.
    */
   deliveryAddress?: AddressModel;
+  /**
+   * Número do telefone
+   */
+  phone?: string;
+  [x: string]: any;
 }

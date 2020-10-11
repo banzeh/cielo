@@ -5,4 +5,5 @@ export interface TransactionCreditCardRequestModel {
   merchantOrderId: string;
   customer: CustomerModel;
   payment: PaymentRequestModel;
+  [x: string]: any;
 }
