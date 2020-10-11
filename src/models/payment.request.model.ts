@@ -2,6 +2,7 @@ import { AirlineDataModel } from './airline-data.model';
 import { CreditCardModel } from './credit-card.model';
 import { EnumPaymentInterest, EnumCardType } from "../enums";
 import { RecurrentPaymentModel } from './recurrent-payment';
+import { FraudAnalysisModel } from './fraud-analysis/fraud-analysis.model';
 
 export interface PaymentRequestModel {
   /**
@@ -69,4 +70,9 @@ export interface PaymentRequestModel {
    * Informações de recorrência de pagamento
    */
   recurrentPayment?: RecurrentPaymentModel,
+  /**
+   * Informações para análise de fraude contratada direto com a Cielo
+   */
+  fraudAnalysis?: FraudAnalysisModel
+
 }

@@ -26,6 +26,11 @@ export interface CustomerModel {
    */
   birthdate?: string;
   /**
+   * Número do telefone do comprador
+     Ex.: 5521976781114
+  */
+  phone?: string;
+  /**
    * Endereço do Comprador.
    */
   address?: AddressModel;
