@@ -29,6 +29,8 @@ export interface PaymentResponseModel {
   returnMessage: string;
   links: Link[];
   currency?: string;
-  authorizeNow?: boolean;
+  authorizeNow?: boolean;  
+  receivedDate?: string;
+  capturedDate?: string;
   fraudAnalysis?: FraudAnalysisResponseModel
 }

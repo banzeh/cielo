@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.4](https://github.com/banzeh/cielo/compare/v2.3.3...v2.3.4) (2020-09-13)
+
+
+### Erros Corrigidos
+
+* CI ([8c16a6b](https://github.com/banzeh/cielo/commit/8c16a6bc2cec0c6d6174b9757565fe8c057f472f))
+
+### [2.3.3](https://github.com/banzeh/cielo/compare/v2.3.2...v2.3.3) (2020-09-13)
+
+### [2.3.2](https://github.com/banzeh/cielo/compare/v2.3.1...v2.3.2) (2020-09-13)
+
+
+### Erros Corrigidos
+
+* **enums.ts:** correção de enum DISCOVER ([7d8ce81](https://github.com/banzeh/cielo/commit/7d8ce81ab5c3e927da15006d1ac1edca7878507b)), closes [#85](https://github.com/banzeh/cielo/issues/85)
+
+### [2.3.1](https://github.com/banzeh/cielo/compare/v2.3.0...v2.3.1) (2020-07-05)
+
+
+### Erros Corrigidos
+
+* adicionado campos nas models ([d5c18c7](https://github.com/banzeh/cielo/commit/d5c18c757e74a34a19b3faeded2f6c1240b780d1)), closes [#77](https://github.com/banzeh/cielo/issues/77)
+
 ### [2.3.0](https://github.com/banzeh/cielo/compare/v2.2.6...v2.3.0)
 
 ### ⚠ BREAKING CHANGES

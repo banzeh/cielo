@@ -15,16 +15,19 @@ jobs:
       - run: npm i
       - run: npm run build
 
-  test:
-    needs: build
-    runs-on: ubunt-latest
-    steps: 
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-      - run: npm test
+#   test:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - uses: actions/checkout@v1
+#       - uses: actions/setup-node@v1
+#       with:
+#           node-version: 8.1.0
+#       - run: npm i
+#       - run: npm test
 
   publish-npm:
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -32,6 +35,8 @@ jobs:
         with:
           node-version: 8.1.0
           registry-url: https://registry.npmjs.org/
+      - run: npm i
+      - run: npm run build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}

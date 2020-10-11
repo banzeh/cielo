@@ -6,6 +6,7 @@ export interface CustomerEletronicTransferRequest {
     identityType: string;
     email: string;
     address: AddressModel;
+    [x: string]: any;
 }
 
 export interface PaymentEletronicTransferRequest {
@@ -13,11 +14,13 @@ export interface PaymentEletronicTransferRequest {
     type: string;
     amount: number;
     returnUrl: string;
+    [x: string]: any;
 }
 
 export interface EletronicTransferCreateRequestModel {
     merchantOrderId: string;
     customer: CustomerEletronicTransferRequest;
     payment: PaymentEletronicTransferRequest;
+    [x: string]: any;
 }
 
