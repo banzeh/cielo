@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/banzeh/cielo/compare/v2.3.4...v2.4.0) (2020-10-12)
+
+
+### Funcionalidades
+
+* **antifraude:** transação ([7b6b567](https://github.com/banzeh/cielo/commit/7b6b567b8991b7e2520f1d97191c93132d554c74))
+
+
+### Erros Corrigidos
+
+* **customer-model:** remove phone duplicate ([23c634b](https://github.com/banzeh/cielo/commit/23c634b0017e42ed43ccb09805ecc5350c4f11bd))
+* **yarn:** remove yarn.lock ([2b137c9](https://github.com/banzeh/cielo/commit/2b137c9ac4ea574e918731aed2caa40c79cd1ff0))
+
 ### [2.3.4](https://github.com/banzeh/cielo/compare/v2.3.3...v2.3.4) (2020-09-13)
 
 
