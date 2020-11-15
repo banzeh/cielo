@@ -58,11 +58,13 @@ export class Utils {
     } as IHttpRequestOptions;
   }
 
-  private parseHttpRequestError(options: IHttpRequestOptions, data: string, response: any): IHttpRequestReject {
+  private parseHttpRequestError(options: IHttpRequestOptions, data: string, responseHttp: any, responseCielo: any ): IHttpRequestReject {
+    responseHttp.Code = (Array.isArray(responseCielo) && responseCielo[0] && responseCielo[0].Code) || '';
+    responseHttp.Message = (Array.isArray(responseCielo) && responseCielo[0] && responseCielo[0].Message) || '';
     return {
-      statusCode: response.statusCode || '',
-      request: JSON.stringify(data).toString(),
-      response: response
+      statusCode: responseHttp.statusCode || '',
+      request: JSON.stringify(data).toString(),      
+      response: responseHttp
     } as IHttpRequestReject;
   }
 
@@ -85,7 +87,7 @@ export class Utils {
     
         res.on('end', () => {
           const response = (chunks.length > 0 && this.validateJSON(chunks)) ? JSON.parse(chunks) : '';
-          if (res.statusCode && [200, 201].indexOf(res.statusCode) === -1) return reject(this.parseHttpRequestError(options, data, res));
+          if (res.statusCode && [200, 201].indexOf(res.statusCode) === -1) return reject(this.parseHttpRequestError(options, data, res, response));
           if (options.method === 'PUT' && chunks.length === 0) return resolve(this.parseHttpPutResponse(res));
           return resolve({
             ...this.parseHttpPutResponse(res),
