@@ -41,7 +41,7 @@
     "@commitlint/config-conventional": "^8.3.4",
     "@types/tape": "^4.13.0",
     "cz-conventional-changelog": "^3.3.0",
-    "husky": "^4.3.0",
+    "husky": "^4.3.4",
     "jest": "^25.5.4",
     "standard-version": "^8.0.1",
     "tap-spec": "^5.0.0",
