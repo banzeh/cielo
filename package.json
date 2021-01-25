@@ -1,6 +1,6 @@
 {
   "name": "cielo",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Client para a API 3.0 da Cielo em node.js",
   "main": "dist/index.js",
   "scripts": {
