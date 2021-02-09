@@ -31,7 +31,7 @@ jobs:
       with:
         node-version: 11.x
 
-    # instala as dependências, vai para a master
+    # instala as dependências, vai para a develop
     # executa o standard-version, e envia o commit e tag
     - name: Gera o CHANGELOG
       run: |
