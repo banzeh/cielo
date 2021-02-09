@@ -4,7 +4,7 @@ name: Gerador de CHANGELOG
 on:
   push:
     branches:
-      - develop
+      - master
 
 jobs:
   build:
@@ -36,6 +36,6 @@ jobs:
     - name: Gera o CHANGELOG
       run: |
         npm ci
-        git checkout develop
+        git checkout master
         npm run release
-        git push origin develop --follow-tags
+        git push origin master --follow-tags
