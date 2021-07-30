@@ -48,7 +48,7 @@
     "tape": "^4.13.2",
     "tape-promise": "^3.0.0",
     "ts-node": "^8.10.1",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.10"
   },
   "dependencies": {
     "camelcase-keys": "^6.2.2",
