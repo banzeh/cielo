@@ -22,7 +22,7 @@ export enum EnumBrands {
   AURA = 'AURA',
   JCB = 'JCB',
   DINERS = 'DINERS',
-  DISCOVERY = 'DISCOVER',
+  DISCOVERY = 'DISCOVERY',
   DISCOVER = 'DISCOVER',
   HIPERCARD = 'HIPERCARD'
 }
