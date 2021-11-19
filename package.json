@@ -36,8 +36,7 @@
     }
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.14.5",
-    "@commitlint/cli": "^8.3.6",
+    "@babel/preset-typescript": "^7.16.0","@commitlint/cli": "^8.3.6",
     "@commitlint/config-conventional": "^8.3.6",
     "@types/tape": "^4.13.2",
     "cz-conventional-changelog": "^3.3.0",
