@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.5](https://github.com/banzeh/cielo/compare/v2.4.4...v2.4.5) (2022-08-17)
+
 ### [2.4.4](https://github.com/banzeh/cielo/compare/v2.4.2...v2.4.4) (2021-11-19)
 
 ### [2.4.2](https://github.com/banzeh/cielo/compare/v2.4.1...v2.4.2) (2021-01-25)
