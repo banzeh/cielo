@@ -26,7 +26,7 @@ export class Cielo {
   public debitCard: DebitCard;
 
   public card: Card;
-  public cartao: Card = this.card;
+  public cartao: Card;
 
   public consult: Consult;
   public consulta: Consult;
@@ -65,6 +65,7 @@ export class Cielo {
     this.eletronicTransfer = new EletronicTransfer(cieloTransactionInterface);
 
     this.consulta = this.consult;
+    this.cartao = this.card;
     this.recorrencia = this.recurrent;
     this.boleto = this.bankSlip;
     this.transferenciaEletronica = this.eletronicTransfer;
