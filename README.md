@@ -34,6 +34,9 @@ Client para a API 3.0 da Cielo em Typescript/Nodejs
 #### [Boleto](#boleto)
 + [Criando uma venda de Boleto](#boletoSale)
 
+#### [Pix](#pix)
++ [Criando uma transação Pix](#pixTransaction)
+
 ### [Recorrência](#recorrencia)
 + [Criando Recorrências](#creating)
 + [Modificando Recorrências](#modifyRecurrence)
@@ -291,6 +294,59 @@ const boletoParams: BankSlipCreateRequestModel = {
       return console.error('ERRO', err);
     })
 ```
+
+## <a name="pix"></a> Pix
+
+### <a name="pixTransaction"></a> Criando uma transação Pix
+
+```ts
+import { PixCreateRequestModel } from 'cielo';
+
+const pixParams: PixCreateRequestModel = {
+  merchantOrderId: '20201229',
+  customer: {
+    name: 'Comprador Pix',
+  },
+  payment: {
+    type: 'Pix',
+    amount: 10000, // R$100,00
+    qrCodeExpiration: 86400, // Opcional - tempo de expiração do QR Code em segundos (padrão: 86400 = 24h)
+  },
+};
+
+cielo.pix.create(pixParams)
+  .then((data) => {
+    return console.log(data);
+  })
+  .catch((err) => {
+    return console.error('ERRO', err);
+  })
+```
+
+Ou usando Async / Await
+
+```ts
+const pixTransaction = await cielo.pix.create(pixParams);
+
+// QR Code em base64 para exibição como imagem
+console.log(pixTransaction.payment.qrCodeBase64Image);
+
+// String do QR Code para copiar e colar (Pix Copia e Cola)
+console.log(pixTransaction.payment.qrCodeString);
+```
+
+#### Campos da resposta
+
+| Campo | Descrição |
+| :--- | :--- |
+| `payment.qrCodeBase64Image` | QR Code em formato Base64 para ser exibido como imagem |
+| `payment.qrCodeString` | String do Pix Copia e Cola |
+| `payment.paymentId` | Identificador único da transação na Cielo |
+| `payment.status` | Status da transação (12 = Pendente) |
+| `payment.amount` | Valor da transação em centavos |
+| `payment.receivedDate` | Data/hora de criação da transação |
+| `payment.returnCode` | Código de retorno da transação |
+| `payment.returnMessage` | Mensagem de retorno da transação |
 
 ## <a name="recorrencia"></a> Recorrência
 
