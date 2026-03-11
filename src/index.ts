@@ -10,6 +10,7 @@ export * from './models/recurrent-payment';
 export * from './models/bank-slip';
 export * from './models/debit-card';
 export * from './models/eletronic-transfer';
+export * from './models/pix';
 
 // Enums
 export * from './enums';

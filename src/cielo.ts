@@ -1,5 +1,6 @@
 import { EletronicTransfer } from './class/eletronic-transfer';
 import { BankSlip } from './class/bank-slip';
+import { Pix } from './class/pix';
 import { Recurrent } from './class/recurrent';
 import { Consult } from './class/consult';
 import { Card } from './class/cards';
@@ -39,6 +40,8 @@ export class Cielo {
 
   public eletronicTransfer: EletronicTransfer;
   public transferenciaEletronica: EletronicTransfer;
+
+  public pix: Pix;
   
   constructor(constructor: CieloConstructor) {
     this.merchantId = constructor.merchantId;
@@ -63,6 +66,7 @@ export class Cielo {
     this.recurrent = new Recurrent(cieloTransactionInterface);
     this.bankSlip = new BankSlip(cieloTransactionInterface);
     this.eletronicTransfer = new EletronicTransfer(cieloTransactionInterface);
+    this.pix = new Pix(cieloTransactionInterface);
 
     this.consulta = this.consult;
     this.cartao = this.card;
