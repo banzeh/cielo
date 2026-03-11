@@ -63,6 +63,8 @@ Client para a API 3.0 da Cielo em Typescript/Nodejs
 
 #### [API Reference](#apiReference)
 #### [Testes](#testes)
++ [Testes Unitários](#testes)
++ [Testes de Integração](#testes-integracao)
 #### [Autor](#autor)
 #### [License](#license)
 
@@ -693,13 +695,51 @@ Consulte os campos necessários na documentação da Cielo
 
 ## <a name="testes"></a> Testes
 
-Para rodar os testes automatizados, apenas execute o seguinte comando
+Para rodar os testes automatizados (unitários com mocks), execute:
 
 ```
 npm test
 ```
 
 Também é possível verificar o histórico de builds através do [Travis CI](https://travis-ci.org/banzeh/cielo/builds)
+
+### <a name="testes-integracao"></a> Testes de Integração
+
+Os testes de integração realizam chamadas reais ao ambiente de **sandbox** da Cielo, validando o fluxo completo de cada método de pagamento.
+
+Para rodar os testes de integração, execute:
+
+```
+npm run test:integration
+```
+
+Por padrão, os testes usam as credenciais públicas de demonstração do sandbox da Cielo. Para usar credenciais próprias, defina as variáveis de ambiente antes de executar:
+
+```bash
+CIELO_MERCHANT_ID=seu-merchant-id \
+CIELO_MERCHANT_KEY=sua-merchant-key \
+npm run test:integration
+```
+
+Ou copie o arquivo `.env.example` para `.env` e preencha com suas credenciais de sandbox:
+
+```bash
+cp .env.example .env
+# edite .env com seu CIELO_MERCHANT_ID e CIELO_MERCHANT_KEY
+```
+
+> **Atenção:** os testes de integração requerem conexão com a internet e acesso ao sandbox da Cielo (`apisandbox.cieloecommerce.cielo.com.br`). Eles não são executados pelo comando `npm test` para não impactar pipelines de CI sem acesso ao sandbox.
+
+#### Cobertura dos testes de integração
+
+| Arquivo | Cenários cobertos |
+| :--- | :--- |
+| `creditcard.integration.test.ts` | Autorização, captura parcial, consulta por PaymentId, cancelamento, cancelamento por MerchantOrderId |
+| `bankslip.integration.test.ts` | Criação de boleto |
+| `pix.integration.test.ts` | Criação de transação Pix (com e sem `qrCodeExpiration`) |
+| `tokenize.integration.test.ts` | Tokenização de cartão, transação com token, consulta de token |
+| `recurrent.integration.test.ts` | Criação de recorrência, modificação de intervalo, consulta e desativação |
+| `debitcard.integration.test.ts` | Criação de transação de débito |
 
 ## <a name="autor"></a> Autor
 

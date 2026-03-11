@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --coverage",
+    "test:integration": "jest --config jest.integration.config.js",
     "release": "standard-version",
     "postversion": "git push --follow-tags",
     "build": "npx tsc"

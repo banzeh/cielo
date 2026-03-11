@@ -1,6 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/tests/**/*.test.ts'],
+  testPathIgnorePatterns: ['<rootDir>/tests/integration/'],
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.ts',
