@@ -10,16 +10,13 @@ import {
   ConsultTokenResponseModel
 } from '../models/consults';
 import { TransactionCreditCardResponseModel } from './../models/credit-card/transaction-credit-card.response.model';
-import { HttpRequestMethodEnum, IHttpRequestOptions, Utils } from './utils';
+import { Utils } from './utils';
 import { RecurrentPaymentConsultResponseModel } from '../models/recurrent-payment';
 
 export class Consult {
-  private cieloTransactionParams: CieloTransactionInterface;
   private util: Utils;
 
-
   constructor(transaction: CieloTransactionInterface) {
-    this.cieloTransactionParams = transaction;
     this.util = new Utils(transaction);
   }
 

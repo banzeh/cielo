@@ -7,5 +7,5 @@ export * from './link-model';
 export * from './payment.request.model';
 export * from './payment.response.model';
 export * from './consult-payment.model';
-export * from './recurrent-trasaction.model';
+export * from './recurrent-transaction.model';
 export * from './payment-recurrent-modify.model';

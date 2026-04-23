@@ -1,4 +1,4 @@
-import { Utils, IHttpRequestOptions, HttpRequestMethodEnum } from './utils';
+import { Utils } from './utils';
 import { CieloTransactionInterface } from '../interface/cielo-transaction.interface';
 import { EletronicTransferCreateResponseModel, EletronicTransferCreateRequestModel } from '../models/eletronic-transfer';
 

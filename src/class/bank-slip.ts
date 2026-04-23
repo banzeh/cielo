@@ -3,7 +3,7 @@ import {
   BankSlipCreateRequestModel,
   BankSlipCreateResponseModel
 } from "../models/bank-slip";
-import { Utils, IHttpRequestOptions, HttpRequestMethodEnum } from "./utils";
+import { Utils } from "./utils";
 
 export class BankSlip {
   private cieloTransactionParams: CieloTransactionInterface;

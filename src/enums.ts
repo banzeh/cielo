@@ -86,6 +86,14 @@ export enum EnumCartCategory {
   Off = 'Off' // Diferenças entre os endereços de cobrança e entrega não afetam a pontuação
 }
 
+export enum EnumHedgeLevel {
+  Low = 'Low', //	Baixa
+  Normal = 'Normal', //	Normal (default)
+  High = 'High', //	Alta
+  Off = 'Off' //	Não irá afetar o score da análise de fraude
+}
+
+/** @deprecated Use EnumHedgeLevel instead */
 export enum EnumCartHostHedge {
   Low = 'Low', //	Baixa
   Normal = 'Normal', //	Normal (default)
@@ -93,6 +101,7 @@ export enum EnumCartHostHedge {
   Off = 'Off' //	Não irá afetar o score da análise de fraude
 }
 
+/** @deprecated Use EnumHedgeLevel instead */
 export enum EnumCartNonSensicalHedge {
   Low = 'Low', //	Baixa
   Normal = 'Normal', //	Normal (default)
@@ -100,6 +109,7 @@ export enum EnumCartNonSensicalHedge {
   Off = 'Off' //	Não irá afetar o score da análise de fraude
 }
 
+/** @deprecated Use EnumHedgeLevel instead */
 export enum EnumCartObscenitiesHedge {
   Low = 'Low', //	Baixa
   Normal = 'Normal', //	Normal (default)
@@ -107,6 +117,7 @@ export enum EnumCartObscenitiesHedge {
   Off = 'Off' //	Não irá afetar o score da análise de fraude
 }
 
+/** @deprecated Use EnumHedgeLevel instead */
 export enum EnumCartPhoneHedge {
   Low = 'Low', //	Baixa
   Normal = 'Normal', //	Normal (default)
@@ -114,6 +125,7 @@ export enum EnumCartPhoneHedge {
   Off = 'Off' //	Não irá afetar o score da análise de fraude
 }
 
+/** @deprecated Use EnumHedgeLevel instead */
 export enum EnumCartTimeHedge {
   Low = 'Low', //	Baixa
   Normal = 'Normal', //	Normal (default)
@@ -134,6 +146,7 @@ export enum EnumCartType {
   Subscription = 'Subscription', //	Assinatura. Ex.: Streaming de vídeos / Assinatura de notícias
 }
 
+/** @deprecated Use EnumHedgeLevel instead */
 export enum EnumCartVelocityHedge {
   Low = 'Low', //	Baixa
   Normal = 'Normal', //	Normal (default)

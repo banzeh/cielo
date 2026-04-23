@@ -48,12 +48,11 @@
     "tape": "^5.9.0",
     "tape-promise": "^4.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "@types/node": "^22.0.0"
   },
   "dependencies": {
-    "@types/node": "^22.0.0",
-    "camelcase-keys": "^6.2.2",
-    "typed-rest-client": "^1.8.11"
+    "camelcase-keys": "^6.2.2"
   },
   "config": {
     "commitizen": {
