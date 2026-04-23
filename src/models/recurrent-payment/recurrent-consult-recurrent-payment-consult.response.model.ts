@@ -1,5 +1,5 @@
 import { Link } from "../link-model";
-import { RecurrentTransaction } from "../recurrent-trasaction.model";
+import { RecurrentTransaction } from "../recurrent-transaction.model";
 
 export interface RecurrentConsultRecurrentPaymentConsultResponseModel {
   recurrentPaymentId: string;

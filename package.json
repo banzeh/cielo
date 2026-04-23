@@ -41,6 +41,7 @@
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@types/jest": "^30.0.0",
+    "@types/node": "^22.19.17",
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^8.0.3",
     "jest": "^30.3.0",
@@ -51,9 +52,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@types/node": "^22.19.17",
-    "camelcase-keys": "^6.2.2",
-    "typed-rest-client": "^2.3.0"
+    "camelcase-keys": "^6.2.2"
   },
   "config": {
     "commitizen": {

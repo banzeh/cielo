@@ -58,12 +58,18 @@ export class Utils {
     } as IHttpRequestOptions;
   }
 
-  private parseHttpRequestError(options: IHttpRequestOptions, data: string, responseHttp: any, responseCielo: any ): IHttpRequestReject {
-    responseHttp.Code = (Array.isArray(responseCielo) && responseCielo[0] && responseCielo[0].Code) || '';
-    responseHttp.Message = (Array.isArray(responseCielo) && responseCielo[0] && responseCielo[0].Message) || '';
+  private parseHttpRequestError(
+    _options: IHttpRequestOptions,
+    data: string,
+    responseHttp: IncomingMessage & { Code?: string; Message?: string },
+    responseCielo: CieloErrorResponse[] | unknown
+  ): IHttpRequestReject {
+    const firstError = Array.isArray(responseCielo) ? responseCielo[0] : undefined;
+    responseHttp.Code = (firstError && firstError.Code !== undefined ? String(firstError.Code) : '') || '';
+    responseHttp.Message = (firstError && firstError.Message) || '';
     return {
       statusCode: responseHttp.statusCode || '',
-      request: JSON.stringify(data).toString(),      
+      request: JSON.stringify(data).toString(),
       response: responseHttp
     } as IHttpRequestReject;
   }
@@ -82,7 +88,7 @@ export class Utils {
       if (options && options.headers)
         options.headers['Content-Length'] = Buffer.byteLength(dataPost)
       const req = request(options, (res: IncomingMessage) => {
-        var chunks: string = '';
+        let chunks: string = '';
         res.on('data', (chunk: any) => chunks += chunk);
     
         res.on('end', () => {
@@ -103,20 +109,17 @@ export class Utils {
   }
 
   public request<T>(options: IHttpRequestOptions, data: any): Promise<T> {
-    return  new Promise((resolve, reject) => {
-      this.httpRequest(options, data)
-        .then((response) => {
-          const data = response.data ? response.data : {};
-          resolve(data as T)
-        })
-        .catch(reject);
-    })
+    return this.httpRequest(options, data)
+      .then((response) => (response.data ? response.data : {}) as T);
   }
-  
+
   public validateJSON(text: string): boolean {
-    return !(/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(
-      text.replace(/"(\\.|[^"\\])*"/g, ''))) &&
-      eval('(' + text + ')');	
+    try {
+      JSON.parse(text);
+      return true;
+    } catch {
+      return false;
+    }
   }
 }
 
@@ -131,9 +134,14 @@ export interface IHttpRequestOptions extends RequestOptions {
   method: HttpRequestMethodEnum;
   path: string;
   hostname: string;
-  headers: any;
+  headers: Record<string, string | number>;
   encoding: string;
   port: number;
+}
+
+export interface CieloErrorResponse {
+  Code?: string | number;
+  Message?: string;
 }
 
 export interface IHttpRequestReject {
@@ -148,5 +156,5 @@ export interface IHttpRequestReject {
 export interface IHttpResponse {
   statusCode: number;
   statusMessage: string;
-  data?: any;
+  data?: Record<string, unknown>;
 }

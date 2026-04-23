@@ -1,7 +1,6 @@
 import { Link } from './link-model';
 import { AirlineDataModel } from './airline-data.model';
 import { CreditCardModel } from './credit-card.model';
-import { FraudAnalysisModel } from './fraud-analysis/fraud-analysis.model';
 import { FraudAnalysisResponseModel } from './fraud-analysis/fraud-analysis-response.model';
 
 export interface PaymentResponseModel {

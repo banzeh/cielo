@@ -1,4 +1,4 @@
-import { EnumTravelJourneyType, EnumTravelPassengersRating, EnumTravelPassengersStatus } from "../../enums"
+import { EnumTravelPassengersRating, EnumTravelPassengersStatus } from "../../enums"
 import { TravelLegsModel } from "./travel-legs.model";
 
 export interface TravelPassengersModel {
