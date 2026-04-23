@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/banzeh/cielo/compare/v2.4.8...v2.5.0) (2026-04-23)
+
+
+### Refatorações
+
+* melhorias de segurança, tipagem e limpeza do SDK ([#204](https://github.com/banzeh/cielo/pull/204))
+
+
+### Manutenção
+
+* atualiza dependências e resolve vulnerabilidades do npm audit ([#205](https://github.com/banzeh/cielo/pull/205))
+* declara `engines.node >=12` no package.json ([#206](https://github.com/banzeh/cielo/pull/206))
+
 ### [2.4.8](https://github.com/banzeh/cielo/compare/v2.4.7...v2.4.8) (2023-03-01)
 
 ### [2.4.7](https://github.com/banzeh/cielo/compare/v2.4.6...v2.4.7) (2023-03-01)
