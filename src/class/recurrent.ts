@@ -11,7 +11,7 @@ import {
   RecurrentModifyModel,
   RecurrentCreateResponse
 } from "../models/recurrent-payment";
-import { CustomerModel, PaymentRequestModel, PaymentRecurrentModifyModel } from "../models";
+import { CustomerModel, PaymentRecurrentModifyModel } from "../models";
 import { RecurrentModifyPaymentModel } from "../models/recurrent-payment/recurrent-modify-payment.model";
 
 export class Recurrent {
@@ -32,7 +32,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Customer`,
       data: params.customer
     };
-    return this.modify<IHttpResponse>(modifyParams);
+    return this.modify(modifyParams);
   };
 
   public modifyEndDate(params: RecurrentModifyEndDateModel): Promise<IHttpResponse> {
@@ -40,7 +40,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/EndDate`,
       data: params.endDate
     };
-    return this.modify<IHttpResponse>(modifyParams);
+    return this.modify(modifyParams);
   };
 
   public modifyInterval(params: RecurrentModifyIntervalModel): Promise<IHttpResponse> {
@@ -48,7 +48,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Interval`,
       data: params.interval
     };
-    return this.modify<IHttpResponse>(modifyParams);
+    return this.modify(modifyParams);
   };
 
   public modifyRecurrencyDay(params: RecurrentModifyDayModel): Promise<IHttpResponse> {
@@ -56,7 +56,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/RecurrencyDay`,
       data: params.recurrencyDay
     };
-    return this.modify<IHttpResponse>(modifyParams);
+    return this.modify(modifyParams);
   };
 
   public modifyAmount(params: RecurrentModifyAmountModel): Promise<IHttpResponse> {
@@ -64,7 +64,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Amount`,
       data: (params.amount * 100).toString()
     };
-    return this.modify<IHttpResponse>(modifyParams);
+    return this.modify(modifyParams);
   };
 
   public modifyNextPaymentDate(params: RecurrentModifyNextPaymentDateModel): Promise<IHttpResponse> {
@@ -72,7 +72,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/NextPaymentDate`,
       data: params.nextPaymentDate
     };
-    return this.modify<IHttpResponse>(modifyParams);
+    return this.modify(modifyParams);
   };
 
   public modifyPayment(params: RecurrentModifyPaymentModel): Promise<IHttpResponse> {
@@ -80,7 +80,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Payment`,
       data: params.payment
     };
-    return this.modify<IHttpResponse>(modifyParams);
+    return this.modify(modifyParams);
   };
 
   public deactivate(params: RecurrentModifyModel): Promise<IHttpResponse> {
@@ -88,7 +88,7 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Deactivate`,
       data: ''
     };
-    return this.modify<IHttpResponse>(modifyParams);
+    return this.modify(modifyParams);
   };
 
   public reactivate(params: RecurrentModifyModel): Promise<IHttpResponse> {
@@ -96,10 +96,10 @@ export class Recurrent {
       path: `/1/RecurrentPayment/${params.paymentId}/Reactivate`,
       data: ''
     };
-    return this.modify<IHttpResponse>(modifyParams);
+    return this.modify(modifyParams);
   };
 
-  private modify<T>(params: {path: string, data: string | CustomerModel | PaymentRecurrentModifyModel | number}): Promise<IHttpResponse> {
+  private modify(params: {path: string, data: string | CustomerModel | PaymentRecurrentModifyModel | number}): Promise<IHttpResponse> {
       const options: IHttpRequestOptions = this.util.getHttpRequestOptions({
         method: HttpRequestMethodEnum.PUT,
         path: params.path,
