@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.1](https://github.com/banzeh/cielo/compare/v2.5.0...v2.5.1) (2026-04-24)
+
+
+### Manutenção
+
+* ajustes no workflow de build e publicação (`build-and-publish.yml`)
+
 ## [2.5.0](https://github.com/banzeh/cielo/compare/v2.4.8...v2.5.0) (2026-04-23)
 
 
